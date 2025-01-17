@@ -55,4 +55,16 @@ export const useColors = () => {
     getMissionColor,
     getTeamColorSoft,
   };
+
 };
+export function formatNumber(value: number | string): string {
+  // ตรวจสอบและแปลง string เป็น number หากจำเป็น
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+
+  // ตรวจสอบว่าค่าแปลงสำเร็จ (กรณี string ไม่ใช่ตัวเลข)
+  if (isNaN(numericValue)) {
+      throw new Error(`Invalid number: ${value}`);
+  }
+
+  return numericValue.toLocaleString(); // ใช้เครื่องหมายคั่นหลักพัน
+}
