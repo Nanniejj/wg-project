@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtLayout>
-      <NuxtPage style="min-height: 80vh" class="pa-3 pa-md-7" />
+      <NuxtPage style="min-height: 80vh" class="pa-3 pa-md-15" />
     </NuxtLayout>
   </div>
 </template>
@@ -23,6 +23,12 @@
 .font-title2 {
   font-size: 21px;
   font-weight: 700;
+  font-style: normal;
+  letter-spacing: 1px;
+}
+.font-subtitle {
+  font-size: 20px;
+  font-weight: 400;
   font-style: normal;
   letter-spacing: 1px;
 }
@@ -86,6 +92,10 @@
   overflow: hidden;
   -webkit-line-clamp: 3;
 }
+.card-stat-shadow {
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 23px;
+}
 .mx3 {
   margin-left: 3% !important;
   margin-right: 3% !important;
@@ -116,6 +126,10 @@
   }
   .text-h5 {
     font-size: 15px !important;
+  }
+  .font-subtitle{
+    font-size: 15px;
+    letter-spacing: 0px;
   }
   .py-4.border-title {
     padding-top: 8px !important;

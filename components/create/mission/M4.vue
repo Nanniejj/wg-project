@@ -233,7 +233,6 @@
                         variant="outlined"
                         :counter="10"
                         :rules="nameRules"
-                        label="First name"
                         required
                       ></v-text-field>
                     </v-col>
@@ -247,7 +246,6 @@
                         variant="outlined"
                         :counter="10"
                         :rules="nameRules"
-                        label="Last name"
                         required
                       ></v-text-field>
                     </v-col>
@@ -263,7 +261,6 @@
                         variant="outlined"
                         :counter="10"
                         :rules="nameRules"
-                        label="First name"
                         required
                       ></v-text-field>
                     </v-col>
@@ -277,7 +274,7 @@
                         variant="outlined"
                         :counter="10"
                         :rules="nameRules"
-                        label="Last name"
+
                         required
                       ></v-text-field>
                     </v-col>
@@ -290,7 +287,7 @@
                         rounded="lg"
                         variant="outlined"
                         :rules="emailRules"
-                        label="E-mail"
+           
                         required
                       ></v-text-field>
                     </v-col>

@@ -294,7 +294,7 @@
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
-  const selectedMission = ref("M5");
+  const selectedMission = ref("");
 
   const issue = ref([
     "ตอบโด้ข้อมูลบิดเบือนเกี่ยวกันสถาบัน",
@@ -302,7 +302,7 @@
     "อื่นๆ",
   ]);
 
-  const selectedIssue = ref("M5");
+  const selectedIssue = ref("");
 
   // ฟังก์ชันเพิ่มข้อความ
   const addMessage = () => {

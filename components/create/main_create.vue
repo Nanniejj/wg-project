@@ -171,7 +171,7 @@
     dictDefaultMessage: `
     <div style="text-align: center;">
       <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
-      <p>Drag files here or click to upload</p>
+      <p style="font-size: 14px;">Drag files here or click to upload</p>
     </div>
   `,
   });
@@ -275,13 +275,13 @@
   .custom-dropzone {
   position: relative;
   border: 2px dashed #ccc;
-  height: 300px; /* ตั้งค่าความสูง */
-  width: 300px;
+  height: 270px; /* ตั้งค่าความสูง */
+  width: 270px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   color: #707070;
   background-color: #E9E9E9;
   border-radius: 20px; 

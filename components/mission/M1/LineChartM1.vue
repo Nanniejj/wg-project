@@ -10,9 +10,14 @@ const chartOptions = {
     chart: {
         id: "vuechart-example",
     },
-    colors: ['#722F9C', '#19B04F','#F6C32C','#1070C1','#BE0711'],
+
+    markers: {
+        size: 8, // Size of the points
+    },
+    colors: ['#722F9C', '#19B04F', '#F6C32C', '#1070C1', '#BE0711'],
     stroke: {
-        curve: 'smooth'
+        curve: 'smooth',
+        width: 2.5,
     },
     xaxis: {
         categories: ['20.ก.ค.67', '21.ก.ค.67', '22.ก.ค.67', '23.ก.ค.67', '24.ก.ค.67', '25.ก.ค.67', '26.ก.ค.67']
@@ -30,7 +35,7 @@ const seriesData = [
     },
     {
         name: "Team E",
-        data: [50, 80, 100, 73, 80, 65, 90]
+        data: [50, 80, 120, 90, 80, 65, 90]
     },
     {
         name: "Team F",

@@ -1,6 +1,6 @@
 <template >
     <div>
-        archive
+        <ArchiveMain/>
     </div>
 </template>
 <script>
