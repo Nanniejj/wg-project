@@ -39,8 +39,28 @@ export const useColors = () => {
 
   const getMissionColor = (name: string): string => {
     switch (name) {
+      case "R12":
+        return "#F4D5A2";
+      case "R11":
+        return "#845730";
+      case "R10":
+        return "#043C5A";
+      case "R9":
+        return "#F0AA64";
+      case "R8":
+        return "#718C69";
+      case "R7":
+        return "#FCF3E4";
+      case "R6":
+        return "#E0F2F4";
+      case "R5":
+        return "#FFDBDF";
+      case "R4":
+        return "#BAD6DA";
+      case "R3":
+        return "#4B8634";
       case "R2":
-        return "#50B7D6";
+        return "#FFE797";
       case "R1":
         return "#FD90AB";
       case "M1":

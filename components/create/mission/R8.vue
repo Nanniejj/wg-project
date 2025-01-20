@@ -1,45 +1,66 @@
 <template>
   <v-row>
     <!-- <v-col cols="2">
-      <v-row>
-        <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title style="font-size: 30px">Create Mission</v-card-title>
-        </v-col>
-
-        <v-col cols="12" class="d-flex pa-1">
-          <v-btn
-            rounded="xl"
-            size="large"
-            block
-            color="#2A3547"
-            :disabled="!valid"
-            @click="submitForm"
-          >
-            <span style="font-size: 16px">Create new</span>
-          </v-btn>
-          <v-divider
-            vertical
-            :thickness="2"
-            style="margin-top: -55px"
-            class="px-1 border-opacity-50"
-            color="#707070"
-          ></v-divider>
-        </v-col>
-      </v-row>
-    </v-col> -->
+          <v-row>
+            <v-col cols="12" class="justify-center align-center d-flex pa-1">
+              <v-card-title style="font-size: 30px">Create Mission</v-card-title>
+            </v-col>
+    
+            <v-col cols="12" class="d-flex pa-1">
+              <v-btn
+                rounded="xl"
+                size="large"
+                block
+                color="#2A3547"
+                :disabled="!valid"
+                @click="submitForm"
+              >
+                <span style="font-size: 16px">Create new</span>
+              </v-btn>
+              <v-divider
+                vertical
+                :thickness="2"
+                style="margin-top: -55px"
+                class="px-1 border-opacity-50"
+                color="#707070"
+              ></v-divider>
+            </v-col>
+          </v-row>
+        </v-col> -->
 
     <v-col cols="12">
+      <v-row justify="center">
+        <v-col cols="12" class="text-end pa-1">
+          <v-btn
+            color="#AEE0E8"
+            outlined
+            rounded="lg"
+            @click="triggerFileInput"
+          >
+            <v-icon class="pa-4">mdi-tray-arrow-down</v-icon>Import CSV
+          </v-btn>
+          <!-- Hidden file input -->
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".csv"
+            @change="handleFileUpload"
+            style="display: none"
+          />
+        </v-col>
+      </v-row>
+
       <v-row>
         <!-- <v-col
-            class="justify-center align-center d-flex pa-0"
-            cols="1"
-            style="
-              border-right: 2px solid #707070;
-              height: 800px;
-              margin-top: 30px;
-            "
-          >
-          </v-col> -->
+                class="justify-center align-center d-flex pa-0"
+                cols="1"
+                style="
+                  border-right: 2px solid #707070;
+                  height: 800px;
+                  margin-top: 30px;
+                "
+              >
+              </v-col> -->
 
         <v-col cols="3">
           <v-container
@@ -49,7 +70,7 @@
               height: '300px',
               maxHeight: '300px',
               border: '2px dashed #707070',
-              backgroundColor: getMissionColor('R1'),
+              backgroundColor: getMissionColor('R8'),
               borderRadius: '30px',
               marginTop: '20px',
               display: 'flex',
@@ -58,7 +79,7 @@
               textAlign: 'center',
             }"
           >
-            <span style="font-size: 100px; color: white">R1</span>
+            <span style="font-size: 100px; color: white">R8</span>
           </v-container>
         </v-col>
 
@@ -90,11 +111,67 @@
                 label="assign team"
                 variant="outlined"
                 rounded="lg"
-                multiple 
+                multiple
                 chips
                 :items="team"
                 v-model="selectedTeam"
                 style="margin-top: 5px"
+              ></v-select>
+             
+              <!-- แสดงข้อความในรูปแบบ Chip -->
+              <v-row class="mt-4">
+                <v-col cols="12">
+                  <div>
+                    <v-chip
+                      v-for="(message, index) in formData.messages"
+                      :key="index"
+                      class="ma-1"
+                      close
+                      @click:close="removeMessage(index)"
+                    >
+                      {{ message }}
+                    </v-chip>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+        </v-col>
+
+        <!-- <v-col
+              class="justify-start align-start d-flex"
+              cols="12"
+              style="border-top: 2px dashed #707070; width: 100%; margin-top: 30px"
+            >
+            </v-col> -->
+        <v-divider
+          :thickness="2"
+          inset
+          class="border-opacity-100 custom-divider"
+          style="border-style: dashed; color: #707070"
+        ></v-divider>
+
+        <v-col cols="12" class="pt-8 px-8">
+          <v-card-title> ข้อมูลสร้างมวลชน </v-card-title>
+          <v-divider
+            :thickness="2"
+            inset
+            class="border-opacity-100 custom-divider"
+            style="border-style: dashed; color: #707070"
+          ></v-divider>
+        </v-col>
+
+        <v-col cols="12" class="pa-10 ma-0">
+          <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
+            <v-card-item>
+              <span style="font-size: 16px">มวลชน</span>
+              <v-select
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                :items="mass"
+                v-model="selectedMass"
+                clearable
               ></v-select>
 
               <span style="font-size: 16px">Link URL</span>
@@ -123,38 +200,9 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <!-- แสดงข้อความในรูปแบบ Chip -->
-              <v-row class="mt-4">
-                <v-col cols="12">
-                  <div>
-                    <v-chip
-                      v-for="(message, index) in formData.messages"
-                      :key="index"
-                      class="ma-1"
-                      close
-                      @click:close="removeMessage(index)"
-                    >
-                      {{ message }}
-                    </v-chip>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card-text>
+            </v-card-item>
+          </v-card>
         </v-col>
-
-        <!-- <v-col
-          class="justify-start align-start d-flex"
-          cols="12"
-          style="border-top: 2px dashed #707070; width: 100%; margin-top: 30px"
-        >
-        </v-col> -->
-        <v-divider
-          :thickness="2"
-          inset
-          class="border-opacity-100 custom-divider"
-          style="border-style: dashed; color: #707070"
-        ></v-divider>
 
         <v-col cols="12" class="justify-end d-flex mt-8">
           <v-btn
@@ -195,7 +243,17 @@
 
   const selectedTeam = ref(null);
 
-  const selectedMission = ref("R1");
+  const mass = ref([
+    "เครือข่ายมวลชน",
+    "ผู้ประสานเครือข่าย",
+
+
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+
+  const selectedMass = ref(null);
+
+  const selectedMission = ref("R8");
 
   // ฟังก์ชันเพิ่มข้อความ
   const addMessage = () => {
@@ -221,12 +279,12 @@
 </script>
 <style scoped>
   .v-divider {
-  height: 1000px; /* กำหนดความสูงที่ต้องการ */
-}
-
-.custom-divider {
-  margin-left: 25px; /* กำหนดมาร์จินซ้าย */
-  max-width: 100%;
-
-}
+      height: 1000px; /* กำหนดความสูงที่ต้องการ */
+    }
+    
+    .custom-divider {
+      margin-left: 25px; /* กำหนดมาร์จินซ้าย */
+      max-width: 100%;
+    
+    }
 </style>

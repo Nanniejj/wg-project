@@ -3,7 +3,7 @@
     <v-col cols="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title style="font-size: 30px">Create Mission</v-card-title>
+          <v-card-title class="text-h5">Create Mission</v-card-title>
         </v-col>
 
         <v-col cols="12" class="d-flex pa-1">
@@ -29,7 +29,7 @@
 
     <v-col cols="10">
       <v-row>
-        <v-col cols="3">
+        <v-col cols="3" class="pa-4 d-flex align-center justify-center">
           <vue-dropzone
             ref="myVueDropzone"
             id="dropzone"
@@ -143,6 +143,17 @@
   import { ref } from "vue";
   import vueDropzone from "dropzone-vue3";
   import R1 from "./components/create/mission/R1.vue";
+  import R2 from "./components/create/mission/R2.vue";
+  import R3 from "./components/create/mission/R3.vue";
+  import R4 from "./components/create/mission/R4.vue";
+  import R5 from "./components/create/mission/R5.vue";
+  import R6 from "./components/create/mission/R6.vue";
+  import R7 from "./components/create/mission/R7.vue";
+  import R8 from "./components/create/mission/R8.vue";
+  import R9 from "./components/create/mission/R9.vue";
+  import R10 from "./components/create/mission/R10.vue";
+  import R11 from "./components/create/mission/R11.vue";
+  import R12 from "./components/create/mission/R12.vue";
   import M1 from "./components/create/mission/M1.vue";
   import M2 from "./components/create/mission/M2.vue";
   import M3 from "./components/create/mission/M3.vue";
@@ -157,9 +168,27 @@
     thumbnailWidth: 150,
     maxFilesize: 0.5,
     headers: { "My-Awesome-Header": "header value" },
+    dictDefaultMessage: `
+    <div style="text-align: center;">
+      <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
+      <p>Drag files here or click to upload</p>
+    </div>
+  `,
   });
+
   const missions = ref([
     "Mission R1",
+    "Mission R2",
+    "Mission R3",
+    "Mission R4",
+    "Mission R5",
+    "Mission R6",
+    "Mission R7",
+    "Mission R8",
+    "Mission R9",
+    "Mission R10",
+    "Mission R11",
+    "Mission R12",
     "Mission M1",
     "Mission M2",
     "Mission M3",
@@ -185,6 +214,17 @@
       "Mission M7": M7,
       "Mission M8": M8,
       "Mission R1": R1,
+      "Mission R2": R2,
+      "Mission R3": R3,
+      "Mission R4": R4,
+      "Mission R5": R5,
+      "Mission R6": R6,
+      "Mission R7": R7,
+      "Mission R8": R8,
+      "Mission R9": R9,
+      "Mission R10": R10,
+      "Mission R11": R11,
+      "Mission R12": R12,
     };
 
     return missionComponents[missionName] || null;
@@ -223,7 +263,7 @@
 </script>
 <style scoped>
   .v-divider {
-    height: 1000px; /* กำหนดความสูงที่ต้องการ */
+    height: 2500px; /* กำหนดความสูงที่ต้องการ */
   }
   
   .custom-divider {
@@ -233,9 +273,26 @@
   }
 
   .custom-dropzone {
-
-  height: 300px; /* กำหนดความสูง */
-  border: 2px dashed #ccc; /* กำหนดขอบ */
-  border-radius: 10px; /* กำหนดมุมโค้ง */
+  position: relative;
+  border: 2px dashed #ccc;
+  height: 300px; /* ตั้งค่าความสูง */
+  width: 300px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #707070;
+  background-color: #E9E9E9;
+  border-radius: 20px; 
 }
+/* .custom-dropzone::before {
+  content: '\2191';
+  font-size: 48px;
+  color: #29A0AF;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+} */
 </style>
