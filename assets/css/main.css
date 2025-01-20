@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Pridi:wght@200;300;400;500;600;700&display=swap');
+* {
+  font-family: 'Pridi', sans-serif !important;
+}
+.bg-topic{
+    background-color: #3C3C3B;
+    color: whitesmoke;
+}
+.icon-3FA3C7{
+    color: #3FA3C7; 
+    font-size: 30px !important;
+}
+.color3C3C3B{
+  color: #3C3C3B;
+}
+.colorWhite{
+  color: white;
+}
+.vega-embed summary {
+  display: none !important;
+}
+.series-name-none .apexcharts-tooltip-text-y-label , .series-name-none .apexcharts-tooltip-marker{
+  display: none !important;
+}
+.input-none input{
+  display: none !important;
+}
+.date-picker-setting input, .date-picker-setting .mx-input-wrapper{ 
+  height: 100% !important;
+  min-height: 100% !important;
+  font-size: 17px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .1);
+}
+
+/* .custom-combobox-date, .mx-datepicker-popup {
+  z-index: 9999 !important;
+  position: relative !important;
+
+
+}
+
+*/
+/* .v-date-custom, .mx-datepicker-popup {
+  z-index: 9999 !important; 
+  position: fixed !important;
+
+}  */
+
+.custom-slider .v-tab__slider{
+height: 6px;
+}
+
+
+.mx-datepicker-popup{
+  z-index: 9999 !important;
+}
+@media (max-width: 750px) {
+  .mx-datepicker-main {
+    position: fixed !important;
+    top: 15% !important;
+    left: 5% !important;
+  }
+}
+
