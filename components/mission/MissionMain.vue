@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- Dropdown with formatted display -->
-      <v-autocomplete
+      <v-select
         clearable
         label="Select Mission"
         v-model="mission"
@@ -9,10 +9,10 @@
         item-title="label"
         item-value="value"
         variant="outlined"
-      ></v-autocomplete>
+      ></v-select>
   
       <!-- Conditional rendering for selected mission -->
-      <MissionM1 v-show="mission === 'M1'" />
+      <MissionM1 v-if="mission === 'M1'" />
     </div>
   </template>
   

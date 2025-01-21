@@ -1,13 +1,13 @@
 <template >
     <div>
-        Management
+        <UserMain />
+        <LobbyTable />
+        <TablePedding />
     </div>
 </template>
-<script>
-export default {
-    
-}
+<script setup>
+
 </script>
-<style lang="">
+<style >
     
 </style>

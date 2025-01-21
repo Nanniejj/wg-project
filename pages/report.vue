@@ -1,6 +1,7 @@
 <template>
     <div>
-        <ReportMain/> 
+        <ReportMain/>
+     
     </div>
 </template>
 <script>
