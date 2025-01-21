@@ -3,10 +3,12 @@
     <v-col cols="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title class="text-h5">Create Mission</v-card-title>
+          <v-card-title class="text-h5" style="font-weight: bold"
+            >Create Mission</v-card-title
+          >
         </v-col>
 
-        <v-col cols="12" class="d-flex pa-1">
+        <v-col cols="12" class="justify-center d-flex pa-1 px-4">
           <v-btn
             rounded="xl"
             size="large"
@@ -14,7 +16,9 @@
             color="#2A3547"
             @click="submitForm"
           >
-            <span style="font-size: 16px">Create new</span>
+            <span style="font-size: 16px; text-transform: none"
+              >Create new</span
+            >
           </v-btn>
           <v-divider
             vertical
@@ -43,6 +47,7 @@
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
               <v-select
+                density="compact"
                 label="Select mission"
                 variant="outlined"
                 rounded="lg"
@@ -110,10 +115,12 @@
     <v-col cols="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title style="font-size: 30px">Create Mission</v-card-title>
+          <v-card-title class="text-h5" style="font-weight: bold"
+            >Create Mission</v-card-title
+          >
         </v-col>
 
-        <v-col cols="12" class="d-flex pa-1">
+        <v-col cols="12" class="justify-center d-flex pa-1 px-4">
           <v-btn
             rounded="xl"
             size="large"
@@ -121,7 +128,9 @@
             color="#2A3547"
             @click="submitForm"
           >
-            <span style="font-size: 16px">Create new</span>
+            <span style="font-size: 16px; text-transform: none"
+              >Create new</span
+            >
           </v-btn>
           <v-divider
             vertical
@@ -133,6 +142,7 @@
         </v-col>
       </v-row>
     </v-col>
+
     <v-col cols="10">
       <component :is="getMissionComponent(selectedMission)" />
     </v-col>

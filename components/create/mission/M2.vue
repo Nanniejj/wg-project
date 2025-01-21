@@ -63,8 +63,8 @@
           <v-container
             :style="{
               width: '100%',
-              maxWidth: '300px',
-              height: '300px',
+              maxWidth: '270px',
+              height: '270px',
               maxHeight: '300px',
               border: '2px dashed #707070',
               backgroundColor: getMissionColor('M2'),

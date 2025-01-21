@@ -1,9 +1,9 @@
 <template>
-  <v-col cols="12" class="pa-8 d-flex justify-start">
+  <!-- <v-col cols="12" class="pa-8 d-flex justify-start">
     <span style="font-size: 25px; font-weight: bold">Timeline</span>
-  </v-col>
+  </v-col> -->
   <!-- Date Picker -->
-  <v-col cols="12" class="pa-6 d-flex justify-end">
+  <!-- <v-col cols="12" class="pa-6 d-flex justify-end">
     <date-picker
       v-model:value="DateRange"
       range
@@ -13,7 +13,7 @@
       class="custom-combobox date-picker date-picker-setting"
       style="max-width: 270px"
     ></date-picker>
-  </v-col>
+  </v-col> -->
 
   <!-- <v-col class="pa-12 my-8 pb-16">
     
@@ -456,7 +456,8 @@ const weekIndex = ref(0); // ใช้เพื่อจัดการการ
 const isOverlayVisible = ref(false); // ควบคุมการแสดง Overlay
 const isOverlayPost = ref(false); // ควบคุมการแสดง Overlay
 const overlayImageUrl = ref(""); // เก็บ URL ของภาพที่จะโชว์ใน Overlay
-const today = new Date();
+// const today = new Date();
+const today = new Date(); // วันที่ปัจจุบัน
 const lastWeek = new Date();
 lastWeek.setDate(today.getDate() - 6);
 const DateRange = ref([lastWeek, today]);
@@ -719,10 +720,10 @@ async function get_timeline() {
   const { $apiClient } = useNuxtApp();
   try {
     const params = {
-      // start: props.startDate,
-      // end: props.endDate,
-      start: dayjs(DateRange.value[0]).format("YYYY-MM-DD"),
-      end: dayjs(DateRange.value[1]).format("YYYY-MM-DD"),
+      start: "2024-11-10",
+      end: "2024-11-16",
+      // start: dayjs(DateRange.value[0]).format("YYYY-MM-DD"),
+      // end: dayjs(DateRange.value[1]).format("YYYY-MM-DD"),
     };
     console.log("param card", params);
     const response = await $apiClient.get("api/timeline/", { params });
