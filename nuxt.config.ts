@@ -1,12 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify from "vite-plugin-vuetify";
 
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles"],
+  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles", 'leaflet/dist/leaflet.css'],
   build: {
-    transpile: ["vuetify"],
+    transpile: ['@vue-leaflet/vue-leaflet', "vuetify"],
   },
   vite: {
     plugins: [
@@ -21,6 +22,13 @@ export default defineNuxtConfig({
   devServer: {
     host: "0.0.0.0",
     port: 3000,
+  },
+  runtimeConfig: {
+    public: {
+      API_BASE_URL: process.env.API_BASE_URL, // ดึงค่าจากไฟล์ .env
+      // domainId: process.env.DOMAIN_ID,
+      //corsAllowedOrigin: 'https://trend.atapy.co.th/', 
+    }
   },
   app: {
     head: {
@@ -48,6 +56,10 @@ export default defineNuxtConfig({
       ],
       script: [],
     },
+  },
+  routeRules: {
+    '/report': { ssr: false },
+    '/create': { ssr: false }
   },
   plugins: ['~/plugins/moment.js'],
   // plugins: ["~/plugins/mitt.client.js", "~/plugins/vue-social-sharing.ts"],

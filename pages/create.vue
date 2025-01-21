@@ -1,13 +1,13 @@
-<template >
-    <div>
-        Create
-    </div>
+<template>
+  <!-- <v-container class="d-flex justify-center">
+        <v-card-title class="text-h4 font-weight-bold">Map</v-card-title>
+      </v-container> -->
+  <create />
 </template>
-<script>
-export default {
-    
-}
+
+<script setup>
+  import create from "./components/create/main_create.vue";
+  // import create from "./components/create/mission/M3.vue";
 </script>
-<style lang="">
-    
-</style>
+
+<style scoped></style>
