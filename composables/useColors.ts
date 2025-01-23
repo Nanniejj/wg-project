@@ -84,9 +84,57 @@ export const useColors = () => {
     }
   };
 
+  const getMissionName = (name: string): string => {
+    switch (name) {
+      case "R12":
+        return "สนับสนุนเครือข่ายกลุ่มโอกาส";
+      case "R11":
+        return "สนับสนุนเครือข่ายภาคประชาสังคม";
+      case "R10":
+        return "สนับสนุนเครือข่ายสื่อ/Influencer/นักวิชาการ";
+      case "R9":
+        return "สนับสนุนเครือข่ายโรงเรียน และอุดมศึกษา";
+      case "R8":
+        return "สร้างมวลชนฝั่งเรา";
+      case "R7":
+        return "สร้างสื่อ/เครือข่ายใหม่/Influencer/นักวิชาการ";
+      case "R6":
+        return "กิจกรรมเข้าสู่สถาณศึกษา ระดับอุดมศึกษา และสร้างเครือข่าย";
+      case "R5":
+        return "กิจกรรมเข้าสู่โรงเรียน และสร้างเครือข่าย";
+      case "R4":
+        return "IRC วันสำคัญประจำเดือน 3 มิติ";
+      case "R3":
+        return "เพจข่าวและสื่อมวลชนประจำจังหวัด";
+      case "R2":
+        return "เพจ ISOC ประจำจังหวัด";
+      case "R1":
+        return "ประชาสัมพันธ์ผ่านเพจ และ Influencer ของหน่วย";
+      case "M1":
+        return "การปฏิบัติทางไซเบอร์";
+      case "M2":
+        return "การปฏิบัติทางข้อมูลข่าวสาร(กลยุทธ์สร้างภาพจำ)";
+      case "M3":
+        return "การติดตามความเคลื่อนไหวทางกายภาพ";
+      case "M4":
+        return "สนับสนุนเครือข่ายฝ่ายเห็นต่าง";
+      case "M5":
+        return "ตอบโต้ประเด็นประจำวัน";
+      case "M6":
+        return "ตอบโต้ข้อมูลบิดเบือนฝ่ายเห็นต่าง(เฉพาะกรณี)";
+      case "M7":
+        return "#จัดตั้งและสนับสนุน เครือข่ายประชาธิปไตย (เต็ม)";
+      case "M8":
+        return "วิเคราะห์ข้อมูล";
+      default:
+        return "";
+    }
+  };
+
   return {
     getTeamColor,
     getMissionColor,
     getTeamColorSoft,
+    getMissionName,
   };
 };

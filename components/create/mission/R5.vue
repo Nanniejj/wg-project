@@ -85,6 +85,7 @@
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
               <v-text-field
+                density="compact"
                 variant="outlined"
                 rounded="lg"
                 v-model="selectedMission"
