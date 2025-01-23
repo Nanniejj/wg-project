@@ -7,7 +7,8 @@
                 <v-card elevation="1" class="d-flex flex-column align-center justify-center"
                     :color="getTeamColor(selectTeam)"
                     style="border: 1px dashed #ccc; height: 200px; border-radius: 8px;">
-                    <span class="text-h2 font-weight-bold text-white"> {{ selectTeam }} </span>
+                    <span class="text-h2 font-weight-bold text-white" v-if="selectTeam"> {{ selectTeam }} </span>
+                    <span class="text-h2 font-weight-bold text-white" v-else > Team</span>
                     <!-- <v-icon size="48" color="blue">mdi-upload</v-icon>
                     <span>Choose a file or drag and drop it here.</span>
                     <span class="text-subtitle-2 mt-2">Logo cover mission</span> -->

@@ -1,11 +1,30 @@
 <template>
     <div>
-        <div class="text-right">
-            <!-- {{ model }} -->
-            <!-- <v-date-input v-model="model" label="Select range" max-width="368" multiple="range" hide-actions autofocus
-                prepend-icon="" prepend-inner-icon="$calendar" variant="solo" :close-on-content-click="false"
-                @update:modelValue="onDateRangeChange"></v-date-input> -->
-        </div>
+        <div class="d-flex align-items-center justify-end">
+      <date-picker 
+        v-model:value="DateRange" 
+        range 
+        class="custom-combobox date-picker date-picker-setting mb-5 mr-3"
+        style="max-width: 270px" 
+        :disabled-date="disabledBeforeTodayAndAfterMonth"
+      />
+      <v-menu>
+        <template v-slot:activator="{props }">
+          <v-btn color="#2a3547"   v-bind="props" > <v-icon class="mr-1">mdi-export-variant</v-icon> Export</v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="exportPDF">PDF</v-list-item>
+          <v-list-item @click="exportHTML">HTML</v-list-item>
+          <v-list-item @click="exportCSV">CSV</v-list-item>
+          <v-list-item @click="exportExcel">Excel</v-list-item>
+          <v-list-item @click="exportXML">XML</v-list-item>
+          <v-list-item @click="exportJSON">JSON</v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+
+
+
         <v-row>
             <v-col>
                 <!-- Mission Selector -->
@@ -32,67 +51,63 @@
                 </v-select>
             </v-col>
         </v-row>
+        <!-- <div class="text-right">
+            <ButtonExport />
+        </div> -->
         <MissionM1 v-if="selectedMission == 'M1'" :subjectIndex="selectedSubjects" />
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            menu: false,
-            model: null,
-            selectedMission: null, // Default to no mission selected
-            selectedSubjects: [], // Selected subjects
-            items: ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"],
-            subject: [
-                { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
-                { mission: 'M2', item: ['ตัวอย่าง Mission 2 - 1', 'ตัวอย่าง Mission 2 - 2'] },
-                { mission: 'M3', item: ['ตัวอย่าง Mission 3 - 1', 'ตัวอย่าง Mission 3 - 2'] },
-                //{ mission: 'ALL', item: ['ชป.ไซเบอร์', 'จำนวนครั้งที่ดำเนินการ', 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', 'จำนวน Social Bot', 'ผลการเพิ่มยอด Like', 'ตัวอย่าง Mission 2 - 1', 'ตัวอย่าง Mission 2 - 2', 'ตัวอย่าง Mission 3 - 1', 'ตัวอย่าง Mission 3 - 2'] }
-            ]
-        }
-    },
-    watch: {
+<script setup>
+import { ref, computed } from 'vue';
+import DatePicker from "vue-datepicker-next";
+import "vue-datepicker-next/index.css";
+import dayjs from "dayjs";
+import ButtonExport from "./ButtonExport.vue";
+const today = new Date(); // วันที่ปัจจุบัน
+const lastWeek = new Date();
+lastWeek.setDate(today.getDate() - 6);
+const DateRange = ref([lastWeek, today]);
+const selectedMission = ref(null);
+const selectedSubjects = ref([]);
 
-        selectedMission(val) {
-            this.selectedSubjects = [];
-        }
-    },
-    computed: {
-        formattedItems() {
-            return this.items.map((item) => ({
-                label: `Mission ${item}`,
-                value: item,
-            }));
-        },
-        filteredSubjects() {
-            if (!this.selectedMission) return [];
-            const missionData = this.subject.find((s) => s.mission === this.selectedMission);
-            return missionData ? [...missionData.item] : [];
-        },
-        isAllSelected() {
-            return this.filteredSubjects.length && this.selectedSubjects.length === this.filteredSubjects.length;
-        },
-        isPartiallySelected() {
-            return this.selectedSubjects.length > 0 && this.selectedSubjects.length < this.filteredSubjects.length;
-        }
-    },
-    methods: {
-        onDateRangeChange(value) {
-            console.log('value', value);
+const items = [
+    "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8",
+    "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"
+];
 
-            if (value.length >= 2) {
-                this.menu = false;
-            }
-        },
-        toggleSelectAll() {
-            if (this.isAllSelected) {
-                this.selectedSubjects = [];
-            } else {
-                this.selectedSubjects = [...this.filteredSubjects.map((x) => x.value)];
-            }
-        }
-    },
+const subject = [
+    { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
+    { mission: 'M2', item: ['ตัวอย่าง Mission 2 - 1', 'ตัวอย่าง Mission 2 - 2'] },
+    { mission: 'M3', item: ['ตัวอย่าง Mission 3 - 1', 'ตัวอย่าง Mission 3 - 2'] },
+];
+
+const formattedItems = computed(() => {
+    return items.map((item) => ({
+        label: `Mission ${item}`,
+        value: item,
+    }));
+});
+
+const filteredSubjects = computed(() => {
+    if (!selectedMission.value) return [];
+    const missionData = subject.find((s) => s.mission === selectedMission.value);
+    return missionData ? [...missionData.item] : [];
+});
+
+const isAllSelected = computed(() => {
+    return filteredSubjects.value.length && selectedSubjects.value.length === filteredSubjects.value.length;
+});
+
+const isPartiallySelected = computed(() => {
+    return selectedSubjects.value.length > 0 && selectedSubjects.value.length < filteredSubjects.value.length;
+});
+
+const toggleSelectAll = () => {
+    if (isAllSelected.value) {
+        selectedSubjects.value = [];
+    } else {
+        selectedSubjects.value = [...filteredSubjects.value.map((x) => x.value)];
+    }
 };
 </script>

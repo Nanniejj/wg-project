@@ -1,12 +1,12 @@
 <template>
     <div>
         <ReportMain/>
-        <v-col cols="12">
+        <!-- <v-col cols="12">
     <heatmap />
   </v-col>
   <v-col cols="12">
     <timeline />
-  </v-col>
+  </v-col> -->
     </div>
 </template>
 
