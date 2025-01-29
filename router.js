@@ -7,6 +7,7 @@ import News_content from '~/pages/news_content.vue'
 import Podcast from '~/pages/podcast.vue'
 import Video from '~/pages/video.vue'
 
+
 export const router = createRouter({
     history: createWebHistory(),
     routes: [

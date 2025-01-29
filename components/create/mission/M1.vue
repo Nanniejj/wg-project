@@ -41,7 +41,7 @@
             >
             </v-col> -->
 
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md=3>
           <v-container
             :style="{
               width: '100%',
@@ -60,9 +60,12 @@
           >
             <span style="font-size: 100px; color: white">M1</span>
           </v-container>
+          <v-col cols="12" class="d-flex justify-center">
+            <span style="font-size: 16px">Logo cover mission</span>
+          </v-col>
         </v-col>
 
-        <v-col cols="8">
+        <v-col cols="12"  sm="12" md="8">
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
@@ -71,14 +74,43 @@
                 variant="outlined"
                 rounded="lg"
                 v-model="selectedMission"
-                readonly
+                disabled
                 style="margin-top: 5px"
               ></v-text-field>
+
+              <v-row>
+              <v-col cols="12" sm="8" class="py-0">
+                <span style="font-size: 16px">Priority level</span>
+                <v-select
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :items="priority"
+                  v-model="selectedPriority"
+                  :style="{
+                    marginTop: '5px',
+                  }"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="4" class="py-0">
+                <span style="font-size: 16px">วันที่กำหนด</span>
+                <!-- <v-col cols="12" class="px-0 pt-1"> -->
+                <date-picker
+                  style="margin-top: 5px"
+                  v-model:value="DateRange"
+                  range
+                  :editable="false"
+                  :clearable="false"
+                  class="w-100"
+                ></date-picker>
+                <!-- </v-col> -->
+              </v-col>
+            </v-row>
 
               <!-- ช่องกรอกรายละเอียด -->
               <span style="font-size: 16px">Description</span>
               <v-text-field
-                label="Add description"
+                placeholder="Add description"
                 v-model="MainDescriptionMessage"
                 variant="outlined"
                 rounded="lg"
@@ -86,44 +118,30 @@
               ></v-text-field>
 
               <span style="font-size: 16px">Assign</span>
-              <v-select
-                density="compact"
-                multiple
-                chips
-                label="assign team"
-                variant="outlined"
-                rounded="lg"
+              <v-combobox
                 :items="team"
                 v-model="selectedTeam"
-                style="margin-top: 5px"
-              ></v-select>
-
-              <span style="font-size: 16px">Link URL</span>
-              <v-row>
-                <v-col cols="10">
-                  <v-text-field
-                    density="compact"
-                    label="Link URL"
-                    v-model="newMessage"
-                    placeholder="พิมพ์ข้อความแล้วกดปุ่มเพิ่ม"
-                    variant="outlined"
-                    rounded="lg"
-                    clearable
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="2" class="ma-0">
-                  <v-btn
-                    rounded="lg"
-                    color="#46AFC7"
-                    @click="addMessage"
-                    height="60%"
+                density="compact"
+                placeholder="assign team"
+                multiple
+                variant="outlined"
+                rounded="lg"
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    closable
+                    :key="JSON.stringify(data.item)"
+                    v-bind="data.attrs"
+                    :disabled="data.disabled"
+                    :model-value="data.selected"
+                    size="small"
+                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                    @click:close="removeSelection(data.item.title)"
                   >
-                    <v-icon style="color: white; font-size: 30px"
-                      >mdi-plus</v-icon
-                    >
-                  </v-btn>
-                </v-col>
-              </v-row>
+                    <span style="color: black"> {{ data.item.title }} </span>
+                  </v-chip>
+                </template>
+              </v-combobox>
             </v-form>
           </v-card-text>
         </v-col>
@@ -141,52 +159,64 @@
           style="border-style: dashed; color: #707070"
         ></v-divider>
 
-        <v-col cols="12" class="pa-10 ma-0">
-          <!-- <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover> -->
-            <!-- <v-card-item> -->
-              <span style="font-size: 16px">ประเด็น</span>
-              <v-text-field
-               density="compact"
-                v-model="NameMessage"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
-
-              <span style="font-size: 16px">Link URL</span>
+        <v-row>
+          <v-col cols="12" class="justify-end d-flex mt-4 px-8">
+            <v-btn
+              color="#F49525"
+              @click="addMessage"
+              class="d-flex"
+              style="aspect-ratio: 1; width: 30px"
+              height="80%"
+              size="small"
+            >
+              <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-col cols="12" class="pa-4 ma-0">
+          <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
+            <v-card-item>
               <v-row>
-                <v-col cols="10">
+                <v-col cols="6">
+                  <span style="font-size: 16px">Link URL</span>
                   <v-text-field
                     density="compact"
-                    label="Link URL"
+                    placeholder="Link URL"
                     v-model="newMessage"
-                    placeholder="พิมพ์ข้อความแล้วกดปุ่มเพิ่ม"
                     variant="outlined"
                     rounded="lg"
                     clearable
                   ></v-text-field>
                 </v-col>
-                <v-col cols="2" class="ma-0">
-                  <v-btn
+                <v-col cols="6">
+                  <span style="font-size: 16px">Action</span>
+                  <v-select
+                    density="compact"
+                    placeholder="Link URL"
+                    :items="action"
+                    v-model="selectedAction"
+                    variant="outlined"
                     rounded="lg"
-                    color="#46AFC7"
-                    @click="addMessage"
-                    height="60%"
-                  >
-                    <v-icon style="color: white; font-size: 30px"
-                      >mdi-plus</v-icon
-                    >
-                  </v-btn>
+                    clearable
+                  ></v-select>
                 </v-col>
               </v-row>
-            <!-- </v-card-item> -->
-          <!-- </v-card> -->
+
+              <span style="font-size: 16px">เป้าหมาย</span>
+              <v-text-field
+                density="compact"
+                v-model="NameMessage"
+                variant="outlined"
+                rounded="lg"
+                clearable
+              ></v-text-field>
+            </v-card-item>
+          </v-card>
         </v-col>
 
         <v-col cols="12" class="justify-end d-flex mt-8">
           <v-btn
             rounded="lg"
-            
             size="x-large"
             color="#2A3547"
             :disabled="!valid"
@@ -201,6 +231,22 @@
 
 <script setup>
   import { ref } from "vue";
+  import DatePicker from "vue-datepicker-next";
+  import "vue-datepicker-next/index.css";
+  const today = new Date(); // วันที่ปัจจุบัน
+  const lastWeek = new Date();
+  lastWeek.setDate(today.getDate() - 6);
+  const DateRange = ref([lastWeek, today]);
+
+  const priority = ref([
+    "Low",
+    "Medium",
+    "High",
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+
+  const selectedPriority = ref("Low");
+
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);
   const valid = ref(false);
@@ -227,6 +273,15 @@
   ]);
 
   const selectedTeam = ref(null);
+
+  const action = ref([
+    "Like",
+    "Follow",
+    "Post",
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+
+  const selectedAction = ref("Like");
 
   // const missions = ref([
   //   "Mission R",
@@ -264,6 +319,13 @@
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
   };
+
+  const removeSelection = (item) => {
+    const index = selectedTeam.value.indexOf(item);
+    if (index !== -1) {
+      selectedTeam.value.splice(index, 1); // ลบทีมออกจาก selectedTeam
+    }
+  };
 </script>
 <style scoped>
   .v-divider {
@@ -275,4 +337,10 @@
     max-width: 100%;
   
   }
+
+  ::v-deep(.mx-input) {
+  height: 40px;
+  border-radius: 8px;
+
+}
 </style>

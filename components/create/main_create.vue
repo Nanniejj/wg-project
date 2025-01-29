@@ -1,6 +1,6 @@
 <template>
   <v-row v-if="!selectedMission">
-    <v-col cols="2">
+    <v-col v-if="!isMobile" cols="12" sm="12" md="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
           <v-card-title class="text-h5" style="font-weight: bold"
@@ -31,18 +31,52 @@
       </v-row>
     </v-col>
 
-    <v-col cols="10">
+    <v-col v-else cols="12" sm="12" md="2">
       <v-row>
-        <v-col cols="3" class="pa-4 d-flex align-center justify-center">
-          <vue-dropzone
-            ref="myVueDropzone"
-            id="dropzone"
-            :options="dropzoneOptions"
-            class="custom-dropzone"
-          />
+        <v-col cols="12" class="justify-center align-center d-flex pa-1">
+          <v-card-title class="text-h5" style="font-weight: bold"
+            >Create Mission</v-card-title
+          >
         </v-col>
 
-        <v-col cols="8">
+        <v-col cols="12" class="justify-center d-flex pa-1 px-4">
+          <v-btn
+            rounded="xl"
+            size="large"
+            block
+            color="#2A3547"
+            @click="submitForm"
+          >
+            <span style="font-size: 16px; text-transform: none"
+              >Create new</span
+            >
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-col cols="12" sm="12" md="10">
+      <v-row>
+        <v-col
+          cols="12"
+          sm="12"
+          md="3"
+          class="pa-4 align-center justify-center"
+        >
+          <v-col cols="12" class="d-flex justify-center">
+            <vue-dropzone
+              ref="myVueDropzone"
+              id="dropzone"
+              :options="dropzoneOptions"
+              class="custom-dropzone"
+            />
+          </v-col>
+          <v-col cols="12" class="d-flex justify-center">
+            <span style="font-size: 16px">Logo cover mission</span>
+          </v-col>
+        </v-col>
+
+        <v-col cols="12" sm="12" md="8">
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
@@ -112,7 +146,7 @@
   </v-row>
 
   <v-row v-else>
-    <v-col cols="2">
+    <v-col v-if="!isMobile" cols="12" sm="12" md="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
           <v-card-title class="text-h5" style="font-weight: bold"
@@ -143,7 +177,31 @@
       </v-row>
     </v-col>
 
-    <v-col cols="10">
+    <v-col v-else cols="12" sm="12" md="2">
+      <v-row>
+        <v-col cols="12" class="justify-center align-center d-flex pa-1">
+          <v-card-title class="text-h5" style="font-weight: bold"
+            >Create Mission</v-card-title
+          >
+        </v-col>
+
+        <v-col cols="12" class="justify-center d-flex pa-1 px-4">
+          <v-btn
+            rounded="xl"
+            size="large"
+            block
+            color="#2A3547"
+            @click="submitForm"
+          >
+            <span style="font-size: 16px; text-transform: none"
+              >Create new</span
+            >
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-col cols="12" sm="12" md="10">
       <component :is="getMissionComponent(selectedMission)" />
     </v-col>
   </v-row>
@@ -151,6 +209,8 @@
 
 <script setup>
   import { ref } from "vue";
+  import { useDisplay } from "vuetify";
+  import { computed } from "vue";
   import vueDropzone from "dropzone-vue3";
   import R1 from "./components/create/mission/R1.vue";
   import R2 from "./components/create/mission/R2.vue";
@@ -172,7 +232,8 @@
   import M6 from "./components/create/mission/M6.vue";
   import M7 from "./components/create/mission/M7.vue";
   import M8 from "./components/create/mission/M8.vue";
-
+  const display = useDisplay();
+  const isMobile = computed(() => display.smAndDown.value);
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
     thumbnailWidth: 150,

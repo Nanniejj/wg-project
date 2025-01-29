@@ -28,7 +28,7 @@
       </v-row>
     </v-col> -->
     <v-row justify="center">
-      <v-col cols="12" class="text-end pa-1">
+      <v-col cols="12" class="text-end pa-4">
         <v-btn color="#AEE0E8" outlined rounded="lg" @click="triggerFileInput">
           <v-icon class="pa-4">mdi-tray-arrow-down</v-icon>Import CSV
         </v-btn>
@@ -55,7 +55,7 @@
                       >
                       </v-col> -->
 
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md="3">
           <v-container
             :style="{
               width: '100%',
@@ -74,24 +74,57 @@
           >
             <span style="font-size: 100px; color: white">M8</span>
           </v-container>
+          <v-col cols="12" class="d-flex justify-center">
+            <span style="font-size: 16px">Logo cover mission</span>
+          </v-col>
         </v-col>
 
-        <v-col cols="8">
+        <v-col cols="12" sm="12" md="8">
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
               <v-text-field
+                density="compact"
                 variant="outlined"
                 rounded="lg"
                 v-model="selectedMission"
-                readonly
+                disabled
                 style="margin-top: 5px"
               ></v-text-field>
+
+              <v-row>
+                <v-col cols="12" sm="8" class="py-0">
+                  <span style="font-size: 16px">Priority level</span>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :items="priority"
+                    v-model="selectedPriority"
+                    :style="{
+                      marginTop: '5px',
+                    }"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="4" class="py-0">
+                  <span style="font-size: 16px">วันที่กำหนด</span>
+                  <!-- <v-col cols="12" class="px-0 pt-1"> -->
+                  <date-picker
+                    style="margin-top: 5px"
+                    v-model:value="DateRange"
+                    range
+                    :editable="false"
+                    :clearable="false"
+                    class="w-100"
+                  ></date-picker>
+                  <!-- </v-col> -->
+                </v-col>
+              </v-row>
 
               <!-- ช่องกรอกรายละเอียด -->
               <span style="font-size: 16px">Description</span>
               <v-text-field
-                label="Add description"
+                placeholder="Add description"
                 v-model="MainDescriptionMessage"
                 variant="outlined"
                 rounded="lg"
@@ -99,17 +132,30 @@
               ></v-text-field>
 
               <span style="font-size: 16px">Assign</span>
-              <v-select
-                density="compact"
-                multiple
-                chips
-                label="assign team"
-                variant="outlined"
-                rounded="lg"
+              <v-combobox
                 :items="team"
                 v-model="selectedTeam"
-                style="margin-top: 5px"
-              ></v-select>
+                density="compact"
+                placeholder="assign team"
+                multiple
+                variant="outlined"
+                rounded="lg"
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    closable
+                    :key="JSON.stringify(data.item)"
+                    v-bind="data.attrs"
+                    :disabled="data.disabled"
+                    :model-value="data.selected"
+                    size="small"
+                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                    @click:close="removeSelection(data.item.title)"
+                  >
+                    <span style="color: black"> {{ data.item.title }} </span>
+                  </v-chip>
+                </template>
+              </v-combobox>
             </v-form>
           </v-card-text>
         </v-col>
@@ -146,7 +192,7 @@
                     <span style="font-size: 16px">ชื่อกิจกรรม</span>
                     <v-text-field
                       density="compact"
-                      label="ชื่อกิจกรรม"
+                      placeholder="ชื่อกิจกรรม"
                       v-model="NameMessage"
                       variant="outlined"
                       rounded="lg"
@@ -174,7 +220,7 @@
                         :reverse="false"
                         min="0"
                         controlVariant="default"
-                        label=""
+                        placeholder=""
                         :hideInput="false"
                         inset
                         variant="outlined"
@@ -197,7 +243,7 @@
                   <v-col cols="12">
                     <span style="font-size: 16px">Description</span>
                     <v-text-field
-                      label="Add description"
+                      placeholder="Add description"
                       v-model="MainDescriptionMessage"
                       variant="outlined"
                       rounded="lg"
@@ -208,26 +254,27 @@
                   <v-col cols="12">
                     <span style="font-size: 16px">Link URL</span>
                     <v-row>
-                      <v-col cols="10">
+                      <v-col cols="9" sm="11">
                         <v-text-field
                           density="compact"
-                          label="Link URL"
+                          placeholder="Link URL"
                           v-model="newMessage"
-                          placeholder="พิมพ์ข้อความแล้วกดปุ่มเพิ่ม"
                           variant="outlined"
                           rounded="lg"
                           clearable
                         ></v-text-field>
                       </v-col>
-
-                      <v-col cols="2" class="ma-0">
+                      <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
                         <v-btn
-                          rounded="lg"
+                          density="compact"
+                          rounded="md"
                           color="#46AFC7"
                           @click="addMessage"
-                          height="60%"
+                          height="63%"
+                          min-width="40"
+                          size="small"
                         >
-                          <v-icon style="color: white; font-size: 30px"
+                          <v-icon style="color: white; font-size: 20px"
                             >mdi-plus</v-icon
                           >
                         </v-btn>
@@ -239,7 +286,7 @@
                     <span style="font-size: 16px">ชื่อเครือข่าย</span>
                     <v-select
                       density="compact"
-                      label="ประเภทเครือข่าย"
+                      placeholder="ประเภทเครือข่าย"
                       variant="outlined"
                       rounded="lg"
                       :items="location"
@@ -265,9 +312,8 @@
                   <v-col cols="12">
                     <v-text-field
                       density="compact"
-                      label="Search for a tag"
+                      placeholder="Search for a tag"
                       v-model="newMessage"
-                      placeholder="พิมพ์ข้อความแล้วกดปุ่มเพิ่ม"
                       variant="outlined"
                       rounded="lg"
                       clearable
@@ -295,9 +341,8 @@
                   <v-col cols="12">
                     <v-text-field
                       density="compact"
-                      label="Search for a tag"
+                      placeholder="Search for a tag"
                       v-model="newMessage"
-                      placeholder="พิมพ์ข้อความแล้วกดปุ่มเพิ่ม"
                       variant="outlined"
                       rounded="lg"
                       clearable
@@ -316,7 +361,7 @@
                   <v-col cols="12">
                     <span style="font-size: 16px">สรุปผลดำเนินการ</span>
                     <v-text-field
-                      label="กรอกรายละเอียด"
+                      placeholder="กรอกรายละเอียด"
                       v-model="MainDescriptionMessage"
                       variant="outlined"
                       rounded="lg"
@@ -347,6 +392,20 @@
 <script setup>
   import { ref } from "vue";
   import vueDropzone from "dropzone-vue3";
+  import DatePicker from "vue-datepicker-next";
+  import "vue-datepicker-next/index.css";
+  const today = new Date(); // วันที่ปัจจุบัน
+  const lastWeek = new Date();
+  lastWeek.setDate(today.getDate() - 6);
+  const DateRange = ref([lastWeek, today]);
+
+  const priority = ref([
+    "Low",
+    "Medium",
+    "High",
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+  const selectedPriority = ref("Low");
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
@@ -422,6 +481,13 @@
     required: (value) => !!value || "จำเป็นต้องกรอกข้อมูล",
   };
 
+  const removeSelection = (item) => {
+    const index = selectedTeam.value.indexOf(item);
+    if (index !== -1) {
+      selectedTeam.value.splice(index, 1); // ลบทีมออกจาก selectedTeam
+    }
+  };
+
   const submitForm = () => {
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
@@ -445,4 +511,10 @@
         max-width: 100%;
             
     }
+
+    ::v-deep(.mx-input) {
+  height: 40px;
+  border-radius: 8px;
+
+}
 </style>

@@ -11,6 +11,9 @@
   </div>
 </template>
 <script setup>
+definePageMeta({
+  middleware: 'auth',
+});
   import AppHeaderUser from "../components/AppHeaderUser.vue";
 
   // import AppHeader  from "@/components/AppHeader";

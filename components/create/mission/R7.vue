@@ -41,7 +41,7 @@
                   >
                   </v-col> -->
 
-        <v-col cols="12" class="text-end pa-1">
+        <v-col cols="12" class="text-end pa-4">
           <v-btn
             color="#AEE0E8"
             outlined
@@ -60,7 +60,7 @@
           />
         </v-col>
 
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md="3">
           <v-container
             :style="{
               width: '100%',
@@ -79,9 +79,12 @@
           >
             <span style="font-size: 100px; color: white">R7</span>
           </v-container>
+          <v-col cols="12" class="d-flex justify-center">
+            <span style="font-size: 16px">Logo cover mission</span>
+          </v-col>
         </v-col>
 
-        <v-col cols="8">
+        <v-col cols="12" sm="12" md="8">
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
@@ -90,32 +93,74 @@
                 variant="outlined"
                 rounded="lg"
                 v-model="selectedMission"
-                readonly
+                disabled
                 style="margin-top: 5px"
               ></v-text-field>
+
+              <v-row>
+              <v-col cols="12" sm="8" class="py-0">
+                <span style="font-size: 16px">Priority level</span>
+                <v-select
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :items="priority"
+                  v-model="selectedPriority"
+                  :style="{
+                    marginTop: '5px',
+                  }"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="4" class="py-0">
+                <span style="font-size: 16px">วันที่กำหนด</span>
+                <!-- <v-col cols="12" class="px-0 pt-1"> -->
+                <date-picker
+                  style="margin-top: 5px"
+                  v-model:value="DateRange"
+                  range
+                  :editable="false"
+                  :clearable="false"
+                  class="w-100"
+                ></date-picker>
+                <!-- </v-col> -->
+              </v-col>
+            </v-row>
+
 
               <!-- ช่องกรอกรายละเอียด -->
               <span style="font-size: 16px">Description</span>
               <v-text-field
-                label="Add description"
+                placeholder="Add description"
                 v-model="MainDescriptionMessage"
                 variant="outlined"
                 rounded="lg"
                 clearable
               ></v-text-field>
-
               <span style="font-size: 16px">Assign</span>
-              <v-select
-                density="compact"
-                multiple
-                chips
-                label="assign team"
-                variant="outlined"
-                rounded="lg"
+              <v-combobox
                 :items="team"
                 v-model="selectedTeam"
-                style="margin-top: 5px"
-              ></v-select>
+                density="compact"
+                placeholder="assign team"
+                multiple
+                variant="outlined"
+                rounded="lg"
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    closable
+                    :key="JSON.stringify(data.item)"
+                    v-bind="data.attrs"
+                    :disabled="data.disabled"
+                    :model-value="data.selected"
+                    size="small"
+                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                    @click:close="removeSelection(data.item.title)"
+                  >
+                    <span style="color: black"> {{ data.item.title }} </span>
+                  </v-chip>
+                </template>
+              </v-combobox>
             </v-form>
           </v-card-text>
         </v-col>
@@ -211,6 +256,13 @@
 
 <script setup>
   import { ref } from "vue";
+  import DatePicker from "vue-datepicker-next";
+  import "vue-datepicker-next/index.css";
+  const today = new Date(); // วันที่ปัจจุบัน
+  const lastWeek = new Date();
+  lastWeek.setDate(today.getDate() - 6);
+  const DateRange = ref([lastWeek, today]);
+
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);
   const valid = ref(false);
@@ -219,6 +271,15 @@
     details: "",
     image: null,
   });
+
+  const priority = ref([
+    "Low",
+    "Medium",
+    "High",
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+
+  const selectedPriority = ref("Low");
 
   const tab = ref("one");
   const desserts = ref([
@@ -278,6 +339,14 @@
     }
   };
 
+  const removeSelection = (item) => {
+    const index = selectedTeam.value.indexOf(item);
+    if (index !== -1) {
+      selectedTeam.value.splice(index, 1); // ลบทีมออกจาก selectedTeam
+    }
+  };
+
+
   // ฟังก์ชันลบข้อความ
   const removeMessage = (index) => {
     formData.value.messages.splice(index, 1);
@@ -302,4 +371,11 @@
           max-width: 100%;
         
         }
+
+        
+      ::v-deep(.mx-input) {
+  height: 40px;
+  border-radius: 8px;
+
+}
 </style>
