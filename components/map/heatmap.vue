@@ -24,6 +24,8 @@
 </template> -->
 
 <template>
+    <div class="font-title font-weight-medium mt-8">Map</div>
+
   <v-container>
     <v-row class="ma-0 d-flex align-center">
       <!-- Radio Button Group -->

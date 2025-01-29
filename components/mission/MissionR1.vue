@@ -1,13 +1,13 @@
 <template >
     <div>
-        <StatBoxR1 />
-        <PageR1/>
-        <InfluencerR1/>
-        <LineChartInfluencerR1/>
-        <StatFandomR1/>
-        <OpenChartR1/>
-        <MemberR1/>
-        <PostR1/>
+        <StatBoxR1 v-if="shouldShowComponent(subjectIndex,1)" />
+        <PageR1 v-if="shouldShowComponent(subjectIndex,2)"/>
+        <InfluencerR1 v-if="shouldShowComponent(subjectIndex,3)"/>
+        <LineChartInfluencerR1 v-if="shouldShowComponent(subjectIndex,4)" />
+        <StatFandomR1 v-if="shouldShowComponent(subjectIndex,5)" />
+        <OpenChartR1 v-if="shouldShowComponent(subjectIndex,6)" />
+        <MemberR1 v-if="shouldShowComponent(subjectIndex,7)"/>
+        <PostR1 v-if="shouldShowComponent(subjectIndex,8)" />
     </div>
 </template>
 <script setup>
@@ -19,6 +19,14 @@ import StatFandomR1 from './R1/StatFandomR1.vue';
 import OpenChartR1 from './R1/OpenChartR1.vue';
 import MemberR1 from './R1/MemberR1.vue';
 import PostR1 from './R1/PostR1.vue'
+
+const props = defineProps({
+    subjectIndex: {
+        type: Array,
+        default: () => [], // กำหนดค่าเริ่มต้นเป็น array ว่าง
+    },
+});
+
 </script>
 <style>
     

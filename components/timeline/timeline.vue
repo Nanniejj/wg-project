@@ -1,5 +1,6 @@
 <template>
- 
+  <div class="font-title font-weight-medium mt-8">Timeline</div>
+
   <!-- <v-col cols="12" class="pa-8 d-flex justify-start">
     <span style="font-size: 25px; font-weight: bold">Timeline</span>
   </v-col> -->
@@ -40,13 +41,7 @@
         :key="index"
         :value="index"
       > -->
-    <v-timeline
-      :direction="direction"
-      line-thickness="4"
-      line-color="#112D44"
-      fill-dot
-      class="my-timeline"
-    >
+    <v-timeline :direction="direction" line-thickness="4" line-color="#112D44" fill-dot class="my-timeline">
       <!-- <v-timeline-item
             v-for="(day, index) in week"
             :key="index"
@@ -54,12 +49,7 @@
  
           > -->
 
-      <v-timeline-item
-        v-for="(day, index) in data"
-        :key="index"
-        dot-color="black"
-        width="100%"
-      >
+      <v-timeline-item v-for="(day, index) in data" :key="index" dot-color="black" width="100%">
         <template v-slot:opposite>
           <v-row>
             <v-col cols="12" class="py-4 justify-center d-flex">
@@ -68,101 +58,60 @@
                 formatDate(day.date)
               }}</span>
             </v-col>
-            <v-col
-              v-if="day.countSource.instagram > 0"
-              cols="12"
-              class="py-1 justify-center d-flex"
-            >
+            <v-col v-if="day.countSource.instagram > 0" cols="12" class="py-1 justify-center d-flex">
               <v-avatar image="/social_icon/instagram.png"></v-avatar>
-              <v-avatar
-                class="d-flex align-center elevation-4"
-                style="
+              <v-avatar class="d-flex align-center elevation-4" style="
                   z-index: 100;
                   margin: -10px -15px;
                   background-color: wheat;
-                "
-                size="25"
-                ><span style="font-size: 12px; font-weight: bold">{{
+                " size="25"><span style="font-size: 12px; font-weight: bold">{{
                   formatNumber(day.countSource.instagram)
                 }}</span>
               </v-avatar>
             </v-col>
-            <v-col
-              v-if="day.countSource.facebook > 0"
-              cols="12"
-              class="py-1 justify-center d-flex"
-            >
+            <v-col v-if="day.countSource.facebook > 0" cols="12" class="py-1 justify-center d-flex">
               <v-avatar image="/social_icon/facebook.png"></v-avatar>
-              <v-avatar
-                class="d-flex align-center elevation-4"
-                style="
+              <v-avatar class="d-flex align-center elevation-4" style="
                   z-index: 100;
                   margin: -10px -15px;
                   background-color: wheat;
-                "
-                size="25"
-                ><span style="font-size: 12px; font-weight: bold">{{
+                " size="25"><span style="font-size: 12px; font-weight: bold">{{
                   formatNumber(day.countSource.facebook)
                 }}</span>
               </v-avatar>
             </v-col>
-            <v-col
-              v-if="day.countSource.twitter > 0"
-              cols="12"
-              class="py-1 justify-center d-flex"
-            >
+            <v-col v-if="day.countSource.twitter > 0" cols="12" class="py-1 justify-center d-flex">
               <v-avatar image="/social_icon/twitter.png"></v-avatar>
-              <v-avatar
-                class="d-flex align-center elevation-4"
-                style="
+              <v-avatar class="d-flex align-center elevation-4" style="
                   z-index: 100;
                   margin: -10px -15px;
                   background-color: wheat;
-                "
-                size="25"
-              >
+                " size="25">
                 <span style="font-size: 12px; font-weight: bold">{{
                   formatNumber(day.countSource.twitter)
                 }}</span>
               </v-avatar>
             </v-col>
-            <v-col
-              v-if="day.countSource.tiktok > 0"
-              cols="12"
-              class="py-1 justify-center d-flex"
-            >
+            <v-col v-if="day.countSource.tiktok > 0" cols="12" class="py-1 justify-center d-flex">
               <v-avatar image="/social_icon/tiktok.png"></v-avatar>
-              <v-avatar
-                class="d-flex align-center elevation-4"
-                style="
+              <v-avatar class="d-flex align-center elevation-4" style="
                   z-index: 100;
                   margin: -10px -15px;
                   background-color: wheat;
-                "
-                size="25"
-                ><span style="font-size: 12px; font-weight: bold">{{
+                " size="25"><span style="font-size: 12px; font-weight: bold">{{
                   formatNumber(day.countSource.tiktok)
                 }}</span>
               </v-avatar>
             </v-col>
-            <v-col
-              v-if="day.countSource.youtube > 0"
-              cols="12"
-              class="py-1 justify-center d-flex"
-            >
+            <v-col v-if="day.countSource.youtube > 0" cols="12" class="py-1 justify-center d-flex">
               <v-avatar image="/social_icon/youtube.png"></v-avatar>
-              <v-avatar
-                class="d-flex align-center elevation-4"
-                style="
+              <v-avatar class="d-flex align-center elevation-4" style="
                   z-index: 100;
                   margin: -10px -15px;
                   background-color: wheat;
-                "
-                size="25"
-                ><span style="font-size: 12px; font-weight: bold">{{
+                " size="25"><span style="font-size: 12px; font-weight: bold">{{
                   formatNumber(day.countSource.youtube)
-                }}</span></v-avatar
-              >
+                }}</span></v-avatar>
             </v-col>
             <v-col cols="12" class="py-4 justify-center d-flex">
               <!-- <span>{{ day.date }}</span> -->
@@ -176,55 +125,29 @@
         <template v-if="day.data.length > 0">
           <v-card elevation="2" class="pa-3 rounded-lg">
             <v-card-text class="bg-white text--primary pa-0">
-              <v-row
-                v-for="(event, eventIndex) in day.data.slice(0, 1)"
-                :key="eventIndex"
-              >
-                <v-col
-                  cols="5"
-                  class="pb-0 pt-0 ma-0 justify-center align-center d-flex"
-                >
-                  <div
-                    class="image-container"
-                    style="position: relative; display: inline-block"
-                  >
-                    <v-avatar
-                      v-if="event.photos && event.photos.length > 1"
-                      size="25"
-                      style="
+              <v-row v-for="(event, eventIndex) in day.data.slice(0, 1)" :key="eventIndex">
+                <v-col cols="5" class="pb-0 pt-0 ma-0 justify-center align-center d-flex">
+                  <div class="image-container" style="position: relative; display: inline-block">
+                    <v-avatar v-if="event.photos && event.photos.length > 1" size="25" style="
                         position: relative;
                         top: 20px;
                         left: 50px;
                         z-index: 100;
                         background-color: whitesmoke;
-                      "
-                    >
-                      <v-icon color="black" style="font-size: 12px"
-                        >mdi-image-filter-none
+                      ">
+                      <v-icon color="black" style="font-size: 12px">mdi-image-filter-none
                       </v-icon>
-                      <span
-                        style="
+                      <span style="
                           font-size: 10px;
                           margin-top: -3px;
                           margin-left: 3px;
-                        "
-                        >{{ event.photos.length }}</span
-                      >
+                        ">{{ event.photos.length }}</span>
                     </v-avatar>
 
-                    <v-img
-                      :src="event.photos[0]"
-                      alt="Image for the day"
-                      width="60"
-                      height="100"
-                      class="image-crop"
-                      rounded="lg"
-                      @click="handlePic(event._id)"
-                      style="cursor: pointer"
-                    >
+                    <v-img :src="event.photos[0]" alt="Image for the day" width="60" height="100" class="image-crop"
+                      rounded="lg" @click="handlePic(event._id)" style="cursor: pointer">
                       <template v-slot:placeholder>
-                        <div
-                          style="
+                        <div style="
                             width: 100%;
                             height: 100%;
                             background-color: #f5f5f5;
@@ -232,55 +155,32 @@
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                          "
-                        >
+                          ">
                           <v-icon size="48" color="grey">mdi-image-off</v-icon>
                         </div>
                       </template>
                     </v-img>
 
-                    <v-avatar
-                      v-if="event.photos"
-                      size="17"
-                      :key="index"
-                      :style="{
-                        position: 'relative',
-                        right: `calc(-50px)`,
-                        top: '-10px',
-                        zIndex: 200 - index * 10,
-                      }"
-                    >
-                      <v-img
-                        :src="`/social_icon/${event.source}.png`"
-                        :alt="`Social Icon ${event.source}`"
-                      />
+                    <v-avatar v-if="event.photos" size="17" :key="index" :style="{
+                      position: 'relative',
+                      right: `calc(-50px)`,
+                      top: '-10px',
+                      zIndex: 200 - index * 10,
+                    }">
+                      <v-img :src="`/social_icon/${event.source}.png`" :alt="`Social Icon ${event.source}`" />
                     </v-avatar>
                   </div>
                 </v-col>
                 <v-col cols="7" class="pa-6 justify-center align-center d-flex">
                   <v-row>
-                    <p
-                      style="font-size: 14px"
-                      v-html="truncateText(event.full_text, 50)"
-                    ></p>
+                    <p style="font-size: 14px" v-html="truncateText(event.full_text, 50)"></p>
                   </v-row>
                 </v-col>
               </v-row>
 
-              <v-col
-                cols="12"
-                class="pt-4 pb-1 justify-center align-center d-flex"
-              >
-                <v-btn
-                  class="justify-center align-center"
-                  @click="handleAll(day.date)"
-                  color="white"
-                  variant="text"
-                >
-                  <span
-                    style="font-size: 14px; font-weight: bold; color: #44a7c4"
-                    >แสดงเพิ่มเติม</span
-                  >
+              <v-col cols="12" class="pt-4 pb-1 justify-center align-center d-flex">
+                <v-btn class="justify-center align-center" @click="handleAll(day.date)" color="white" variant="text">
+                  <span style="font-size: 14px; font-weight: bold; color: #44a7c4">แสดงเพิ่มเติม</span>
                 </v-btn>
               </v-col>
             </v-card-text>
@@ -308,22 +208,12 @@
       <template v-slot:default="dialog">
         <v-col cols="12" class="d-flex justify-end" style="position: relative">
           <!-- ปุ่มปิดที่มุมขวาบน -->
-          <v-btn
-            icon
-            style="font-size: 20px; position: relative; top: 10px; right: 10px"
-            @click="isOverlayVisible = false"
-            color="gray"
-          >
+          <v-btn icon style="font-size: 20px; position: relative; top: 10px; right: 10px"
+            @click="isOverlayVisible = false" color="gray">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-col>
-        <v-col
-          cols="12"
-          md="12"
-          lg="12"
-          xl="12"
-          class="pa-0 mt-6 d-flex justify-center"
-        >
+        <v-col cols="12" md="12" lg="12" xl="12" class="pa-0 mt-6 d-flex justify-center">
           <cad_alone :startDate="dateSelect" :party_id="idSelect" />
         </v-col>
       </template>
@@ -334,101 +224,45 @@
         <!-- กำหนดขนาดของ v-card ให้เป็น 500px x 500px -->
         <v-card rounded="xl">
           <v-col cols="12" class="pb-6 d-flex justify-end">
-            <v-btn
-              icon
-              style="font-size: 20px"
-              @click="isOverlayPost = false"
-              color="gray"
-              variant="text"
-            >
+            <v-btn icon style="font-size: 20px" @click="isOverlayPost = false" color="gray" variant="text">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-col>
           <v-card-text class="d-flex justify-center">
             <v-row class="ma-0 justify-center mt-6">
               <v-col cols="12" class="pa-0 d-flex justify-center">
-                <v-card
-                  elevation="2"
-                  class="ma-4 pa-4 rounded-lg w-100 w-md-50 w-xl-75"
-                >
-                  <v-tabs
-                    v-model="tab"
-                    align-tabs="center"
-                    color="black"
-                    slider-color="#25B1D1"
-                    class="text-h6 custom-slider"
-                  >
+                <v-card elevation="2" class="ma-4 pa-4 rounded-lg w-100 w-md-50 w-xl-75">
+                  <v-tabs v-model="tab" align-tabs="center" color="black" slider-color="#25B1D1"
+                    class="text-h6 custom-slider">
                     <v-tab value="all" class="text-capitalize">All</v-tab>
-                    <v-tab value="facebook" class="text-capitalize"
-                      >Facebook</v-tab
-                    >
-                    <v-tab value="instagram" class="text-capitalize"
-                      >instagram</v-tab
-                    >
-                    <v-tab value="youtube" class="text-capitalize"
-                      >Youtube</v-tab
-                    >
+                    <v-tab value="facebook" class="text-capitalize">Facebook</v-tab>
+                    <v-tab value="instagram" class="text-capitalize">instagram</v-tab>
+                    <v-tab value="youtube" class="text-capitalize">Youtube</v-tab>
                     <v-tab value="tiktok" class="text-capitalize">Tiktok</v-tab>
                     <v-tab value="x" class="text-capitalize">X</v-tab>
                   </v-tabs>
                 </v-card>
               </v-col>
-              <v-col
-                cols="12"
-                md="12"
-                lg="10"
-                xl="8"
-                class="pa-0 mt-6 d-flex justify-center"
-              >
+              <v-col cols="12" md="12" lg="10" xl="8" class="pa-0 mt-6 d-flex justify-center">
                 <v-tabs-window v-model="tab" class="w-100">
-                  <v-tabs-window-item
-                    value="all"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
-                  <v-tabs-window-item
-                    value="facebook"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
-                  <v-tabs-window-item
-                    value="instagram"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
-                  <v-tabs-window-item
-                    value="youtube"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
-                  <v-tabs-window-item
-                    value="tiktok"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
-                  <v-tabs-window-item
-                    value="x"
-                    class="mx-lg-10 mx-xl-10 px-lg-10"
-                    ><card_infinite
-                      :platform="tab"
-                      :startDate="dateSelect"
-                      :party_id="idSelect"
-                  /></v-tabs-window-item>
+                  <v-tabs-window-item value="all" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="facebook" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="instagram" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="youtube" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="tiktok" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="x" class="mx-lg-10 mx-xl-10 px-lg-10">
+                    <card_infinite :platform="tab" :startDate="dateSelect" :party_id="idSelect" />
+                  </v-tabs-window-item>
                 </v-tabs-window>
               </v-col>
             </v-row>
@@ -791,7 +625,7 @@ onMounted(async () => {
 
 watch(DateRange, (newVal, oldVal) => {
   console.log("DateRange changed from", oldVal, "to", newVal);
- 
+
 
   if (newVal && newVal.length === 2) {
     const startDate = new Date(newVal[0]);
@@ -812,24 +646,31 @@ watch(DateRange, (newVal, oldVal) => {
 
 <style scoped>
 .image-crop {
-  object-fit: cover; /* ครอบภาพเพื่อให้เต็มขนาดและ crop ส่วนเกิน */
+  object-fit: cover;
+  /* ครอบภาพเพื่อให้เต็มขนาดและ crop ส่วนเกิน */
 }
 
 .overlay-avatar {
   position: absolute;
-  top: 190; /* ชิดด้านบน */
-  left: 100; /* ชิดด้านซ้าย */
-  margin: 10px; /* เพิ่มระยะห่างเล็กน้อย */
-  z-index: 100; /* ให้อยู่ด้านบนของภาพ */
+  top: 190;
+  /* ชิดด้านบน */
+  left: 100;
+  /* ชิดด้านซ้าย */
+  margin: 10px;
+  /* เพิ่มระยะห่างเล็กน้อย */
+  z-index: 100;
+  /* ให้อยู่ด้านบนของภาพ */
 }
 
 .my-timeline {
-  height: 800px; /* กำหนดความสูงที่ต้องการ */
+  height: 800px;
+  /* กำหนดความสูงที่ต้องการ */
   max-width: 1800px;
 }
 
 .v-timeline--horizontal.v-timeline {
-  grid-column-gap: 1px; /* ระยะห่างระหว่างคอลัมน์ */
+  grid-column-gap: 1px;
+  /* ระยะห่างระหว่างคอลัมน์ */
   width: 100%;
 }
 </style>

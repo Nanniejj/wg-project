@@ -13,6 +13,8 @@
   
       <!-- Conditional rendering for selected mission -->
       <MissionM1 v-if="mission === 'M1'" />
+      <MissionM2 v-if="mission === 'M2'" />
+      <MissionM3 v-if="mission === 'M3'" />
       <MissionR1 v-if="mission === 'R1'" />
     </div>
   </template>
@@ -21,7 +23,7 @@
   export default {
     data() {
       return {
-        mission: "R1", // Default selected mission
+        mission: "M2", // Default selected mission
         items: ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"],
       };
     },

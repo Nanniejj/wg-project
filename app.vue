@@ -1,9 +1,10 @@
 <template>
   <div>
     <NuxtLayout>
-      <v-container>
+      <v-container v-if="$route.name!=='login'">
         <NuxtPage style="min-height: 80vh" class="pa-3" />
       </v-container>
+      <NuxtPage v-else style="min-height: 80vh" class="pa-3" />
     </NuxtLayout>
   </div>
 </template>
@@ -129,10 +130,14 @@
 .text-h4 {
   font-size: 28px !important;
 }
-
+@media (min-width: 1580px) {
+  .v-container {
+    /* max-width: 1400px; */
+  }
+}
 @media (min-width: 1280px) {
   .v-container {
-    max-width: 1500px;
+    max-width: 1400px;
   }
 }
 

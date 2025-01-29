@@ -1,39 +1,36 @@
 <template>
     <div>
         <div class="d-flex align-items-center justify-end">
-      <date-picker 
-        v-model:value="DateRange" 
-        range 
-        class="custom-combobox date-picker date-picker-setting mb-5 mr-3"
-        style="max-width: 270px" 
-        :disabled-date="disabledBeforeTodayAndAfterMonth"
-      />
-      <v-menu>
-        <template v-slot:activator="{props }">
-          <v-btn color="#2a3547"   v-bind="props" > <v-icon class="mr-1">mdi-export-variant</v-icon> Export</v-btn>
-        </template>
-        <v-list>
-          <v-list-item @click="exportPDF">PDF</v-list-item>
-          <v-list-item @click="exportHTML">HTML</v-list-item>
-          <v-list-item @click="exportCSV">CSV</v-list-item>
-          <v-list-item @click="exportExcel">Excel</v-list-item>
-          <v-list-item @click="exportXML">XML</v-list-item>
-          <v-list-item @click="exportJSON">JSON</v-list-item>
-        </v-list>
-      </v-menu>
-    </div>
+            <date-picker v-model:value="DateRange" range
+                class="custom-combobox date-picker date-picker-setting mb-5 mr-3" style="max-width: 270px"
+                :disabled-date="disabledBeforeTodayAndAfterMonth" />
+            <v-menu>
+                <template v-slot:activator="{ props }">
+                    <v-btn color="#2a3547" v-bind="props"> <v-icon class="mr-1">mdi-export-variant</v-icon>
+                        Export</v-btn>
+                </template>
+                <v-list>
+                    <v-list-item @click="exportPDF">PDF</v-list-item>
+                    <v-list-item @click="exportHTML">HTML</v-list-item>
+                    <v-list-item @click="exportCSV">CSV</v-list-item>
+                    <v-list-item @click="exportExcel">Excel</v-list-item>
+                    <v-list-item @click="exportXML">XML</v-list-item>
+                    <v-list-item @click="exportJSON">JSON</v-list-item>
+                </v-list>
+            </v-menu>
+        </div>
 
 
 
         <v-row>
-            <v-col>
+            <v-col cols="12" md="6">
                 <!-- Mission Selector -->
                 <v-autocomplete v-model="selectedMission" label="Select Mission" item-title="label" item-value="value"
                     :items="formattedItems" variant="outlined">
                 </v-autocomplete>
             </v-col>
 
-            <v-col>
+            <v-col cols="12" md="6">
                 <!-- Subject Selector -->
                 <v-select v-model="selectedSubjects" :items="filteredSubjects" label="Select Subject" multiple
                     item-title="label" item-value="value" variant="outlined">
@@ -55,6 +52,7 @@
             <ButtonExport />
         </div> -->
         <MissionM1 v-if="selectedMission == 'M1'" :subjectIndex="selectedSubjects" />
+        <MissionR1 v-if="selectedMission == 'R1'" :subjectIndex="selectedSubjects" />
     </div>
 </template>
 
@@ -78,6 +76,8 @@ const items = [
 
 const subject = [
     { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
+    { mission: 'R1', item: [{ label: 'ประชาสัมพันธ์ผ่านเพจ และ Influencer ของหน่วย', value: 1 }, { label: 'ประชาสัมพันธ์ผ่านเพจ', value: 2 }, { label: 'Influencer ของหน่วย', value: 3 }, { label: 'จำนวนโพสต์ Influencer', value: 4 }, { label: 'ประชาสัมพันธ์ผ่านแฟนด้อม', value: 5 }, { label: 'แฟนด้อม Line Open chat', value: 6 }, { label: 'จำนวนสมาชิก', value: 7 }, { label: 'จำนวนโพสต์', value: 8 }] },
+
     { mission: 'M2', item: ['ตัวอย่าง Mission 2 - 1', 'ตัวอย่าง Mission 2 - 2'] },
     { mission: 'M3', item: ['ตัวอย่าง Mission 3 - 1', 'ตัวอย่าง Mission 3 - 2'] },
 ];
