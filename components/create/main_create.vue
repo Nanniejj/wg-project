@@ -246,6 +246,14 @@
   });
 
   const missions = ref([
+  "Mission M1",
+    "Mission M2",
+    "Mission M3",
+    "Mission M4",
+    "Mission M5",
+    "Mission M6",
+    "Mission M7",
+    "Mission M8",
     "Mission R1",
     "Mission R2",
     "Mission R3",
@@ -258,14 +266,7 @@
     "Mission R10",
     "Mission R11",
     "Mission R12",
-    "Mission M1",
-    "Mission M2",
-    "Mission M3",
-    "Mission M4",
-    "Mission M5",
-    "Mission M6",
-    "Mission M7",
-    "Mission M8",
+
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
