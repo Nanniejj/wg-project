@@ -41,7 +41,7 @@
             >
             </v-col> -->
 
-        <v-col cols="12" sm="12" md=3>
+        <v-col cols="12" sm="12" md="3">
           <v-container
             :style="{
               width: '100%',
@@ -65,10 +65,10 @@
           </v-col>
         </v-col>
 
-        <v-col cols="12"  sm="12" md="8">
+        <v-col cols="12" sm="12" md="8">
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
-              <span style="font-size: 16px">Mission name</span>
+              <!-- <span style="font-size: 16px">Mission name</span>
               <v-text-field
                 density="compact"
                 variant="outlined"
@@ -76,39 +76,39 @@
                 v-model="selectedMission"
                 disabled
                 style="margin-top: 5px"
-              ></v-text-field>
+              ></v-text-field> -->
 
               <v-row>
-              <v-col cols="12" sm="8" class="py-0">
-                <span style="font-size: 16px">Priority level</span>
-                <v-select
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  :items="priority"
-                  v-model="selectedPriority"
-                  :style="{
-                    marginTop: '5px',
-                  }"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" sm="4" class="py-0">
-                <span style="font-size: 16px">วันที่กำหนด</span>
-                <!-- <v-col cols="12" class="px-0 pt-1"> -->
-                <date-picker
-                  style="margin-top: 5px"
-                  v-model:value="DateRange"
-                  range
-                  :editable="false"
-                  :clearable="false"
-                  class="w-100"
-                ></date-picker>
-                <!-- </v-col> -->
-              </v-col>
-            </v-row>
+                <v-col cols="12" sm="8" class="py-0">
+                  <span style="font-size: 16px">ระดับความสำคัญ</span>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :items="priority"
+                    v-model="selectedPriority"
+                    :style="{
+                      marginTop: '5px',
+                    }"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="4" class="py-0">
+                  <span style="font-size: 16px">วันที่กำหนด</span>
+                  <!-- <v-col cols="12" class="px-0 pt-1"> -->
+                  <date-picker
+                    style="margin-top: 5px"
+                    v-model:value="DateRange"
+                    range
+                    :editable="false"
+                    :clearable="false"
+                    class="w-100"
+                  ></date-picker>
+                  <!-- </v-col> -->
+                </v-col>
+              </v-row>
 
               <!-- ช่องกรอกรายละเอียด -->
-              <span style="font-size: 16px">Description</span>
+              <span style="font-size: 16px">รายละเอียด</span>
               <v-text-field
                 placeholder="Add description"
                 v-model="MainDescriptionMessage"
@@ -117,7 +117,7 @@
                 clearable
               ></v-text-field>
 
-              <span style="font-size: 16px">Assign</span>
+              <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
               <v-combobox
                 :items="team"
                 v-model="selectedTeam"
@@ -239,13 +239,13 @@
   const DateRange = ref([lastWeek, today]);
 
   const priority = ref([
-    "Low",
-    "Medium",
-    "High",
+    "ต่ำ",
+    "ปานกลาง",
+    "สูง",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
-  const selectedPriority = ref("Low");
+  const selectedPriority = ref("ต่ำ");
 
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);

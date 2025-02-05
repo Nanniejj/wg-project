@@ -1,13 +1,13 @@
 <template>
-  <!-- <v-container class="d-flex justify-center">
-      <v-card-title class="text-h4 font-weight-bold">Map</v-card-title>
-    </v-container> -->
-  <v-col cols="12">
+    <div>
+        <ReportMain/>
+        <!-- <v-col cols="12">
     <heatmap />
   </v-col>
   <v-col cols="12">
     <timeline />
-  </v-col>
+  </v-col> -->
+    </div>
 </template>
 
 <script setup>

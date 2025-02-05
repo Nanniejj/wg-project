@@ -1,18 +1,15 @@
-// plugins/vuetify.ts
+import { createVuetify } from 'vuetify';
+import { defineNuxtPlugin } from '#app';
+import * as components from 'vuetify/components';
+import * as labsComponents from 'vuetify/labs/components'; // Import labs components
+import * as directives from 'vuetify/directives';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
-import { createVuetify } from 'vuetify'
-import { defineNuxtPlugin } from '#app'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import { VFileUpload } from 'vuetify/labs/VFileUpload'
-import { VNumberInput } from 'vuetify/labs/VNumberInput'
-
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     components: {
-      VFileUpload,
-      VNumberInput,
+      ...components,
+      ...labsComponents, // Add labs components
     },
     directives,
     icons: {
@@ -24,8 +21,9 @@ export default defineNuxtPlugin(nuxtApp => {
     },
     theme: {
       defaultTheme: 'light',
+      
     },
-  })
+  });
 
-  nuxtApp.vueApp.use(vuetify)
-})
+  nuxtApp.vueApp.use(vuetify);
+});

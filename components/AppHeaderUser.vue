@@ -120,7 +120,7 @@
     /* กำหนดระยะห่างเอง */
   }
   
-  .v-tab__slider {
+  .desk-nav.v-tab__slider {
     font-weight: 700;
     height: 0px !important;
   }

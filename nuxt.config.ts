@@ -5,7 +5,7 @@ import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles", 'leaflet/dist/leaflet.css'],
+  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles", 'leaflet/dist/leaflet.css','dropzone/dist/dropzone.css'],
   build: {
     transpile: ['@vue-leaflet/vue-leaflet', "vuetify"],
   },
@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "WG",
+      title: "127",
       link: [
         { rel: "icon", href: "/logo3.png", type: "image/png" },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -62,6 +62,11 @@ export default defineNuxtConfig({
   //   '/create': { ssr: false }
   // },
   ssr:false,
+  // routeRules: {
+  //   '/report': { ssr: false },
+  //   '/create': { ssr: false }
+  // },
+  ssr: false,
   plugins: ['~/plugins/moment.js'],
   // plugins: ["~/plugins/mitt.client.js", "~/plugins/vue-social-sharing.ts"],
 });

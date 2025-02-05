@@ -1,6 +1,5 @@
 <template>
-  <v-col
-    cols="12"
+  <div
     class="d-flex justify-center align-center"
     style="background-color: #454545"
   >
@@ -76,9 +75,9 @@
                 required
               ></v-text-field>
 
-              <span style="font-size: 18px">Affiliation</span>
+              <span style="font-size: 18px">Team</span>
               <v-select
-                placeholder="select Affiliation"
+                placeholder="Select Team"
                 variant="underlined"
                 rounded="lg"
                 v-model="selectedAffiliation"
@@ -165,7 +164,7 @@
         </v-col>
       </v-row>
     </v-card>
-  </v-col>
+  </div>
 </template>
 
 <script setup>
@@ -184,7 +183,7 @@
   });
   const isSubmitting = ref(false);
   const passwordVisibility = ref(false); // ใช้ควบคุมการแสดงรหัสผ่าน
-  const confirmPasswordVisibility = ref(false); // ใช้ควบคุมการแสดงรหัสผ่านยืนยัน
+  const confirmPasswordVisibility = ref(false); // ใช้ควบคุมการแสดงรหัสผ่านยืนยันf
 
   const rules = {
     required: (v) => !!v || "This field is required",
@@ -228,7 +227,7 @@
 
       if (response.data.message == "success") {
         console.log("loop success:", response.data);
-        alert(`SignIn: ${response.data.message}`);
+        alert(`SignUp: ${response.data.message}`);
         isSubmitting.value = false;
         setTimeout(() => {
           router.push("/login");

@@ -16,9 +16,7 @@
             color="#2A3547"
             @click="submitForm"
           >
-            <span style="font-size: 16px; text-transform: none"
-              >Create new</span
-            >
+            <span style="text-transform: none" class="text-h6">Create new</span>
           </v-btn>
           <v-divider
             vertical

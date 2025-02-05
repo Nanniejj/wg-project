@@ -1,12 +1,12 @@
 <template>
-  <v-container
+  <div
     fluid
     style="
       height: 100vh;
       background-image: url('/logo/EllipseYellow.png'),
         url('/logo/EllipseBlack.png');
       background-size: 60%, 55%; /* กำหนดขนาดภาพแต่ละรูป */
-      background-position: -260px -300px, 1100px 450px; /* กำหนดตำแหน่งของแต่ละภาพ */
+      background-position: -300px -400px, 1100px 450px; /* กำหนดตำแหน่งของแต่ละภาพ */
       background-repeat: no-repeat, no-repeat; /* ไม่ให้ภาพซ้ำ */
     "
   >
@@ -115,7 +115,7 @@
       </v-row> -->
       </v-form>
     </v-col>
-  </v-container>
+  </div>
 </template>
 
 <script setup>
@@ -166,10 +166,7 @@
       const access_menu = data.value.access_menu;
       // console.log("role", role,);
       // console.log("access_menu", access_menu,);
-      localStorage.setItem("refreshToken", refresh_token);
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("role", role);
-      localStorage.setItem("access_menu", access_menu);
+
       // console.log("login auth", localStorage, "refreshToken", refresh_token);
 
       if (role == null) {
@@ -179,6 +176,10 @@
         router.push("/login"); // ปรับ URL ตามที่ต้องการ
       } else {
         // นำไปยังหน้าindexหลังจากเข้าสู่ระบบสำเร็จ
+        localStorage.setItem("refreshToken", refresh_token);
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("role", role);
+        localStorage.setItem("access_menu", access_menu);
         router.push("/");
       }
     } catch (error) {
