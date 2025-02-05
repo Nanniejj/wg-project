@@ -17,9 +17,21 @@
                 </template>
 
                 <template #item.team="{ item }">
-                    <v-chip v-for="(team, i) in item.team" :key="i" class="mr-1 my-1" variant="flat"
-                        :color="getTeamColorSoft(team)">
-                        <span class="text-black">Team {{ team }}</span>
+                    <v-chip v-for="(team, i) in item.check" :key="i" class="mr-1 my-1" variant="flat"
+                        :color="getTeamColorSoft(team.team)">
+                        
+                            <v-tooltip text="ส่งแล้ว" v-if="team.send" location="top">
+                           
+                                <template v-slot:activator="{ props }">     <span class="text-black" v-bind="props">Team {{ team.team }} </span>
+                                    <v-icon color="green" v-bind="props" size="15">mdi-check</v-icon> </template>
+                            </v-tooltip>
+
+                            <v-tooltip v-else text="ยังไม่ส่ง" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <span class="text-black" v-bind="props">Team {{ team.team }} </span>
+                                    <v-icon color="red" v-bind="props" size="15">mdi-close</v-icon>
+                                </template>
+                            </v-tooltip>
                     </v-chip>
                 </template>
 
@@ -46,13 +58,13 @@
 
 <script setup>
 import { ref, watchEffect } from "vue";
-const { getTeamColorSoft} = useColors();
+const { getTeamColorSoft } = useColors();
 const headers = ref([
     { title: "Mission", value: "mission", align: "start", },
     { title: "ชื่อแผนงาน", value: "name", align: "start" },
-    { title: "รายละเอียด", value: "datail", align: "start",  },
+    { title: "รายละเอียด", value: "datail", align: "start", },
     { title: "หน่วยงานที่รับผิดชอบ", value: "team", align: "start" },
-    { title: "วันที่สร้าง", value: "date", align: "start",},
+    { title: "วันที่สร้าง", value: "date", align: "start", },
     { title: "หมายเหตุ", value: "ps", align: "start", },
     { title: "จัดการ", value: "manage", align: "end", },
 ]);
@@ -68,6 +80,13 @@ const items = ref([
         team: ["C", "D", "E", "F", "G"],
         ps: "",
         manage: "",
+        check: [
+            { team: 'C', send: true },
+            { team: 'D', send: true },
+            { team: 'E', send: false },
+            { team: 'F', send: true },
+            { team: 'G', send: true },
+        ]
     },
     {
         name: "เพจ ISOC ประจำจังหวัด",
@@ -77,6 +96,13 @@ const items = ref([
         team: ["C", "D"],
         ps: "",
         manage: "",
+        check: [
+            { team: 'C', send: true },
+            { team: 'D', send: true },
+            { team: 'E', send: false },
+            { team: 'F', send: true },
+            { team: 'G', send: true },
+        ]
     },
     {
         name: "สนับสนุนเครือข่าย ภาคประชาสังคม",
@@ -86,6 +112,13 @@ const items = ref([
         team: ["C", "D", "E", "F", "G"],
         ps: "",
         manage: "",
+        check: [
+            { team: 'C', send: false },
+            { team: 'D', send: true },
+            { team: 'E', send: false },
+            { team: 'F', send: true },
+            { team: 'G', send: true },
+        ]
     },
     {
         name: "สนับสนุนเครือข่าย กลุ่มโอกาส",
@@ -95,6 +128,12 @@ const items = ref([
         team: ["C", "D", "E"],
         ps: "",
         manage: "",
+        check: [
+            { team: 'C', send: true },
+            { team: 'D', send: true },
+            { team: 'E', send: false },
+
+        ]
     },
     {
         name: "ตอบโต้ประเด็นประจำวัน",
@@ -104,6 +143,10 @@ const items = ref([
         team: ["C"],
         ps: "",
         manage: "",
+        check: [
+            { team: 'C', send: true },
+
+        ]
     },
 ]);
 const isMobile = ref(false);

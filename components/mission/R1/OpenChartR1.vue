@@ -1,21 +1,25 @@
 <template>
     <div class="my-5 ">
-        <h2 class="font-title2 font-weight-medium mb-5">แฟนด้อม Line Open chat ({{ fandoms.length }})</h2>
+        <h2 class="font-title2 font-weight-medium mb-5">แฟนด้อม Line Open Chat ({{ fandoms.length }})</h2>
         <v-row>
             <v-col v-for="fandom in fandoms" :key="fandom.id" cols="12" md="6" lg="4">
                 <v-card class="pa-5 shadow-box-line" :style="{ backgroundColor: getTeamColorSoft(fandom.team) }">
                     <v-row align="center">
                         <v-col cols="8">
                             <v-chip variant="flat" color="white" class="my-2"><span class="font-weight-medium"> {{
-                                    fandom.admin }}</span></v-chip>
+                                fandom.admin }}</span></v-chip>
                             <h3 class="my-1 font-title2">{{ fandom.name }}</h3>
                             <div>จำนวนสมาชิก: {{ fandom.members.toLocaleString() }}</div>
                             <div>จำนวนโพสต์: {{ fandom.posts.toLocaleString() }}</div>
                         </v-col>
                         <v-col cols="4" class="d-flex justify-end align-center">
                             <v-avatar size="64" color="grey">
-                                <v-icon size="40">mdi-account</v-icon>
+                                <v-img v-if="fandom.img" :lazy-src="fandom.img" :src="fandom.img" class="bg-grey-lighten-2 w-100"
+                                cover></v-img>
+                                <v-icon v-else size="40">mdi-account</v-icon>
+                               
                             </v-avatar>
+
                         </v-col>
                     </v-row>
                 </v-card>
@@ -33,7 +37,7 @@ const fandoms = [
         name: "รักษ์ราษย์",
         members: 52,
         posts: 80,
-        icon: "/icons/loyalty.png",
+        img: "Mask Group 87.png",
         bgColor: "#E9D8FD",
         team: 'C'
     },
@@ -43,7 +47,7 @@ const fandoms = [
         name: "ทัพไทยรีวิว",
         members: 2353,
         posts: 1590,
-        icon: "/icons/sun.png",
+        img: "Mask Group 89.png",
         bgColor: "#DAD6FF",
         team: 'C'
     },
@@ -53,7 +57,7 @@ const fandoms = [
         name: "Evil Digger",
         members: 38,
         posts: 20,
-        icon: "/icons/angry.png",
+        img: "Mask Group 90.png",
         bgColor: "#FADCEB",
         team: 'G'
     },
@@ -63,7 +67,7 @@ const fandoms = [
         name: "คลื่น ไดโน",
         members: 47,
         posts: 80,
-        icon: "/icons/dino.png",
+        img: "Mask Group 91.png",
         bgColor: "#DFF8FF",
         team: 'F'
     },
@@ -73,7 +77,7 @@ const fandoms = [
         name: "ด๋อมลุง",
         members: 91,
         posts: 180,
-        icon: "/icons/minions.png",
+        img: "Mask Group 92.png",
         bgColor: "#FFF3C4",
         team: 'E'
     },
@@ -83,14 +87,14 @@ const fandoms = [
         name: "Thai-D",
         members: 114,
         posts: 50,
-        icon: "/icons/thailand.png",
+        img: "R1(6).png",
         bgColor: "#DFFFE3",
         team: 'D'
     },
 ];
 </script>
 
-<style >
+<style>
 .shadow-box-line {
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 25px;

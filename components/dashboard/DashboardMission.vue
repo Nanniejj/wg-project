@@ -110,7 +110,7 @@
         </div>
         <div class="my-2">
           <v-card class="mx-auto pa-3 mt-3" elevation="3" rounded="lg">
-            <div class="font-title2 my-2 base-color">Onboarding calendar</div>
+            <div class="font-title2 my-2 base-color">Calendar</div>
             <hr />
             <v-date-picker v-model="date" class="mx-auto mt-2 elevation-0" color="#96CCD5"></v-date-picker>
             <div>

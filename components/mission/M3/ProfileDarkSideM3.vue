@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="pa-6 ma-2">
+        <v-card class="pa-5 card-stat-shadow my-8">
             <v-chip color="#FEA238" label variant="flat" size="large" elevation="2"> <span
                     class="font-title font-weight-bold base-color my-2 my-2">ข้อมูล Dark side (พรรณิการ์ วานิช )</span>
             </v-chip>
@@ -28,7 +28,7 @@
                             <div>- น.ส.พรรณิการ์ฯ มีแนวคิดสนับสนุนแนวร่วม ของกลุ่มคอมมิวนิสต์ในอดีต</div>
                         </v-col>
                         <v-col>
-                            <v-img class="bg-white my-3" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                            <v-img class="bg-white my-3" src="Group 2867.png"
                                 position="left" height="250"></v-img>
                         </v-col>
                     </v-row>
@@ -42,7 +42,7 @@
                             “ปิดไมค์ถาม” ซึ่งมีเนื้อหาเกี่ยวกับ กระแสบทบาททาง การเมืองของ น.ช.ทักษิณ ชินวัตร
                             และคดียุบพรรคก้าวไกล</v-col>
                         <v-col>
-                            <v-img class="bg-white" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                            <v-img class="bg-white" src="Group 2871.png"
                                 height="100"></v-img>
                         </v-col>
                     </v-row>
@@ -51,7 +51,7 @@
                             เพชรบุรีฯ
                         </v-col>
                         <v-col>
-                            <v-img class="bg-white" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                            <v-img class="bg-white" src="Group 2876.png"
                                 height="100"></v-img>
                         </v-col>
                     </v-row>
@@ -59,13 +59,13 @@
                         <v-col>-เมื่อ 22 ก.ค. 67 เวลา 1000 เดินทางไปที่ ที่ทำการ คณะก้าวหน้าฯและพักอาศัยอยู่ที่
                             คอนโดมิเนียม
                             นิช ไพรด์ ทองหล่อ - เพชรบุรีฯ </v-col>
-                        <v-col> <v-img class="bg-white" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                        <v-col> <v-img class="bg-white" src="Group 2881.png"
                                 height="100"></v-img> </v-col>
                     </v-row>
                     <v-row>
                         <v-col>- เมื่อ 23 ก.ค. 67 เวลา 0940 เดินทางไปที่ ที่ทำการคณะก้าวหน้าฯ และพักอาศัยอยู่ที่
                             คอนโดมิเนียม นิช ไพรด์ ทองหล่อ - เพชรบุรีฯ </v-col>
-                        <v-col> <v-img class="bg-white" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                        <v-col> <v-img class="bg-white" src="Group 2886.png"
                                 height="100"></v-img></v-col>
                     </v-row>
                 </v-col>

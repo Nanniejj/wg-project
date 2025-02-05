@@ -4,10 +4,11 @@
         <v-row class="ma-10">
             <v-col cols="12" md="5" class="px-md-10">
                 <v-card class="pa-5 text-topic h-100" border="opacity-50 sm " width="">
-                    <div class="text-center mx-auto">
-                        <v-avatar color="primary" class="my-2" size="55">U</v-avatar>
+                    <div class="text-center mx-auto position-relative ">
+                        <v-avatar color="primary" class="my-2" size="55" image="Group 2867.png"> </v-avatar> 
+                        <v-avatar color="primary" class="my-2 position-absolute bottom-0" size="40" image="/cfb.png" style="left: 52%;" > </v-avatar>
                     </div>
-                    <div class="text-center font-subtitle">UserName</div>
+                    <div class="text-center font-subtitle">พรรณิการ์ วาณิช</div>
                     <div class="text-topic position-relative">Profile
                         <v-btn class="position-absolute right-0" style="top:0px" variant="tonal" color="primary"
                             rounded>Follow</v-btn>

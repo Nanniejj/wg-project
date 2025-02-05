@@ -52,7 +52,16 @@
             <ButtonExport />
         </div> -->
         <MissionM1 v-if="selectedMission == 'M1'" :subjectIndex="selectedSubjects" />
+        <MissionM2 v-if="selectedMission == 'M2'" :subjectIndex="selectedSubjects" />
+        <MissionM3 v-if="selectedMission == 'M3'" :subjectIndex="selectedSubjects" />
+        <MissionM4 v-if="selectedMission == 'M4'" :subjectIndex="selectedSubjects" />
+        <MissionM5 v-if="selectedMission == 'M5'" :subjectIndex="selectedSubjects" />
+        <MissionM6 v-if="selectedMission == 'M6'" :subjectIndex="selectedSubjects" />
+        <MissionM7 v-if="selectedMission == 'M7'" :subjectIndex="selectedSubjects" />
+        <MissionM8 v-if="selectedMission == 'M8'" :subjectIndex="selectedSubjects" />
         <MissionR1 v-if="selectedMission == 'R1'" :subjectIndex="selectedSubjects" />
+        <MissionR9 v-if="selectedMission == 'R9'" :subjectIndex="selectedSubjects" />
+
     </div>
 </template>
 
@@ -77,10 +86,15 @@ const items = [
 const subject = [
     { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
     { mission: 'R1', item: [{ label: 'ประชาสัมพันธ์ผ่านเพจ และ Influencer ของหน่วย', value: 1 }, { label: 'ประชาสัมพันธ์ผ่านเพจ', value: 2 }, { label: 'Influencer ของหน่วย', value: 3 }, { label: 'จำนวนโพสต์ Influencer', value: 4 }, { label: 'ประชาสัมพันธ์ผ่านแฟนด้อม', value: 5 }, { label: 'แฟนด้อม Line Open chat', value: 6 }, { label: 'จำนวนสมาชิก', value: 7 }, { label: 'จำนวนโพสต์', value: 8 }] },
+    { mission: 'M2', item: [{ label: 'จำนวนเพจเป้าหมาย', value: 1 }, { label: 'จำนวน Content', value: 2 }, { label: 'จำนวนโพสต์', value: 3 }, { label: 'จำนวนการเข้าถึง', value: 4 }, { label: 'จำนวน Content (Platform)', value: 5 }] },
+    { mission: 'M3', item: [{ label: 'ติดตามความเคลื่อนไหวทางกายภาพ', value: 1 }, { label: 'ข้อมูล Dark side', value: 2 }, { label: 'Timeline', value: 3 }, { label: 'Map', value: 4 }, { label: 'Top 5 (Engagement)', value: 5 }] },
+    { mission: 'R9', item: [{ label: 'สถิติสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 1 }, { label: 'กิจกรรมสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 2 }, ] },
 
-    { mission: 'M2', item: ['ตัวอย่าง Mission 2 - 1', 'ตัวอย่าง Mission 2 - 2'] },
-    { mission: 'M3', item: ['ตัวอย่าง Mission 3 - 1', 'ตัวอย่าง Mission 3 - 2'] },
 ];
+
+watch(selectedMission, () => {
+    selectedSubjects.value = []; // เคลียร์ค่าเมื่อ selectedMission เปลี่ยน
+});
 
 const formattedItems = computed(() => {
     return items.map((item) => ({

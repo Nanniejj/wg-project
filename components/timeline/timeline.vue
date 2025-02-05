@@ -34,7 +34,7 @@
       </v-col> -->
 
   <!-- v-tabs-window สำหรับแสดงไทม์ไลน์ในแต่ละสัปดาห์ -->
-  <v-col cols="12" class="pa-4 justify-center align-center d-flex">
+  <v-col cols="12" class="pa-4 " style="max-height: 850px;overflow-y: auto;">
     <!-- <v-tabs-window v-model="weekIndex">
       <v-tabs-window-item
         v-for="(week, index) in weeks"

@@ -5,19 +5,20 @@
             <ApexChart type="bar" height="400" :options="chartOptions" :series="series" />
         </v-card>
         <div>
-            <div class="text-h6 font-weight-bold mb-4"> ตัวอย่างข้อมูล </div>
+            <div class="text-h6  my-5"> ตัวอย่างข้อมูล </div>
             <v-row>
-                <v-col>
-                    <v-img :width="400" aspect-ratio="16/9" cover
-                        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-img>
+                <v-col cols="12" md="4">
+                    <v-img :height="250"  cover
+                        src="./M2(1).png"></v-img>
                 </v-col>
-                <v-col>
-                    <v-img :width="400" aspect-ratio="16/9" cover
-                        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-img>
+                <v-col cols="12" md="4">
+                    <v-img :height="250"  cover
+                       src="./M2(2).png"
+                        ></v-img>
                 </v-col>
-                <v-col>
-                    <v-img :width="400" aspect-ratio="16/9" cover
-                        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-img>
+                <v-col cols="12" md="4">
+                    <v-img :height="250" cover
+                    src="./M2(3).png"></v-img>
                 </v-col>
             </v-row>
             <v-row>

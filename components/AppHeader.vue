@@ -79,6 +79,7 @@ export default {
         { label: "Archive", path: "/archive" },
         { label: "User Management", path: "/management" },
         { label: "Report", path: "/report" },
+        { label: "HVT", path: "/hvt" },
       ],
     };
   },
@@ -101,6 +102,8 @@ export default {
         this.tab = 5;
       } else if (path.startsWith("/report")) {
         this.tab = 6;
+      }else if (path.startsWith("/hvt")) {
+        this.tab = 7;
       }
     });
   },
