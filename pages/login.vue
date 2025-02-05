@@ -163,11 +163,11 @@
       const token = data.value.token;
       const refresh_token = data.value.refresh_token;
       const role = data.value.role;
-      console.log("role", role,);
-      localStorage.setItem("refreshToken", refresh_token);
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("role", role);
-      console.log("login auth", localStorage, "refreshToken", refresh_token);
+      const access_menu = data.value.access_menu;
+      // console.log("role", role,);
+      // console.log("access_menu", access_menu,);
+
+      // console.log("login auth", localStorage, "refreshToken", refresh_token);
 
       if (role == null) {
         alert("กรุณาแจ้ง admin อนุญาตสิทธิ์การเข้าถึง account ของคุณ");
@@ -176,6 +176,10 @@
         router.push("/login"); // ปรับ URL ตามที่ต้องการ
       } else {
         // นำไปยังหน้าindexหลังจากเข้าสู่ระบบสำเร็จ
+        localStorage.setItem("refreshToken", refresh_token);
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("role", role);
+        localStorage.setItem("access_menu", access_menu);
         router.push("/");
       }
     } catch (error) {

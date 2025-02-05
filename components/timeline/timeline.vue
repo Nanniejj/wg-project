@@ -5,7 +5,7 @@
     <span style="font-size: 25px; font-weight: bold">Timeline</span>
   </v-col> -->
   <!-- Date Picker -->
-  <!-- <v-col cols="12" class="pa-6 d-flex justify-end">
+  <v-col cols="12" class="pa-6 d-flex justify-end">
     <date-picker
       v-model:value="DateRange"
       range
@@ -15,7 +15,7 @@
       class="custom-combobox date-picker date-picker-setting"
       style="max-width: 270px"
     ></date-picker>
-  </v-col> -->
+  </v-col>
 
   <!-- <v-col class="pa-12 my-8 pb-16">
     

@@ -61,6 +61,11 @@ export default defineNuxtConfig({
   //   '/report': { ssr: false },
   //   '/create': { ssr: false }
   // },
+  ssr:false,
+  // routeRules: {
+  //   '/report': { ssr: false },
+  //   '/create': { ssr: false }
+  // },
   ssr: false,
   plugins: ['~/plugins/moment.js'],
   // plugins: ["~/plugins/mitt.client.js", "~/plugins/vue-social-sharing.ts"],
