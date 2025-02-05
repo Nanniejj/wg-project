@@ -230,6 +230,7 @@
   import M6 from "./components/create/mission/M6.vue";
   import M7 from "./components/create/mission/M7.vue";
   import M8 from "./components/create/mission/M8.vue";
+  import Coordinate from "./mission/Coordinate.vue";
   const display = useDisplay();
   const isMobile = computed(() => display.smAndDown.value);
   const dropzoneOptions = ref({
@@ -266,6 +267,7 @@
     "Mission M6",
     "Mission M7",
     "Mission M8",
+    "หัวข้อประสาน"
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
@@ -294,6 +296,7 @@
       "Mission R10": R10,
       "Mission R11": R11,
       "Mission R12": R12,
+      "หัวข้อประสาน": Coordinate,
     };
 
     return missionComponents[missionName] || null;

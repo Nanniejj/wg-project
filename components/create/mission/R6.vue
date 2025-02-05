@@ -40,7 +40,7 @@
                           "
                         >
                         </v-col> -->
-        <v-col cols="12" class="text-end pa-4">
+        <!-- <v-col cols="12" class="text-end pa-4">
           <v-btn
             color="#AEE0E8"
             outlined
@@ -49,7 +49,7 @@
           >
             <v-icon class="pa-4">mdi-tray-arrow-down</v-icon>Import CSV
           </v-btn>
-          <!-- Hidden file input -->
+
           <input
             ref="fileInput"
             type="file"
@@ -57,7 +57,7 @@
             @change="handleFileUpload"
             style="display: none"
           />
-        </v-col>
+        </v-col> -->
 
         <v-col cols="12" sm="12" md="3">
           <v-container
@@ -84,21 +84,19 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="8">
-          <v-card-text>
-            <v-form ref="formRef" v-model="valid">
-              <span style="font-size: 16px">Mission name</span>
-              <v-text-field
-                density="compact"
-                variant="outlined"
-                rounded="lg"
-                v-model="selectedMission"
-                disabled
-                style="margin-top: 5px"
-              ></v-text-field>
+          <v-form ref="formRef" v-model="valid">
+            <!-- <span style="font-size: 16px">Mission name</span>
+            <v-text-field
+              density="compact"
+              variant="outlined"
+              rounded="lg"
+              v-model="selectedMission"
+              disabled
+            ></v-text-field> -->
 
-              <v-row>
+            <v-row>
               <v-col cols="12" sm="8" class="py-0">
-                <span style="font-size: 16px">Priority level</span>
+                <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
                   variant="outlined"
@@ -125,44 +123,87 @@
               </v-col>
             </v-row>
 
+            <!-- ช่องกรอกรายละเอียด -->
+            <span style="font-size: 16px">รายละเอียด</span>
+            <v-text-field
+              placeholder="รายละเอียด"
+              v-model="newMessage"
+              variant="outlined"
+              rounded="lg"
+              clearable
+            ></v-text-field>
 
-              <!-- ช่องกรอกรายละเอียด -->
-              <span style="font-size: 16px">Description</span>
-              <v-text-field
-                placeholder="Add description"
-                v-model="MainDescriptionMessage"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
+            <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
+            <v-combobox
+              :items="team"
+              v-model="selectedTeam"
+              density="compact"
+              placeholder="เลือกทีมปฏิบัติการ"
+              multiple
+              variant="outlined"
+              rounded="lg"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  closable
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :disabled="data.disabled"
+                  :model-value="data.selected"
+                  size="small"
+                  :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                  @click:close="removeSelection(data.item.title)"
+                >
+                  <span style="color: black"> {{ data.item.title }} </span>
+                </v-chip>
+              </template>
+            </v-combobox>
 
-              <span style="font-size: 16px">Assign</span>
-              <v-combobox
-                :items="team"
-                v-model="selectedTeam"
-                density="compact"
-                placeholder="assign team"
-                multiple
-                variant="outlined"
-                rounded="lg"
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                    closable
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :disabled="data.disabled"
-                    :model-value="data.selected"
-                    size="small"
-                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
-                    @click:close="removeSelection(data.item.title)"
+            <!-- <span style="font-size: 16px">Link URL</span>
+            <v-row>
+              <v-col cols="9" sm="11">
+                <v-text-field
+                  density="compact"
+                  placeholder="Link URL"
+                  v-model="newMessage"
+                  variant="outlined"
+                  rounded="lg"
+                  clearable
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
+                <v-btn
+                  density="compact"
+                  rounded="md"
+                  color="#46AFC7"
+                  @click="addMessage"
+                  height="63%"
+                  min-width="40"
+                  size="small"
+                >
+                  <v-icon style="color: white; font-size: 20px"
+                    >mdi-plus</v-icon
                   >
-                    <span style="color: black"> {{ data.item.title }} </span>
+                </v-btn>
+              </v-col>
+            </v-row> -->
+            <!-- แสดงข้อความในรูปแบบ Chip -->
+            <v-row class="mt-4">
+              <v-col cols="12">
+                <div>
+                  <v-chip
+                    v-for="(message, index) in formData.messages"
+                    :key="index"
+                    class="ma-1"
+                    close
+                    @click:close="removeMessage(index)"
+                  >
+                    {{ message }}
                   </v-chip>
-                </template>
-              </v-combobox>
-            </v-form>
-          </v-card-text>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-col>
 
         <!-- <v-col
@@ -178,7 +219,7 @@
           style="border-style: dashed; color: #707070"
         ></v-divider>
 
-        <v-col cols="12" class="pt-8 px-8">
+        <v-col cols="12" class="pt-8 px-8 d-none">
           <v-card-title> โรงเรียน/สถาณศึกษาที่ปฏิบัติ </v-card-title>
           <v-divider
             :thickness="2"
@@ -188,7 +229,7 @@
           ></v-divider>
         </v-col>
 
-        <v-col cols="12" class="pa-10 ma-0">
+        <v-col cols="12" class="pa-10 ma-0 d-none">
           <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
             <v-card-item>
               <span style="font-size: 16px">โรงเรียน/สถานศึกษา</span>
@@ -217,7 +258,7 @@
           </v-card>
         </v-col>
 
-        <v-col cols="12" class="pt-8 px-8">
+        <v-col cols="12" class="pt-8 px-8 d-none">
           <v-card-title> กิจกรรม </v-card-title>
           <v-divider
             :thickness="2"
@@ -227,7 +268,7 @@
           ></v-divider>
         </v-col>
 
-        <v-col cols="12" class="pa-8 ma-0">
+        <v-col cols="12" class="pa-8 ma-0 d-none">
           <v-card class="mx-auto" rounded="xl" elevation="3" hover>
             <v-card-item>
               <v-form v-model="valid">
@@ -462,13 +503,13 @@
   });
 
   const priority = ref([
-    "Low",
-    "Medium",
-    "High",
+    "ต่ำ",
+    "กลาง",
+    "สูง",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
-  const selectedPriority = ref("Low");
+  const selectedPriority = ref("ต่ำ");
 
   const DescriptionMessage = ref(""); // ตัวแปรที่เก็บค่าจาก v-text-field
   const MainDescriptionMessage = ref(""); // ตัวแปรที่เก็บค่าจาก v-text-field
