@@ -5,7 +5,7 @@ import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles", 'leaflet/dist/leaflet.css','dropzone/dist/dropzone.css'],
+  css: ["@mdi/font/css/materialdesignicons.min.css", "vuetify/styles", 'leaflet/dist/leaflet.css', 'dropzone/dist/dropzone.css'],
   build: {
     transpile: ['@vue-leaflet/vue-leaflet', "vuetify"],
   },
@@ -57,16 +57,11 @@ export default defineNuxtConfig({
       script: [],
     },
   },
-  // routeRules: {
-  //   '/report': { ssr: false },
-  //   '/create': { ssr: false }
-  // },
-  ssr:false,
-  // routeRules: {
-  //   '/report': { ssr: false },
-  //   '/create': { ssr: false }
-  // },
   ssr: false,
+  // routeRules: {
+  //   '/report': { ssr: false },
+  //   '/create': { ssr: false }
+  // },
   plugins: ['~/plugins/moment.js'],
   // plugins: ["~/plugins/mitt.client.js", "~/plugins/vue-social-sharing.ts"],
 });

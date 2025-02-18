@@ -339,6 +339,12 @@
     thumbnailWidth: 150,
     maxFilesize: 0.5,
     headers: { "My-Awesome-Header": "header value" },
+    dictDefaultMessage: `
+    <div style="text-align: center;">
+      <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
+      <p style="font-size: 14px;">Drag files here or click to upload</p>
+    </div>
+  `
   });
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);
@@ -427,7 +433,7 @@
           
   .custom-dropzone {
     background-color: #E9E9E9;
-      height: 150px; /* กำหนดความสูง */
+      /* height: 200px; กำหนดความสูง */
       border: 2px dashed #707070; /* กำหนดขอบ */
       border-radius: 10px; /* กำหนดมุมโค้ง */
   }
