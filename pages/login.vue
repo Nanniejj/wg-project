@@ -119,7 +119,7 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
+  import { ref, onMounted } from "vue";
   import { useRouter } from "vue-router";
   import { useRuntimeConfig } from "#app";
 
@@ -200,6 +200,17 @@
     console.log("Forgot Password clicked");
     // เพิ่มโค้ดเพื่อจัดการลืมรหัสผ่านที่นี่
   };
+
+  onMounted(() => {
+  nextTick(() => {
+    const localData = localStorage.getItem("role");
+    if (localData != null && localData === "USER") {
+      router.push("/mytasks");
+    } else {
+      router.push("/");
+    }
+  });
+});
 </script>
 
 <style scoped>
