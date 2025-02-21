@@ -149,6 +149,8 @@ export const useColors = () => {
         return "#จัดตั้งและสนับสนุน เครือข่ายประชาธิปไตย (เต็ม)";
       case "M8":
         return "วิเคราะห์ข้อมูล";
+      case "หัวข้อประสาน":
+        return "หัวข้อประสาน";
       default:
         return "";
     }

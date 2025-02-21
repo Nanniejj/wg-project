@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div class="justify-end d-flex">
+    <v-menu location="bottom end" offset-y >
+      <template v-slot:activator="{ props }">
+        <v-btn v-bind="props" rounded="lg" variant="text">
+          <v-icon size="large">mdi-filter-outline</v-icon>
+          <div class="px-1">
+            <span class="text-h6">source by</span>
+          </div>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="filter in filters"
+          :key="filter.value"
+          @click="handleFilterClick(filter)"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ filter.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
+    <div class="pb-5 pt-3">
+      <v-divider class="border-opacity-75"></v-divider>
+    </div>
+
     <v-row>
       <!-- NOTIFICATION -->
       <v-col cols="12" md="2">
@@ -43,7 +71,7 @@
               :key="item.id"
               cols="12"
               sm="6"
-              md="4"
+              md="3"
             >
               <v-card
                 rounded="lg"
@@ -56,8 +84,8 @@
                     <v-avatar
                       :color="getMissionColor(item.title)"
                       rounded="lg"
-                      size="x-large"
-                      style="margin-left: 10px; margin-top: 10px"
+                      size="large"
+                      style="margin-left: 5px; margin-top: 5px"
                     ></v-avatar>
                   </v-col>
                   <v-col cols="12" md="10">
@@ -67,16 +95,20 @@
                     }}</v-card-subtitle>
                   </v-col>
                 </v-row>
-                <div class="pt-5">
+                <div class="pt-2">
                   <v-card-text
                     >รายระเอียด:{{ item.description || "-" }}</v-card-text
                   >
                 </div>
                 <v-row>
-                  <v-col cols="12" md="7" class="text-start">
-                    <v-card-text>ระยะเวลา:{{ item.date || "-" }}</v-card-text>
+                  <v-col cols="12" md="7" class="text-start pa-0">
+                    <v-card-text
+                      ><v-icon icon="mdi-calendar-blank"></v-icon>{{
+                        item.date || "-"
+                      }}</v-card-text
+                    >
                   </v-col>
-                  <v-col cols="12" md="5" class="text-end">
+                  <v-col cols="12" md="5" class="text-end pa-0">
                     <v-card-text
                       :style="{ color: getColorPriority(item.priority) }"
                       >ระดับ{{ item.priority }}</v-card-text
@@ -103,7 +135,7 @@
               :key="item.id"
               cols="12"
               sm="6"
-              md="4"
+              md="3"
             >
               <v-card
                 rounded="lg"
@@ -116,8 +148,8 @@
                     <v-avatar
                       :color="getMissionColor(item.title)"
                       rounded="lg"
-                      style="margin-left: 10px; margin-top: 10px"
-                      size="x-large"
+                      style="margin-left: 5px; margin-top: 5px"
+                      size="large"
                     ></v-avatar>
                   </v-col>
                   <v-col cols="12" md="10">
@@ -127,16 +159,20 @@
                     }}</v-card-subtitle>
                   </v-col>
                 </v-row>
-                <div class="pt-5">
+                <div class="pt-2">
                   <v-card-text
                     >รายระเอียด:{{ item.description || "-" }}</v-card-text
                   >
                 </div>
                 <v-row>
-                  <v-col cols="12" md="7" class="text-start">
-                    <v-card-text>ระยะเวลา:{{ item.date || "-" }}</v-card-text>
+                  <v-col cols="12" md="7" class="text-start pa-0">
+                    <v-card-text
+                      ><v-icon icon="mdi-calendar-blank"></v-icon>{{
+                        item.date || "-"
+                      }}</v-card-text
+                    >
                   </v-col>
-                  <v-col cols="12" md="5" class="text-end">
+                  <v-col cols="12" md="5" class="text-end pa-0">
                     <v-card-text
                       :style="{ color: getColorPriority(item.priority) }"
                       >ระดับ{{ item.priority }}</v-card-text
@@ -164,7 +200,7 @@
               :key="item.id"
               cols="12"
               sm="6"
-              md="4"
+              md="3"
             >
               <v-card
                 rounded="lg"
@@ -177,8 +213,8 @@
                     <v-avatar
                       :color="getMissionColor(item.title)"
                       rounded="lg"
-                      style="margin-left: 10px; margin-top: 10px"
-                      size="x-large"
+                      style="margin-left: 5px; margin-top: 5px"
+                      size="large"
                     ></v-avatar>
                   </v-col>
                   <v-col cols="12" md="10">
@@ -188,16 +224,20 @@
                     }}</v-card-subtitle>
                   </v-col>
                 </v-row>
-                <div class="pt-5">
+                <div class="pt-2">
                   <v-card-text
                     >รายระเอียด:{{ item.description || "-" }}</v-card-text
                   >
                 </div>
                 <v-row>
-                  <v-col cols="12" md="7" class="text-start">
-                    <v-card-text>ระยะเวลา:{{ item.date || "-" }}</v-card-text>
+                  <v-col cols="12" md="7" class="text-start pa-0">
+                    <v-card-text
+                      ><v-icon icon="mdi-calendar-blank"></v-icon>{{
+                        item.date || "-"
+                      }}</v-card-text
+                    >
                   </v-col>
-                  <v-col cols="12" md="5" class="text-end">
+                  <v-col cols="12" md="5" class="text-end pa-0">
                     <v-card-text
                       :style="{ color: getColorPriority(item.priority) }"
                       >ระดับ{{ item.priority }}</v-card-text
@@ -211,8 +251,6 @@
       </v-col>
     </v-row>
   </div>
-
-
 </template>
 <script setup>
   import { useRouter } from "vue-router";
@@ -226,6 +264,17 @@
     useColors();
 
   const date = ref(new Date());
+
+  const filters = ref([
+    { name: "ภาพรวม", value: 0 },
+    { name: "กำลังดำเนินการ", value: 1 },
+    { name: "แผนงานที่เสร็จสิ้นแล้ว", value: 2 },
+  ]);
+
+  // ตัวแปร activeFilter เก็บค่าของ filter ที่ถูกเลือก
+  const activeFilter = ref(0);
+
+
 
   const items = ref([
     {
@@ -249,19 +298,26 @@
       date: "29/10/67-02/11/67",
       priority: "สูง",
     },
+    {
+      id: 4,
+      title: "M5",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "สูง",
+    },
   ]);
 
   const items2 = ref([
     {
       id: 1,
-      title: "R1",
+      title: "M2",
       description: "Report",
       date: "30/10/67-01/11/67",
-      priority: "ต่ำ",
+      priority: "สูง",
     },
     {
       id: 2,
-      title: "R3",
+      title: "M3",
       description: "ประเด็นตอบโต้",
       date: "31/10/67-04/11/67",
       priority: "ปานกลาง",
@@ -271,7 +327,7 @@
       title: "M8",
       description: "",
       date: "29/10/67-02/11/67",
-      priority: "ต่ำ",
+      priority: "สูง",
     },
   ]);
 
@@ -281,11 +337,11 @@
       title: "M5",
       description: "Report",
       date: "30/10/67-01/11/67",
-      priority: "ปานกลาง",
+      priority: "ต่ำ",
     },
     {
       id: 2,
-      title: "R12",
+      title: "M4",
       description: "ประเด็นตอบโต้",
       date: "31/10/67-04/11/67",
       priority: "ต่ำ",
@@ -293,6 +349,90 @@
     {
       id: 3,
       title: "R2",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 4,
+      title: "R1",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 5,
+      title: "หัวข้อประสาน",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 6,
+      title: "R3",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 7,
+      title: "R4",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 8,
+      title: "R5",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 9,
+      title: "R6",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 10,
+      title: "R7",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 11,
+      title: "R8",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 12,
+      title: "R9",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 13,
+      title: "R10",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 14,
+      title: "R11",
+      description: "",
+      date: "29/10/67-02/11/67",
+      priority: "ต่ำ",
+    },
+    {
+      id: 15,
+      title: "R12",
       description: "",
       date: "29/10/67-02/11/67",
       priority: "ต่ำ",

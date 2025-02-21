@@ -81,6 +81,7 @@
           color="#2A3547"
           show-arrows
           style="flex-grow: 1"
+          fixed-tabs
         >
           <v-tab
             v-for="(tabData, index) in tabs"
@@ -196,9 +197,9 @@
         isMobile: false,
         tabs: [
           { label: "My Tasks", path: "/mytasks" },
-          { label: "Task Management", path: "/tasks" },
-          { label: "Report", path: "/report" },
+          // { label: "Task Management", path: "/tasks" },
           { label: "Data Management", path: "/data" },
+          { label: "Report", path: "/report" },
         ],
       };
     },
@@ -209,12 +210,14 @@
         const path = this.$route.path;
         if (path.startsWith("/mytasks")) {
           this.tab = 0;
-        } else if (path.startsWith("/tasks")) {
+        }
+        //  else if (path.startsWith("/tasks")) {
+        //   this.tab = 1;
+        // }
+        else if (path.startsWith("/data")) {
           this.tab = 1;
-        } else if (path.startsWith("/data")) {
-          this.tab = 2;
         } else if (path.startsWith("/report")) {
-          this.tab = 3;
+          this.tab = 2;
         }
       });
     },

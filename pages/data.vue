@@ -1,12 +1,12 @@
 <template>
     <div>
       <div > 
-          <DashboardMain />
+          <DataManage />
       </div>
     </div>
   </template>
-  <script>
-  export default {};
+  <script setup>
+ import DataManage from '../components/managedata/DataManage.vue';
   </script>
   <style lang=""></style>
   

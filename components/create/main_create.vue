@@ -3,7 +3,7 @@
     <v-col v-if="!isMobile" cols="12" sm="12" md="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title class="text-h5" style="font-weight: bold"
+          <v-card-title class="text-h6" style="font-weight: bold"
             >Create Mission</v-card-title
           >
         </v-col>
@@ -18,11 +18,12 @@
           >
             <span style="text-transform: none" class="text-h6">Create new</span>
           </v-btn>
+
           <v-divider
             vertical
             :thickness="2"
             style="margin-top: -55px"
-            class="px-1 border-opacity-50"
+            class="px-3 border-opacity-50"
             color="#707070"
           ></v-divider>
         </v-col>
@@ -147,7 +148,7 @@
     <v-col v-if="!isMobile" cols="12" sm="12" md="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title class="text-h5" style="font-weight: bold"
+          <v-card-title class="text-h6" style="font-weight: bold"
             >Create Mission</v-card-title
           >
         </v-col>
@@ -160,15 +161,13 @@
             color="#2A3547"
             @click="submitForm"
           >
-            <span style="font-size: 16px; text-transform: none"
-              >Create new</span
-            >
+            <span style="text-transform: none" class="text-h6">Create new</span>
           </v-btn>
           <v-divider
             vertical
             :thickness="2"
             style="margin-top: -55px"
-            class="px-1 border-opacity-50"
+            class="px-3 border-opacity-50"
             color="#707070"
           ></v-divider>
         </v-col>
@@ -178,7 +177,7 @@
     <v-col v-else cols="12" sm="12" md="2">
       <v-row>
         <v-col cols="12" class="justify-center align-center d-flex pa-1">
-          <v-card-title class="text-h5" style="font-weight: bold"
+          <v-card-title class="text-h6" style="font-weight: bold"
             >Create Mission</v-card-title
           >
         </v-col>
@@ -267,7 +266,7 @@
     "Mission M6",
     "Mission M7",
     "Mission M8",
-    "หัวข้อประสาน"
+    "หัวข้อประสาน",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
@@ -296,7 +295,7 @@
       "Mission R10": R10,
       "Mission R11": R11,
       "Mission R12": R12,
-      "หัวข้อประสาน": Coordinate,
+      หัวข้อประสาน: Coordinate,
     };
 
     return missionComponents[missionName] || null;
