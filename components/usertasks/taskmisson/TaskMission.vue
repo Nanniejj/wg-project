@@ -35,7 +35,7 @@
   <v-divider style="margin-top: 20px" class="border-opacity-75"></v-divider>
 
   <div v-if="ShowSelect === 0 || ShowSelect === 1" class="pt-10">
-    <span class="text-h5 font-weight-bold">
+    <span class="text-h6 font-weight-bold">
       แผนงานใหม่ ({{ items.length }})</span
     >
     <v-row>
@@ -49,37 +49,36 @@
       >
         <v-card
           rounded="lg"
-          class="pa-2"
+          class="pa-2 h-100"
           elevation="4"
-          @click="goToMission(title,'NP')"
+          @click="goToMission(title, 'NP')"
         >
           <v-row>
-            <v-col cols="12" md="2">
-              <v-avatar
-                :color="getMissionColor(title)"
-                rounded="lg"
-                style="margin-left: 5px; margin-top: 5px"
-                size="large"
-              ></v-avatar>
+            <v-col cols="2">
+              <v-avatar :color="getMissionColor(title)" rounded="lg"></v-avatar>
             </v-col>
-            <v-col cols="12" md="10">
-              <v-card-title>{{ title }}</v-card-title>
+            <v-col cols="10" class="pa-1">
+              <v-card-title class="pb-0">{{ title }}</v-card-title>
               <v-card-subtitle>{{ getMissionName(title) }}</v-card-subtitle>
             </v-col>
           </v-row>
-          <div class="pt-2">
-            <v-card-text>รายระเอียด:{{ item.description || "-" }}</v-card-text>
+          <div class="pb-3 pt-3">
+            <v-card-text class="pa-2"
+              >รายระเอียด:{{ item.description || "-" }}</v-card-text
+            >
           </div>
           <v-row>
-            <v-col cols="12" md="7" class="text-start pa-0">
-              <v-card-text
+            <v-col cols="8" class="text-start pa-0 d-flex align-end">
+              <v-card-text class="pa-4"
                 ><v-icon icon="mdi-calendar-blank"></v-icon
                 >{{ item.date || "-" }}</v-card-text
               >
             </v-col>
-            <v-col cols="12" md="5" class="text-end pa-0">
-              <v-card-text :style="{ color: getColorPriority(item.priority) }"
-                >ระดับ{{ item.priority }}</v-card-text
+            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+              <v-card-text
+                class="pa-4"
+                :style="{ color: getColorPriority(item.priority) }"
+                >{{ item.priority }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -93,7 +92,7 @@
   </div>
 
   <div v-if="ShowSelect === 0 || ShowSelect === 2" class="pt-10">
-    <span class="text-h5 font-weight-bold">
+    <span class="text-h6 font-weight-bold">
       กำลังดำเนินการ ({{ items2.length }})</span
     >
     <v-row>
@@ -107,37 +106,36 @@
       >
         <v-card
           rounded="lg"
-          class="pa-2"
+          class="pa-2 h-100"
           elevation="3"
-          @click="goToMission(title,'IP')"
+          @click="goToMission(title, 'IP')"
         >
           <v-row>
-            <v-col cols="12" md="2">
-              <v-avatar
-                :color="getMissionColor(title)"
-                rounded="lg"
-                style="margin-left: 5px; margin-top: 5px"
-                size="large"
-              ></v-avatar>
+            <v-col cols="2">
+              <v-avatar :color="getMissionColor(title)" rounded="lg"></v-avatar>
             </v-col>
-            <v-col cols="12" md="10">
-              <v-card-title>{{ title }}</v-card-title>
+            <v-col cols="10" class="pa-1">
+              <v-card-title class="pb-0">{{ title }}</v-card-title>
               <v-card-subtitle>{{ getMissionName(title) }}</v-card-subtitle>
             </v-col>
           </v-row>
-          <div class="pt-2">
-            <v-card-text>รายระเอียด:{{ item.description || "-" }}</v-card-text>
+          <div class="pb-3 pt-3">
+            <v-card-text class="pa-2"
+              >รายระเอียด:{{ item.description || "-" }}</v-card-text
+            >
           </div>
           <v-row>
-            <v-col cols="12" md="7" class="text-start pa-0">
-              <v-card-text
+            <v-col cols="8" class="text-start pa-0 d-flex align-end">
+              <v-card-text class="pa-4"
                 ><v-icon icon="mdi-calendar-blank"></v-icon
                 >{{ item.date || "-" }}</v-card-text
               >
             </v-col>
-            <v-col cols="12" md="5" class="text-end pa-0">
-              <v-card-text :style="{ color: getColorPriority(item.priority) }"
-                >ระดับ{{ item.priority }}</v-card-text
+            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+              <v-card-text
+                class="pa-4"
+                :style="{ color: getColorPriority(item.priority) }"
+                >{{ item.priority }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -151,7 +149,7 @@
   </div>
 
   <div v-if="ShowSelect === 0 || ShowSelect === 3" class="pt-10">
-    <span class="text-h5 font-weight-bold">
+    <span class="text-h6 font-weight-bold">
       แผนงานที่เสร็จสมบูรณ์ ({{ items3.length }})</span
     >
 
@@ -166,37 +164,36 @@
       >
         <v-card
           rounded="lg"
-          class="pa-2"
+          class="pa-2 h-100"
           elevation="4"
-          @click="goToMission(title,'PP')"
+          @click="goToMission(title, 'PP')"
         >
           <v-row>
-            <v-col cols="12" md="2">
-              <v-avatar
-                :color="getMissionColor(title)"
-                rounded="lg"
-                style="margin-left: 5px; margin-top: 5px"
-                size="large"
-              ></v-avatar>
+            <v-col cols="2">
+              <v-avatar :color="getMissionColor(title)" rounded="lg"></v-avatar>
             </v-col>
-            <v-col cols="12" md="10">
-              <v-card-title>{{ title }}</v-card-title>
+            <v-col cols="10" class="pa-1">
+              <v-card-title class="pb-0">{{ title }}</v-card-title>
               <v-card-subtitle>{{ getMissionName(title) }}</v-card-subtitle>
             </v-col>
           </v-row>
-          <div class="pt-2">
-            <v-card-text>รายระเอียด:{{ item.description || "-" }}</v-card-text>
+          <div class="pb-3 pt-3">
+            <v-card-text class="pa-2"
+              >รายระเอียด:{{ item.description || "-" }}</v-card-text
+            >
           </div>
           <v-row>
-            <v-col cols="12" md="7" class="text-start pa-0">
-              <v-card-text
+            <v-col cols="8" class="text-start pa-0 d-flex align-end">
+              <v-card-text class="pa-4"
                 ><v-icon icon="mdi-calendar-blank"></v-icon
                 >{{ item.date || "-" }}</v-card-text
               >
             </v-col>
-            <v-col cols="12" md="5" class="text-end pa-0">
-              <v-card-text :style="{ color: getColorPriority(item.priority) }"
-                >ระดับ{{ item.priority }}</v-card-text
+            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+              <v-card-text
+                class="pa-4"
+                :style="{ color: getColorPriority(item.priority) }"
+                >{{ item.priority }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -298,11 +295,11 @@
     },
   ]);
 
-// ฟังก์ชันที่ใช้ในการไปยังหน้า Detail
-const goToMission = (title, status) => {
-  // ใช้ router.push เพื่อเปลี่ยนหน้าไปยัง detail page
-  router.push({ name: "usermission", query: { title, status } });
-};
+  // ฟังก์ชันที่ใช้ในการไปยังหน้า Detail
+  const goToMission = (title, status) => {
+    // ใช้ router.push เพื่อเปลี่ยนหน้าไปยัง detail page
+    router.push({ name: "usermission", query: { title, status } });
+  };
   // ฟังก์ชันสำหรับการย้อนกลับไปยังหน้าเดิม
   const handleBack = () => {
     router.back(); // ใช้ router.back() เพื่อกลับไปยังหน้าก่อนหน้า

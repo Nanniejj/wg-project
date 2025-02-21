@@ -1,10 +1,23 @@
 <template>
   <v-container>
     <div class="text-end pb-5">
-      <v-btn size="large" color="#FFA72F" rounded="lg"
-        ><v-icon color="white">mdi-plus</v-icon>
-        <span style="color: white">เพิ่มข้อมูลสถาณศึกษา</span>
-      </v-btn>
+      <div v-if="!isMobile">
+        <v-btn size="large" color="#FFA72F" rounded="lg"
+          ><v-icon color="white">mdi-plus</v-icon>
+          <span style="color: white">เพิ่มข้อมูลสถาณศึกษา</span>
+        </v-btn>
+      </div>
+      <div v-else>
+        <!-- <v-btn color="#FFA72F" rounded="lg"
+          ><v-icon  color="white">mdi-plus</v-icon>
+        </v-btn> -->
+        <v-btn
+          color="#FFA72F"
+          size="large"
+          density="comfortable"
+          icon="mdi-plus"
+        ></v-btn>
+      </div>
     </div>
 
     <div class="pb-5">
@@ -105,6 +118,26 @@
 <script setup>
   import { ref } from "vue";
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
+  // Reactive property to track if the viewport is mobile
+  const isMobile = ref(false);
+
+  // Only run this logic in the client environment
+  if (process.client) {
+    isMobile.value = window.innerWidth < 860;
+
+    // Function to update `isMobile` on window resize
+    const updateIsMobile = () => {
+      isMobile.value = window.innerWidth < 960;
+    };
+
+    // Watch for window resize events
+    watchEffect(() => {
+      window.addEventListener("resize", updateIsMobile);
+      return () => {
+        window.removeEventListener("resize", updateIsMobile);
+      };
+    });
+  }
   const loaded = ref(false);
   const loading = ref(false);
 
@@ -118,7 +151,7 @@
       level: "0",
       leader: "1",
       acivity: "10",
-      person: "-"
+      person: "-",
     },
     {
       name: "สวนสตรี",
@@ -129,7 +162,7 @@
       level: "0",
       leader: "1",
       acivity: "20",
-        person: "-"
+      person: "-",
     },
     {
       name: "เบญจมาศ",
@@ -140,7 +173,7 @@
       level: "1",
       leader: "10",
       acivity: "15",
-        person: "-"
+      person: "-",
     },
     {
       name: "สามเสนวิทยา",
@@ -151,7 +184,7 @@
       level: "1",
       leader: "1",
       acivity: "0",
-        person: "-"
+      person: "-",
     },
     {
       name: "มาลีพิทักษ์",
@@ -162,7 +195,7 @@
       level: "0",
       leader: "1",
       acivity: "10",
-        person: "-"
+      person: "-",
     },
     {
       name: "ประชาภิบาล",
@@ -173,7 +206,7 @@
       level: "0",
       leader: "1",
       acivity: "10",
-        person: "-"
+      person: "-",
     },
   ]);
 

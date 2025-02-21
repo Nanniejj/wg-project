@@ -222,6 +222,7 @@
             class="pa-2 card-stat-shadow card-archive"
             max-width="230"
             @click="toggleVideo"
+            
             :style="{
               backgroundColor: isCardVdoClicked ? '#AFD5F0' : '',
               opacity: isCardInfoClicked ? 0.8 : 1,

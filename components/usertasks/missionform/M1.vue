@@ -40,7 +40,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <div class="pt-5 pb-3"><span class="text-h4">ผลปฏิบัติการ</span></div>
+    <div class="pt-5 pb-3"><span class="text-h5">ผลปฏิบัติการ</span></div>
 
     <v-divider class="border-opacity-75 dashed-divider"></v-divider>
 
@@ -99,7 +99,7 @@
                     <v-avatar size="35" rounded="0">
                       <v-img :src="item.icon" alt="icon"></v-img>
                     </v-avatar>
-                    <span style="margin-left: 8px" class="text-h6">{{
+                    <span style="margin-left: 10px" class="text-h6">{{
                       item.name
                     }}</span>
                   </div>
@@ -123,30 +123,30 @@
     </v-row>
 
     <v-row v-if="status != 'PP'" class="justify-end pt-16">
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        style="background-color: #faf1cd"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึกร่าง</span>
-      </v-btn>
-    </div>
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึก</span>
-      </v-btn>
-    </div>
-  </v-row>
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          style="background-color: #faf1cd"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6 custom-btn">บันทึกร่าง</span>
+        </v-btn>
+      </div>
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6 custom-btn">บันทึก</span>
+        </v-btn>
+      </div>
+    </v-row>
   </v-container>
 </template>
 
@@ -154,11 +154,11 @@
   import { ref } from "vue";
   import { useRoute } from "vue-router";
 
-const route = useRoute();
+  const route = useRoute();
 
-// รับ title จาก query
-const title = route.query.title;
-const status = route.query.status;
+  // รับ title จาก query
+  const title = route.query.title;
+  const status = route.query.status;
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const formRef = ref(null);
   const valid = ref(false);
@@ -173,16 +173,6 @@ const status = route.query.status;
     { name: "TikTok", icon: "/tt.png", value: 0 },
     { name: "YouTube", icon: "/cyt.png", value: 0 },
   ]);
-
-  // ตัวแปรเก็บค่าของแต่ละ platform
-  const platformValues = ref({
-    Facebook: 0,
-    Twitter: 0,
-    Instagram: 0,
-    LinkedIn: 0,
-    YouTube: 0,
-    Snapchat: 0,
-  });
 
   const formData = ref({
     name: "",

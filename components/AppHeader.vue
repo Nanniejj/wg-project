@@ -14,7 +14,36 @@
           <v-icon icon="mdi-menu" size="30"></v-icon>
         </v-btn>
       </div>
+      <div v-if="isMobile">
+        <span
+          class="d-flex align-items-center icon-right"
+          style="
+            z-index: 999;
+            margin-right: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+          "
+        >
+          <!-- <v-avatar
+            color="#2A3547"
+            size="45"
+            class="my-1 elevation-4"
+            rounded
+            style="border-radius: 10px"
+          > -->
+
+          <v-icon
+            v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
+            @click="dialogLogout = true"
+            class="hover-pointer"
+            icon="mdi-logout"
+          ></v-icon>
+
+          <!-- </v-avatar> -->
+        </span>
+      </div>
     </div>
+
     <!-- Conditional List for Mobile -->
     <v-list
       v-if="isMobile && menuVisible"
@@ -105,19 +134,20 @@
           class="d-flex align-items-center icon-right"
           style="z-index: 999; margin-right: 10px; border-radius: 10px"
         >
-          <v-avatar
+          <!-- <v-avatar
             color="#2A3547"
             size="45"
             class="my-1 elevation-4"
             rounded
             style="border-radius: 10px"
-          >
-            <v-icon
-              @click="dialogLogout = true"
-              icon="mdi-account-outline"
-              size="35"
-            ></v-icon>
-          </v-avatar>
+          > -->
+          <v-icon
+            @click="dialogLogout = true"
+             v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
+            icon="mdi-logout"
+            size="large"
+          ></v-icon>
+          <!-- </v-avatar> -->
         </span>
       </div>
       <hr class="mx-auto mt-3" style="width: 99%" />

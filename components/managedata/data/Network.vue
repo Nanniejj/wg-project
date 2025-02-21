@@ -1,10 +1,24 @@
 <template>
   <v-container>
-    <div class="text-end pb-5">
-      <v-btn size="large" color="#95D51E" rounded="lg"
-        ><v-icon color="white">mdi-plus</v-icon>
-        <span style="color: white">เพิ่มข้อมูลเครือข่าย</span>
-      </v-btn>
+   
+      <div class="text-end pb-5">
+      <div v-if="!isMobile">
+        <v-btn size="large" color="#95D51E" rounded="lg"
+          ><v-icon color="white">mdi-plus</v-icon>
+          <span style="color: white">เพิ่มข้อมูลเครือข่าย</span>
+        </v-btn>
+      </div>
+      <div v-else>
+        <!-- <v-btn color="#FFA72F" rounded="lg"
+          ><v-icon  color="white">mdi-plus</v-icon>
+        </v-btn> -->
+        <v-btn
+          color="#95D51E"
+          size="large"
+          density="comfortable"
+          icon="mdi-plus"
+        ></v-btn>
+      </div>
     </div>
 
     <div class="pb-5">
@@ -31,6 +45,27 @@
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const loaded = ref(false);
   const loading = ref(false);
+
+  const isMobile = ref(false);
+ 
+
+  // Only run this logic in the client environment
+  if (process.client) {
+    isMobile.value = window.innerWidth < 860;
+
+    // Function to update `isMobile` on window resize
+    const updateIsMobile = () => {
+      isMobile.value = window.innerWidth < 960;
+    };
+
+    // Watch for window resize events
+    watchEffect(() => {
+      window.addEventListener("resize", updateIsMobile);
+      return () => {
+        window.removeEventListener("resize", updateIsMobile);
+      };
+    });
+  }
 
   const desserts = ref([
     {

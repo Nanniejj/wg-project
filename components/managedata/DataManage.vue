@@ -1,12 +1,18 @@
 <template>
   <v-container>
+    <div>
+      <span class="text-h6">Data Management</span>
+    </div>
+    <div class="pb-5 pt-3">
+      <v-divider class="border-opacity-75"></v-divider>
+    </div>
     <div class="pt-2">
       <!-- <v-card> -->
-        <v-tabs v-model="tab" align-tabs="start" color="#2AB6EA" >
-          <v-tab :value="1">ข้อมูลโรงเรียน</v-tab>
-          <v-tab :value="2">ข้อมูลสถานศึกษา</v-tab>
-          <v-tab :value="3">ข้อมูลเครือข่าย</v-tab>
-        </v-tabs>
+      <v-tabs v-model="tab" align-tabs="start" color="#2AB6EA">
+        <v-tab :value="1">ข้อมูลโรงเรียน</v-tab>
+        <v-tab :value="2">ข้อมูลสถานศึกษา</v-tab>
+        <v-tab :value="3">ข้อมูลเครือข่าย</v-tab>
+      </v-tabs>
       <!-- </v-card> -->
     </div>
     <div class="pt-2">
