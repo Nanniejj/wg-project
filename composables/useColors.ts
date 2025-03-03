@@ -100,6 +100,8 @@ export const useColors = () => {
         return "#FEC02C";
       case "M8":
         return "#AA7081";
+      case "หัวข้อประสาน":
+        return "#289185";
       default:
         return "#2A3547";
     }
@@ -152,10 +154,26 @@ export const useColors = () => {
     }
   };
 
+  const getColorPriority = (name: string): string => {
+    switch (name) {
+      case "ต่ำ":
+        return "green";
+      case "ปานกลาง":
+        return "orange";
+      case "สูง":
+        return "red";
+      default:
+        return "";
+
+    }
+  };
+
+
   return {
     getTeamColor,
     getMissionColor,
     getTeamColorSoft,
     getMissionName,
+    getColorPriority
   };
 };

@@ -6,7 +6,7 @@
         cols="12"
         md="3"
         :style="{ '--dropzone-bg-color': selectedColor }"
-        class="justify-start d-flex pt-8"
+        class="justify-center d-flex pt-8"
       >
         <vue-dropzone
           ref="myVueDropzone"
@@ -185,8 +185,6 @@
   background-color: var(--dropzone-bg-color, #E9E9E9); /* ใช้ CSS Variable */
   border-radius: 20px; 
 }
-
-
 
 
 </style>

@@ -2,9 +2,16 @@
   <v-col cols="12" class="pa-10 ma-0">
     <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
       <v-row>
-        <v-col cols="12" class="pa-8 d-flex align-start justify-start">
-          <span style="font-size: 25px;font-weight: bold;">Create</span>
+        <v-col cols="6" class="pa-8 d-flex align-start justify-start">
+          <span style="font-weight: bold" class="text-h4">Create</span>
         </v-col>
+        <v-col cols="6" class="pa-8 d-flex align-start justify-end">
+          <v-btn variant="text" @click="createNew = false"
+            ><v-icon class="text-h4">mdi-close</v-icon></v-btn
+          >
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="4">
           <v-col cols="12" class="pa-4 d-flex align-center justify-center">
             <vue-dropzone
@@ -41,7 +48,7 @@
           class="border-opacity-100"
           style="border-style: dashed; color: #707070"
         ></v-divider>
-        <v-col cols="8"  class="pa-4">
+        <v-col cols="8" class="pa-4">
           <v-card-item>
             <span style="font-size: 16px">Title</span>
             <v-text-field
@@ -108,7 +115,7 @@
               ></v-divider>
             </v-col>
           </v-card-item>
-          <v-col cols="12" class="justify-end d-flex">
+          <v-col cols="12" class="justify-end d-flex pb-10">
             <v-btn
               rounded="lg"
               size="x-large"
@@ -124,10 +131,12 @@
 </template>
 <script setup>
   import vueDropzone from "dropzone-vue3";
-  import { ref } from "vue";
+  import { ref,inject  } from "vue";
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);
   const valid = ref(false);
+
+  const createNew = inject('createNew', 'false');
 
   const formData = ref({
     name: "",
@@ -187,7 +196,7 @@
 </script>
 <style scoped>
   .v-divider {
-    height: 1000px; /* กำหนดความสูงที่ต้องการ */
+    height: auto; /* กำหนดความสูงที่ต้องการ */
   }
   
   .custom-divider {

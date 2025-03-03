@@ -66,85 +66,128 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="8">
-          <v-card-text>
-            <v-form ref="formRef" v-model="valid">
-              <!-- <span style="font-size: 16px">Mission name</span>
-              <v-text-field
-                density="compact"
-                variant="outlined"
-                rounded="lg"
-                v-model="selectedMission"
-                disabled
-                style="margin-top: 5px"
-              ></v-text-field> -->
+          <v-form ref="formRef" v-model="valid">
+            <!-- <span style="font-size: 16px">Mission name</span>
+            <v-text-field
+              density="compact"
+              variant="outlined"
+              rounded="lg"
+              v-model="selectedMission"
+              disabled
+            ></v-text-field> -->
 
-              <v-row>
-                <v-col cols="12" sm="8" class="py-0">
-                  <span style="font-size: 16px">ระดับความสำคัญ</span>
-                  <v-select
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    :items="priority"
-                    v-model="selectedPriority"
-                    :style="{
-                      marginTop: '5px',
-                    }"
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="4" class="py-0">
-                  <span style="font-size: 16px">วันที่กำหนด</span>
-                  <!-- <v-col cols="12" class="px-0 pt-1"> -->
-                  <date-picker
-                    style="margin-top: 5px"
-                    v-model:value="DateRange"
-                    range
-                    :editable="false"
-                    :clearable="false"
-                    class="w-100"
-                  ></date-picker>
-                  <!-- </v-col> -->
-                </v-col>
-              </v-row>
+            <v-row>
+              <v-col cols="12" sm="8" class="py-0">
+                <span style="font-size: 16px">ระดับความสำคัญ</span>
+                <v-select
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :items="priority"
+                  v-model="selectedPriority"
+                  :style="{
+                    marginTop: '5px',
+                  }"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="4" class="py-0">
+                <span style="font-size: 16px">วันที่กำหนด</span>
+                <!-- <v-col cols="12" class="px-0 pt-1"> -->
+                <date-picker
+                  style="margin-top: 5px"
+                  v-model:value="DateRange"
+                  range
+                  :editable="false"
+                  :clearable="false"
+                  class="w-100"
+                ></date-picker>
+                <!-- </v-col> -->
+              </v-col>
+            </v-row>
 
-              <!-- ช่องกรอกรายละเอียด -->
-              <span style="font-size: 16px">รายละเอียด</span>
-              <v-text-field
-                placeholder="Add description"
-                v-model="MainDescriptionMessage"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
+            <!-- ช่องกรอกรายละเอียด -->
+            <span style="font-size: 16px">รายละเอียด</span>
+            <v-text-field
+              placeholder="รายละเอียด"
+              v-model="newMessage"
+              variant="outlined"
+              rounded="lg"
+              clearable
+            ></v-text-field>
 
-              <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
-              <v-combobox
-                :items="team"
-                v-model="selectedTeam"
-                density="compact"
-                placeholder="assign team"
-                multiple
-                variant="outlined"
-                rounded="lg"
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                    closable
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :disabled="data.disabled"
-                    :model-value="data.selected"
-                    size="small"
-                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
-                    @click:close="removeSelection(data.item.title)"
+            <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
+            <v-combobox
+              :items="team"
+              v-model="selectedTeam"
+              density="compact"
+              placeholder="เลือกทีมปฏิบัติการ"
+              multiple
+              variant="outlined"
+              rounded="lg"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  closable
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :disabled="data.disabled"
+                  :model-value="data.selected"
+                  size="small"
+                  :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                  @click:close="removeSelection(data.item.title)"
+                >
+                  <span style="color: black"> {{ data.item.title }} </span>
+                </v-chip>
+              </template>
+            </v-combobox>
+
+            <!-- <span style="font-size: 16px">Link URL</span>
+            <v-row>
+              <v-col cols="9" sm="11">
+                <v-text-field
+                  density="compact"
+                  placeholder="Link URL"
+                  v-model="newMessage"
+                  variant="outlined"
+                  rounded="lg"
+                  clearable
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
+                <v-btn
+                  density="compact"
+                  rounded="md"
+                  color="#46AFC7"
+                  @click="addMessage"
+                  height="63%"
+                  min-width="40"
+                  size="small"
+                >
+                  <v-icon style="color: white; font-size: 20px"
+                    >mdi-plus</v-icon
                   >
-                    <span style="color: black"> {{ data.item.title }} </span>
+                </v-btn>
+              </v-col>
+            </v-row> -->
+            <!-- แสดงข้อความในรูปแบบ Chip -->
+            <v-row class="mt-4">
+              <v-col cols="12">
+                <div>
+                  <v-chip
+                    v-for="(message, index) in formData.messages"
+                    :key="index"
+                    class="ma-1"
+                    close
+                    @click:close="removeMessage(index)"
+                  >
+                    {{ message }}
                   </v-chip>
-                </template>
-              </v-combobox>
-            </v-form>
-          </v-card-text>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-col>
+
 
         <!-- <v-col
             class="justify-start align-start d-flex"
@@ -159,36 +202,52 @@
           style="border-style: dashed; color: #707070"
         ></v-divider>
 
-        <v-row>
-          <v-col cols="12" class="justify-end d-flex mt-4 px-8">
-            <v-btn
-              color="#F49525"
-              @click="addMessage"
-              class="d-flex"
-              style="aspect-ratio: 1; width: 30px"
-              height="80%"
-              size="small"
-            >
-              <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
-            </v-btn>
+        <v-col>
+          <v-col cols="12" class="justify-end d-flex mt-4">
+            <div class="px-4">
+              <v-btn
+                rounded="lg"
+                size="large"
+                color="#529B41"
+                :disabled="!valid"
+                @click="submitForm"
+                ><v-icon style="margin-right: 5px">mdi-plus</v-icon>
+                <span style="font-size: 18px">เพิ่มข้อมูล</span>
+              </v-btn>
+            </div>
+            <div>
+              <v-btn
+                rounded="lg"
+                size="large"
+                color="#000000"
+                :disabled="!valid"
+                @click="submitForm"
+                ><span style="font-size: 18px">ประวัติ</span>
+              </v-btn>
+            </div>
           </v-col>
-        </v-row>
+
+          <v-row>
+            <v-col cols="12" class="justify-end d-flex mt-4 px-8">
+              <v-btn
+                color="#F49525"
+                @click="addMessage"
+                class="d-flex"
+                style="aspect-ratio: 1; width: 30px"
+                height="80%"
+                size="small"
+              >
+                <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+
         <v-col cols="12" class="pa-4 ma-0">
           <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
             <v-card-item>
               <v-row>
-                <v-col cols="6">
-                  <span style="font-size: 16px">Link URL</span>
-                  <v-text-field
-                    density="compact"
-                    placeholder="Link URL"
-                    v-model="newMessage"
-                    variant="outlined"
-                    rounded="lg"
-                    clearable
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="6">
+                <v-col cols="12">
                   <span style="font-size: 16px">Action</span>
                   <v-select
                     density="compact"
@@ -200,16 +259,57 @@
                     clearable
                   ></v-select>
                 </v-col>
+                <v-col cols="12">
+                  <span style="font-size: 16px">Link URL</span>
+                  <v-row>
+                    <v-col cols="9" sm="11">
+                      <v-text-field
+                        density="compact"
+                        placeholder="Link URL"
+                        v-model="newMessage"
+                        variant="outlined"
+                        rounded="lg"
+                        clearable
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
+                      <v-btn
+                        density="compact"
+                        rounded="md"
+                        color="#46AFC7"
+                        @click="addMessage"
+                        height="63%"
+                        min-width="40"
+                        size="small"
+                      >
+                        <v-icon style="color: white; font-size: 20px"
+                          >mdi-plus</v-icon
+                        >
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
+
+                <v-col v-if="selectedAction==='Like'" cols="12">
+                  <span style="font-size: 16px">ประเด็น</span>
+                  <v-select
+                    density="compact"
+                    placeholder="Link URL"
+                    variant="outlined"
+                    rounded="lg"
+                    clearable
+                  ></v-select>
+                </v-col>
               </v-row>
 
-              <span style="font-size: 16px">เป้าหมาย</span>
+              <!-- <span style="font-size: 16px">เป้าหมาย</span>
               <v-text-field
                 density="compact"
                 v-model="NameMessage"
                 variant="outlined"
                 rounded="lg"
                 clearable
-              ></v-text-field>
+              ></v-text-field> -->
             </v-card-item>
           </v-card>
         </v-col>
@@ -276,12 +376,11 @@
 
   const action = ref([
     "Like",
-    "Follow",
-    "Post",
+    "Report",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
-  const selectedAction = ref("Like");
+  const selectedAction = ref("Report");
 
   // const missions = ref([
   //   "Mission R",

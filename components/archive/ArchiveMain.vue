@@ -2,25 +2,52 @@
   <v-container>
     <!-- Title -->
     <v-row>
-      <v-col>
-        <div class="font-title2 base-color">Archive</div>
+      <v-col class="justify-start align-center d-flex">
+        <div class="text-h4 font-weight-bold base-color">Archive</div>
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="justify-end align-center d-flex">
         <v-btn
           class="font-weight-bold"
-          color="#46AFC7"
+          color="#2A3547"
+          size="large"
           rounded
-          @click="createNew = true"
+          @click="createNew = !createNew"
+          style="margin-top: -10px"
         >
-          Create new
+          <span class="text-h6"> Create new</span>
         </v-btn>
       </v-col>
     </v-row>
 
     <!-- Search Bar -->
     <v-row class="mb-4" justify="center" align="center">
-      <v-col cols="12" md="">
+      <v-col cols="12" md="10">
         <v-text-field
+          v-model="search"
+          placeholder="SEARCH"
+          prepend-inner-icon="mdi-magnify"
+          hide-details
+          rounded="lg"
+          variant="solo-filled"
+          @click:append="toggleMarker"
+        >
+          <template v-slot:append>
+            <div>
+              <v-icon
+                class="text-h4"
+                style="color: #f4ca21"
+                v-tooltip="'ค้นหาด้วยภาพ'"
+                @click="isOverlayVisible = true"
+                >mdi-image-filter-center-focus-strong-outline
+                <!-- <v-tooltip activator="self" location="bottom">
+                  Tooltip Text
+                </v-tooltip> -->
+              </v-icon>
+            </div>
+          </template>
+        </v-text-field>
+
+        <!-- <v-text-field
           v-model="search"
           placeholder="SEARCH"
           hide-details
@@ -39,7 +66,7 @@
           @click="isOverlayVisible = true"
         >
           SEARCH
-        </v-btn>
+        </v-btn> -->
       </v-col>
 
       <v-dialog max-width="1200" v-model="isOverlayVisible">
@@ -88,7 +115,6 @@
                       density="compact"
                       v-model="firstname"
                       label="วางลิ้งค์รูปภาพ"
-                      class="dashed-border"
                       variant="outlined"
                     ></v-text-field>
                   </v-sheet>
@@ -113,8 +139,8 @@
         <v-row justify="end">
           <v-menu>
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" rounded>
-                <v-icon>mdi-filter-outline</v-icon>
+              <v-btn v-bind="props" rounded="lg" size="x-large">
+                <v-icon class="text-h4">mdi-filter-outline</v-icon>
                 <span class="ml-2">Source by</span>
               </v-btn>
             </template>
@@ -137,10 +163,18 @@
     </v-row>
 
     <!-- Categories -->
-    <v-container>
-      <v-row class="mb-4" justify="start">
-        <v-col cols="12" md="4">
-          <v-card class="pa-5 card-stat-shadow card-archive" max-width="230">
+    <v-container class="justify-center d-flex">
+      <v-row class="mb-4" justify="center">
+        <v-col cols="12" md="3" align="center" justify="center">
+          <v-card
+            class="pa-2 card-stat-shadow card-archive"
+            max-width="230"
+            @click="toggleCardImage"
+            :style="{
+              backgroundColor: isCardImgClicked ? '#F9E795' : '',
+              opacity: isCardInfoClicked ? 0.8 : 1,
+            }"
+          >
             <v-row justify="center" align="center">
               <v-col justify="center" align="center" cols="4">
                 <div
@@ -151,13 +185,21 @@
                 </div>
               </v-col>
               <v-col>
-                <div class="font-subtitle">Image</div>
+                <div class="text-h6">Image</div>
               </v-col>
             </v-row>
           </v-card>
         </v-col>
-        <v-col cols="12" md="4">
-          <v-card class="pa-5 card-stat-shadow card-archive" max-width="230">
+        <v-col cols="12" md="3" align="center" justify="center">
+          <v-card
+            class="pa-2 card-stat-shadow card-archive"
+            max-width="230"
+            @click="toggleCardInfo"
+            :style="{
+              backgroundColor: isCardInfoClicked ? '#BDBDBD' : '',
+              opacity: isCardInfoClicked ? 0.8 : 1,
+            }"
+          >
             <v-row justify="center" align="center">
               <v-col justify="center" align="center" cols="4">
                 <div
@@ -170,13 +212,21 @@
                 </div>
               </v-col>
               <v-col>
-                <div class="font-subtitle">Infographic</div>
+                <div class="text-h6">Infographic</div>
               </v-col>
             </v-row>
           </v-card>
         </v-col>
-        <v-col cols="12" md="4">
-          <v-card class="pa-5 card-stat-shadow card-archive" max-width="230">
+        <v-col cols="12" md="3" align="center" justify="center">
+          <v-card
+            class="pa-2 card-stat-shadow card-archive"
+            max-width="230"
+            @click="toggleVideo"
+            :style="{
+              backgroundColor: isCardVdoClicked ? '#AFD5F0' : '',
+              opacity: isCardInfoClicked ? 0.8 : 1,
+            }"
+          >
             <v-row justify="center" align="center">
               <v-col justify="center" align="center" cols="4">
                 <div
@@ -187,7 +237,7 @@
                 </div>
               </v-col>
               <v-col>
-                <div class="font-subtitle">Video</div>
+                <div class="text-h6">Video</div>
               </v-col>
             </v-row>
           </v-card>
@@ -196,15 +246,19 @@
     </v-container>
   </v-container>
   <!-- Sort By Dropdown -->
-  <v-container v-if="createNew">
-    <create_new />
+  <v-container v-if="createNew" style="margin-top: -70px">
+    <ArchiveCreate />
+  </v-container>
+  <v-container v-else>
+    <ArchiveImage />
   </v-container>
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  import create_new from "./create_new.vue";
+  import { ref, provide } from "vue";
+  import ArchiveCreate from "./ArchiveCreate.vue";
   import vueDropzone from "dropzone-vue3";
+  // import ArchiveImage from "./ArchiveImage.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
     thumbnailWidth: 150,
@@ -220,6 +274,7 @@
 
   const isOverlayVisible = ref(false);
   const createNew = ref(false);
+  provide("createNew", createNew);
   const search = ref("");
   const menuOptions = ref([
     { title: "Name", icon: "mdi-format-letter-case" },
@@ -228,6 +283,31 @@
     { title: "Location", icon: "mdi-map-marker-outline" },
     { title: "Document", icon: "mdi-file-document-outline" },
   ]);
+
+  const isCardImgClicked = ref(false); // สถานะการคลิก
+  const isCardInfoClicked = ref(false); // สถานะการคลิก
+  const isCardVdoClicked = ref(false); // สถานะการคลิก
+
+  // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
+  const toggleCardImage = () => {
+    isCardInfoClicked.value = false; // สลับสถานะการคลิก
+    isCardVdoClicked.value = false; // สลับสถานะการคลิก
+    isCardImgClicked.value = !isCardImgClicked.value; // สลับสถานะการคลิก
+  };
+
+  // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
+  const toggleCardInfo = () => {
+    isCardVdoClicked.value = false; // สลับสถานะการคลิก
+    isCardImgClicked.value = false; // สลับสถานะการคลิก
+    isCardInfoClicked.value = !isCardInfoClicked.value; // สลับสถานะการคลิก
+  };
+
+  // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
+  const toggleVideo = () => {
+    isCardInfoClicked.value = false; // สลับสถานะการคลิก
+    isCardImgClicked.value = false; // สลับสถานะการคลิก
+    isCardVdoClicked.value = !isCardVdoClicked.value; // สลับสถานะการคลิก
+  };
 </script>
 
 <style scoped>
@@ -258,5 +338,9 @@
   color: #707070;
   background-color: #E9E9E9;
   border-radius: 20px; 
+}
+
+::v-deep(.v-input__append){
+  margin-inline-start: -50px !important; 
 }
 </style>

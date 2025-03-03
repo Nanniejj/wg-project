@@ -40,7 +40,7 @@
                       "
                     >
                     </v-col> -->
-        <v-col cols="12" class="text-end pa-4">
+        <!-- <v-col cols="12" class="text-end pa-4">
           <v-btn
             color="#AEE0E8"
             outlined
@@ -49,7 +49,7 @@
           >
             <v-icon class="pa-4">mdi-tray-arrow-down</v-icon>Import CSV
           </v-btn>
-          <!-- Hidden file input -->
+
           <input
             ref="fileInput"
             type="file"
@@ -57,7 +57,7 @@
             @change="handleFileUpload"
             style="display: none"
           />
-        </v-col>
+        </v-col> -->
 
         <v-col cols="12" sm="12" md="3">
           <v-container
@@ -84,21 +84,19 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="8">
-          <v-card-text>
-            <v-form ref="formRef" v-model="valid">
-              <span style="font-size: 16px">Mission name</span>
-              <v-text-field
+          <v-form ref="formRef" v-model="valid">
+            <!-- <span style="font-size: 16px">Mission name</span>
+            <v-text-field
               density="compact"
-                variant="outlined"
-                rounded="lg"
-                v-model="selectedMission"
-                disabled
-                style="margin-top: 5px"
-              ></v-text-field>
+              variant="outlined"
+              rounded="lg"
+              v-model="selectedMission"
+              disabled
+            ></v-text-field> -->
 
-              <v-row>
+            <v-row>
               <v-col cols="12" sm="8" class="py-0">
-                <span style="font-size: 16px">Priority level</span>
+                <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
                   variant="outlined"
@@ -125,72 +123,87 @@
               </v-col>
             </v-row>
 
-              <!-- ช่องกรอกรายละเอียด -->
-              <span style="font-size: 16px">Description</span>
-              <v-text-field
-                placeholder="Add description"
-                v-model="MainDescriptionMessage"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
+            <!-- ช่องกรอกรายละเอียด -->
+            <span style="font-size: 16px">รายละเอียด</span>
+            <v-text-field
+              placeholder="รายละเอียด"
+              v-model="newMessage"
+              variant="outlined"
+              rounded="lg"
+              clearable
+            ></v-text-field>
 
-              <span style="font-size: 16px">Assign</span>
-              <v-combobox
-                :items="team"
-                v-model="selectedTeam"
-                density="compact"
-                placeholder="assign team"
-                multiple
-                variant="outlined"
-                rounded="lg"
-              >
-                <template v-slot:selection="data">
+            <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
+            <v-combobox
+              :items="team"
+              v-model="selectedTeam"
+              density="compact"
+              placeholder="เลือกทีมปฏิบัติการ"
+              multiple
+              variant="outlined"
+              rounded="lg"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  closable
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :disabled="data.disabled"
+                  :model-value="data.selected"
+                  size="small"
+                  :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                  @click:close="removeSelection(data.item.title)"
+                >
+                  <span style="color: black"> {{ data.item.title }} </span>
+                </v-chip>
+              </template>
+            </v-combobox>
+
+            <!-- <span style="font-size: 16px">Link URL</span>
+            <v-row>
+              <v-col cols="9" sm="11">
+                <v-text-field
+                  density="compact"
+                  placeholder="Link URL"
+                  v-model="newMessage"
+                  variant="outlined"
+                  rounded="lg"
+                  clearable
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
+                <v-btn
+                  density="compact"
+                  rounded="md"
+                  color="#46AFC7"
+                  @click="addMessage"
+                  height="63%"
+                  min-width="40"
+                  size="small"
+                >
+                  <v-icon style="color: white; font-size: 20px"
+                    >mdi-plus</v-icon
+                  >
+                </v-btn>
+              </v-col>
+            </v-row> -->
+            <!-- แสดงข้อความในรูปแบบ Chip -->
+            <v-row class="mt-4">
+              <v-col cols="12">
+                <div>
                   <v-chip
-                    closable
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :disabled="data.disabled"
-                    :model-value="data.selected"
-                    size="small"
-                    :color="getTeamColor(data.item.title.replace('Team ', ''))"
-                    @click:close="removeSelection(data.item.title)"
+                    v-for="(message, index) in formData.messages"
+                    :key="index"
+                    class="ma-1"
+                    close
+                    @click:close="removeMessage(index)"
                   >
-                    <span style="color: black;"> {{ data.item.title }} </span>
+                    {{ message }}
                   </v-chip>
-                </template>
-              </v-combobox>
-
-              <span style="font-size: 16px">Link URL</span>
-              <v-row>
-                <v-col cols="9" sm="11">
-                  <v-text-field
-                    density="compact"
-                    placeholder="Link URL"
-                    v-model="newMessage"
-                    variant="outlined"
-                    rounded="lg"
-                    clearable
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
-                  <v-btn
-                    density="compact"
-                    rounded="md"
-                    color="#46AFC7"
-                    @click="addMessage"
-                    height="63%"
-                    min-width="40"
-                    size="small"
-                  >
-                    <v-icon style="color: white; font-size: 20px"
-                      >mdi-plus</v-icon
-                    >
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card-text>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-col>
 
         <!-- <v-col
@@ -205,6 +218,15 @@
           class="border-opacity-100 custom-divider"
           style="border-style: dashed; color: #707070"
         ></v-divider>
+
+        <v-row>
+          <v-col cols="12" class="justify-end d-flex mt-4 px-8">
+            <v-btn color="#529B41" @click="addMessage" size="large">
+              <v-icon style="margin-right: 5px">mdi-plus</v-icon
+              ><span>เพิ่มประเด็น</span>
+            </v-btn>
+          </v-col>
+        </v-row>
 
         <v-col cols="12" class="pa-8 ma-0">
           <v-card class="mx-auto" rounded="xl" elevation="3" hover>
@@ -241,7 +263,7 @@
                     ></v-select>
                   </v-col>
 
-                  <v-col cols="12">
+                  <!-- <v-col cols="12">
                     <span style="font-size: 16px">ผู้ประสานงาน</span>
                     <v-text-field
                       density="compact"
@@ -251,7 +273,7 @@
                       rounded="lg"
                       clearable
                     ></v-text-field>
-                  </v-col>
+                  </v-col> -->
 
                   <v-col cols="12">
                     <span style="font-size: 16px">Image</span>
@@ -264,7 +286,7 @@
                   </v-col>
 
                   <v-col cols="12">
-                    <span style="font-size: 16px">Note</span>
+                    <span style="font-size: 16px">รายละเอียดเพิ่มเติม</span>
                     <v-text-field
                       density="compact"
                       v-model="MainDescriptionMessage"
@@ -305,18 +327,24 @@
   const DateRange = ref([lastWeek, today]);
 
   const priority = ref([
-    "Low",
-    "Medium",
-    "High",
+    "ต่ำ",
+    "กลาง",
+    "สูง",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
-  const selectedPriority = ref("Low");
+  const selectedPriority = ref("ต่ำ");
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
     thumbnailWidth: 150,
     maxFilesize: 0.5,
     headers: { "My-Awesome-Header": "header value" },
+    dictDefaultMessage: `
+    <div style="text-align: center;">
+      <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
+      <p style="font-size: 14px;">Drag files here or click to upload</p>
+    </div>
+  `
   });
   const { getTeamColor, getMissionColor } = useColors();
   const formRef = ref(null);
@@ -392,7 +420,6 @@
     }
   };
 
-
   const submitForm = () => {
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
@@ -406,7 +433,7 @@
           
   .custom-dropzone {
     background-color: #E9E9E9;
-      height: 150px; /* กำหนดความสูง */
+      /* height: 200px; กำหนดความสูง */
       border: 2px dashed #707070; /* กำหนดขอบ */
       border-radius: 10px; /* กำหนดมุมโค้ง */
   }

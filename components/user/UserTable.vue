@@ -321,7 +321,7 @@
     // console.log(form.value);
     try {
       response = await $apiClient.put(
-        `/auth/editUser/${dialogData.value._id}`,
+        `/api/editUser/${dialogData.value._id}`,
         {
           access_menu: selectedMenus.value,
           is_active: dialogData.value.is_active,
@@ -363,7 +363,7 @@
   };
   const fetchData = async () => {
     try {
-      const response = await $apiClient.get("/auth/getusertable", {
+      const response = await $apiClient.get("/api/getusertable", {
         params,
       });
 

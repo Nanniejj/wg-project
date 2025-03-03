@@ -135,6 +135,14 @@
     /* max-width: 1400px; */
   }
 }
+
+@media (min-width: 960px) {
+  .v-container {
+    max-width: 1400px;
+  }
+}
+
+
 @media (min-width: 1280px) {
   .v-container {
     max-width: 1400px;

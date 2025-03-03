@@ -67,18 +67,18 @@
 
         <v-col cols="12" sm="12" md="8">
           <v-form ref="formRef" v-model="valid">
-            <span style="font-size: 16px">Mission name</span>
+            <!-- <span style="font-size: 16px">Mission name</span>
             <v-text-field
               density="compact"
               variant="outlined"
               rounded="lg"
               v-model="selectedMission"
               disabled
-            ></v-text-field>
+            ></v-text-field> -->
 
             <v-row>
               <v-col cols="12" sm="8" class="py-0">
-                <span style="font-size: 16px">Priority level</span>
+                <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
                   variant="outlined"
@@ -106,21 +106,21 @@
             </v-row>
 
             <!-- ช่องกรอกรายละเอียด -->
-            <span style="font-size: 16px">Description</span>
+            <span style="font-size: 16px">รายละเอียด</span>
             <v-text-field
-              placeholder="Add description"
+              placeholder="รายละเอียด"
               v-model="newMessage"
               variant="outlined"
               rounded="lg"
               clearable
             ></v-text-field>
 
-            <span style="font-size: 16px">Assign</span>
+            <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
             <v-combobox
               :items="team"
               v-model="selectedTeam"
               density="compact"
-              placeholder="assign team"
+              placeholder="เลือกทีมปฏิบัติการ"
               multiple
               variant="outlined"
               rounded="lg"
@@ -141,7 +141,7 @@
               </template>
             </v-combobox>
 
-            <span style="font-size: 16px">Link URL</span>
+            <!-- <span style="font-size: 16px">Link URL</span>
             <v-row>
               <v-col cols="9" sm="11">
                 <v-text-field
@@ -168,7 +168,7 @@
                   >
                 </v-btn>
               </v-col>
-            </v-row>
+            </v-row> -->
             <!-- แสดงข้อความในรูปแบบ Chip -->
             <v-row class="mt-4">
               <v-col cols="12">
@@ -246,13 +246,13 @@
   const selectedTeam = ref(null);
 
   const priority = ref([
-    "Low",
-    "Medium",
-    "High",
+    "ต่ำ",
+    "กลาง",
+    "สูง",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
-  const selectedPriority = ref("Low");
+  const selectedPriority = ref("ต่ำ");
 
   const selectedMission = ref("R1");
 
