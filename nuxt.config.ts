@@ -57,6 +57,11 @@ export default defineNuxtConfig({
       script: [],
     },
   },
+  
+  //   modules: [
+  //     'nuxt-sweetalert2'
+  //   ]
+  // ,
   ssr: false,
   // routeRules: {
   //   '/report': { ssr: false },

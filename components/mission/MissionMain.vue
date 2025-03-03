@@ -14,6 +14,12 @@
     <MissionM7 v-if="mission === 'M7'" />
     <MissionM8 v-if="mission === 'M8'" />
     <MissionR1 v-if="mission === 'R1'" />
+    <MissionR2 v-if="mission === 'R2'" />
+    <MissionR3 v-if="mission === 'R3'" />
+    <MissionR4 v-if="mission === 'R4'" />
+    <MissionR5 v-if="mission === 'R5'" />
+    <MissionR6 v-if="mission === 'R6'" />
+    <MissionR7 v-if="mission === 'R7'" />
     <MissionR8 v-if="mission === 'R8'" />
     <MissionR9 v-if="mission === 'R9'" />
   </div>
@@ -23,7 +29,7 @@
 export default {
   data() {
     return {
-      mission: "M1", // Default selected mission
+      mission: "R7", // Default selected mission
       items: ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"],
     };
   },

@@ -4,7 +4,10 @@
         <!-- ตรวจสอบเงื่อนไขและแสดง component ตาม index -->
         <StatBoxM1 v-if="shouldShowComponent(subjectIndex,1)" />
         <ReportStatM1 v-if="shouldShowComponent(subjectIndex,2)" />
-        <TargetM1 v-if="shouldShowComponent(subjectIndex,3)" />
+        <!-- <BarChartClosePage v-if="shouldShowComponent(subjectIndex,2)" /> -->
+        <!-- <TargetM1 v-if="shouldShowComponent(subjectIndex,3)" /> -->
+        <EngageClosePage v-if="shouldShowComponent(subjectIndex,2)" />
+
         <SocialBotM1 v-if="shouldShowComponent(subjectIndex,4)" />
         <EngageReport v-if="shouldShowComponent(subjectIndex,5)" />
     </div>
@@ -13,9 +16,12 @@
 <script setup>
 import StatBoxM1 from './M1/StatBoxM1.vue';
 import ReportStatM1 from './M1/ReportStatM1.vue';
+import BarChartClosePage from './M1/BarChartClosePage.vue';
 import TargetM1 from './M1/TargetM1.vue';
 import SocialBotM1 from './M1/SocialBotM1.vue';
 import EngageReport from './M1/EngageReport.vue';
+import EngageClosePage from './M1/EngageClosePage.vue';
+
 
 
 // ใช้ defineProps เพื่อรับค่า subjectIndex จาก props
