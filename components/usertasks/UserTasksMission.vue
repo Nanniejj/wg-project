@@ -350,21 +350,21 @@
     },
     {
       id: 2,
-      title: "M6",
+      title: "M5",
       description: "ประเด็นตอบโต้",
       date: "31/10/67-04/11/67",
       priority: "สูง",
     },
     {
       id: 3,
-      title: "M7",
+      title: "M6",
       description: "",
       date: "29/10/67-02/11/67",
       priority: "สูง",
     },
     {
       id: 4,
-      title: "M5",
+      title: "M7",
       description: "",
       date: "29/10/67-02/11/67",
       priority: "สูง",
@@ -398,7 +398,8 @@
   const items3 = ref([
     {
       id: 1,
-      title: "M5",
+      title: "หัวข้อประสาน",
+
       description: "Report",
       date: "30/10/67-01/11/67",
       priority: "ต่ำ",
@@ -412,7 +413,7 @@
     },
     {
       id: 3,
-      title: "R2",
+      title: "M5",
       description: "",
       date: "29/10/67-02/11/67",
       priority: "ต่ำ",
@@ -426,7 +427,7 @@
     },
     {
       id: 5,
-      title: "หัวข้อประสาน",
+      title: "R2",
       description: "",
       date: "29/10/67-02/11/67",
       priority: "ต่ำ",

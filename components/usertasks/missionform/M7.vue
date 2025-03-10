@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-row class="justify-end">
-      <div class="px-3">
+      <div class="pa-1">
         <v-btn color="#46AFC7" size="large" rounded="lg" @click="addCard">
           <v-icon size="large" icon="mdi-plus"> </v-icon>
           <span class="text-h6">เพิ่มเครือข่าย</span>
         </v-btn>
       </div>
-      <div class="px-3">
+      <div class="pa-1">
         <v-btn
           color="#AEE0E8"
           outlined
@@ -36,8 +36,8 @@
     </div>
 
     <v-row v-for="(card, index) in cards" :key="index" class="mt-4">
-      <v-col cols="12">
-        <v-card class="pa-8">
+      <v-col cols="12" class="d-flex justify-center">
+        <v-card class="pa-8" width="2000">
           <v-row>
             <v-col cols="12" md="6">
               <span class="text-h6"> ประเภทเครือข่าย</span>
@@ -103,8 +103,8 @@
     </div>
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
-      <v-col cols="12">
-        <v-card class="pa-6">
+      <v-col cols="12" class="d-flex justify-center">
+        <v-card class="pa-6" width="2000">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -134,17 +134,17 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จังหวัด</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">ไปรษณีย์</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จำนวนผู้เข้าร่วม</span>
                 <v-number-input
                   density="compact"
@@ -158,7 +158,7 @@
             </v-row>
 
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="8" class="py-0">
                 <span class="text-h6">รายละเอียด</span>
                 <v-text-field
                   density="compact"
@@ -167,10 +167,9 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จำนวนผู้เข้าร่วม</span>
                 <date-picker
-        
                   v-model:value="DateRange"
                   range
                   :editable="false"
@@ -179,7 +178,7 @@
                 ></date-picker>
               </v-col>
             </v-row>
-            <div>
+            <div class="pt-5">
               <span class="text-h6">ชื่อเครือข่าย</span>
               <v-text-field
                 density="compact"
@@ -211,7 +210,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
           variant="outlined"
@@ -221,7 +220,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึกร่าง</span>
+          <span class="text-h6">บันทึกร่าง</span>
         </v-btn>
       </div>
       <div class="px-3">
@@ -232,7 +231,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึก</span>
+          <span class="text-h6">บันทึก</span>
         </v-btn>
       </div>
     </v-row>
@@ -258,15 +257,18 @@
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
-    maxFilesize: 0.5,
+    thumbnailWidth: 100,
+    thumbnailHeight: 100,
+    maxFilesize: 1,
+    acceptedFiles: "image/jpeg,image/png",
+    maxFiles: 2,
     headers: { "My-Awesome-Header": "header value" },
     dictDefaultMessage: `
-  <div style="text-align: center;">
-    <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
-    <p style="font-size: 16px;">Drag files here or click to upload</p>
-  </div>
-`,
+      <div style="text-align: center;margin-top:-40px">
+        <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+        <p style="font-size: 14px;">Drag files here or click to upload</p>
+      </div>
+    `,
   });
   const NumImport = ref(0);
 
@@ -301,7 +303,7 @@
   
         .custom-dropzone {
       background-color: #E9E9E9;
-        /* height: 200px; กำหนดความสูง */
+         height: 100px; 
         border: 2px dashed #707070; /* กำหนดขอบ */
         border-radius: 10px; /* กำหนดมุมโค้ง */
     }

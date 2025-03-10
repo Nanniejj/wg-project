@@ -37,34 +37,34 @@
             </div>
 
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="pb-0">
                 <span class="text-h6">สถานที่</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="pb-0">
                 <span class="text-h6">แขวง/ตำบล</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="pb-0">
                 <span class="text-h6">เขต/อำเภอ</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="py-0">
                 <span class="text-h6">จังหวัด</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="py-0">
                 <span class="text-h6">ไปรษณีย์</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="py-0">
                 <span class="text-h6">จำนวนผู้เข้าร่วม</span>
                 <v-number-input
                   density="compact"
@@ -78,7 +78,7 @@
             </v-row>
 
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="8"  class="py-0">
                 <span class="text-h6">รายละเอียด</span>
                 <v-text-field
                   density="compact"
@@ -87,10 +87,9 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4"  class="py-0">
                 <span class="text-h6">จำนวนผู้เข้าร่วม</span>
                 <date-picker
-
                   v-model:value="DateRange"
                   range
                   :editable="false"
@@ -99,7 +98,7 @@
                 ></date-picker>
               </v-col>
             </v-row>
-            <div>
+            <div class="pt-4">
               <span class="text-h6">ผู้ประสานงานของหน่วย</span>
               <v-text-field
                 density="compact"
@@ -119,7 +118,7 @@
               </v-text-field>
             </div>
 
-            <span class="text-h5">Image</span>
+            <span class="text-h6">Image</span>
             <vue-dropzone
               ref="myVueDropzone"
               id="dropzone"
@@ -130,7 +129,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
           variant="outlined"
@@ -140,7 +139,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึกร่าง</span>
+          <span class="text-h6">บันทึกร่าง</span>
         </v-btn>
       </div>
       <div class="px-3">
@@ -151,7 +150,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึก</span>
+          <span class="text-h6">บันทึก</span>
         </v-btn>
       </div>
     </v-row>
@@ -176,13 +175,16 @@
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
-    maxFilesize: 0.5,
+    thumbnailWidth: 100,
+    thumbnailHeight: 100,
+    maxFilesize: 1,
+    acceptedFiles: "image/jpeg,image/png",
+    maxFiles: 2,
     headers: { "My-Awesome-Header": "header value" },
     dictDefaultMessage: `
-      <div style="text-align: center;">
-        <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
-        <p style="font-size: 16px;">Drag files here or click to upload</p>
+      <div style="text-align: center;margin-top:-40px">
+        <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+        <p style="font-size: 14px;">Drag files here or click to upload</p>
       </div>
     `,
   });
@@ -219,7 +221,7 @@
       
             .custom-dropzone {
           background-color: #E9E9E9;
-            /* height: 200px; กำหนดความสูง */
+            height: 100px; 
             border: 2px dashed #707070; /* กำหนดขอบ */
             border-radius: 10px; /* กำหนดมุมโค้ง */
         }

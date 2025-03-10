@@ -87,31 +87,31 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        style="background-color: #faf1cd"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึกร่าง</span>
-      </v-btn>
-    </div>
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึก</span>
-      </v-btn>
-    </div>
-  </v-row>
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          style="background-color: #faf1cd"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6">บันทึกร่าง</span>
+        </v-btn>
+      </div>
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6">บันทึก</span>
+        </v-btn>
+      </div>
+    </v-row>
   </v-container>
 </template>
 
@@ -119,25 +119,27 @@
   import vueDropzone from "dropzone-vue3";
   import { useRoute } from "vue-router";
 
-const route = useRoute();
+  const route = useRoute();
 
-// รับ title จาก query
-const title = route.query.title;
-const status = route.query.status;
+  // รับ title จาก query
+  const title = route.query.title;
+  const status = route.query.status;
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
-    maxFilesize: 0.5,
+    thumbnailWidth: 100,
+    thumbnailHeight: 100,
+    maxFilesize: 1,
+    acceptedFiles: "image/jpeg,image/png",
+    maxFiles: 2,
     headers: { "My-Awesome-Header": "header value" },
     dictDefaultMessage: `
-    <div style="text-align: center;">
-      <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
-      <p style="font-size: 16px;">Drag files here or click to upload</p>
-    </div>
-  `,
+      <div style="text-align: center;margin-top:-40px">
+        <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+        <p style="font-size: 14px;">Drag files here or click to upload</p>
+      </div>
+    `,
   });
-
   // สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
   const cards = ref([1]);
 
@@ -161,7 +163,7 @@ const status = route.query.status;
 
       .custom-dropzone {
     background-color: #E9E9E9;
-      /* height: 200px; กำหนดความสูง */
+       height: 100px; 
       border: 2px dashed #707070; /* กำหนดขอบ */
       border-radius: 10px; /* กำหนดมุมโค้ง */
   }

@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-row class="justify-end">
-      <div class="px-3">
+      <div class="pa-1">
         <v-btn color="#529B41" size="large" rounded="lg" @click="addCard">
           <v-icon size="large" icon="mdi-plus"> </v-icon>
           <span class="text-h6">เพิ่มแกนนำ</span>
         </v-btn>
       </div>
-      <div class="px-3">
+      <div class="pa-1">
         <v-btn
           color="#AEE0E8"
           outlined
@@ -87,31 +87,31 @@
       </v-card>
     </div>
 
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        style="background-color: #faf1cd"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึกร่าง</span>
-      </v-btn>
-    </div>
-    <div class="px-3">
-      <v-btn
-        variant="outlined"
-        size="large"
-        rounded="lg"
-        @click="addCard"
-        class="custom-btn"
-      >
-        <span class="text-h6 custom-btn">บันทึก</span>
-      </v-btn>
-    </div>
-  </v-row>
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          style="background-color: #faf1cd"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6">บันทึกร่าง</span>
+        </v-btn>
+      </div>
+      <div class="px-3">
+        <v-btn
+          variant="outlined"
+          size="large"
+          rounded="lg"
+          @click="addCard"
+          class="custom-btn"
+        >
+          <span class="text-h6">บันทึก</span>
+        </v-btn>
+      </div>
+    </v-row>
   </v-container>
 </template>
 
@@ -119,11 +119,11 @@
   import { ref } from "vue";
   import { useRoute } from "vue-router";
 
-const route = useRoute();
+  const route = useRoute();
 
-// รับ title จาก query
-const title = route.query.title;
-const status = route.query.status;
+  // รับ title จาก query
+  const title = route.query.title;
+  const status = route.query.status;
 
   const desserts = ref([
     {

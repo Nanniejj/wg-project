@@ -1,27 +1,6 @@
 <template>
   <v-container>
-   
-      <div class="text-end pb-5">
-      <div v-if="!isMobile">
-        <v-btn size="large" color="#95D51E" rounded="lg"
-          ><v-icon color="white">mdi-plus</v-icon>
-          <span style="color: white">เพิ่มข้อมูลเครือข่าย</span>
-        </v-btn>
-      </div>
-      <div v-else>
-        <!-- <v-btn color="#FFA72F" rounded="lg"
-          ><v-icon  color="white">mdi-plus</v-icon>
-        </v-btn> -->
-        <v-btn
-          color="#95D51E"
-          size="large"
-          density="comfortable"
-          icon="mdi-plus"
-        ></v-btn>
-      </div>
-    </div>
-
-    <div class="pb-5">
+    <div class="pb-5 px-8">
       <v-text-field
         v-model="search"
         placeholder="SEARCH"
@@ -37,6 +16,34 @@
         </template>
       </v-text-field>
     </div>
+    <div class="pt-5 pb-5">
+      <v-divider :thickness="2"></v-divider>
+    </div>
+    <div class="text-end pb-5">
+      <div v-if="!isMobile">
+        <v-btn color="#95D51E" rounded="lg"
+          ><v-icon color="white">mdi-plus</v-icon>
+          <span style="color: white">เพิ่ม POC</span>
+        </v-btn>
+      </div>
+      <div v-else>
+        <!-- <v-btn color="#FFA72F" rounded="lg"
+          ><v-icon  color="white">mdi-plus</v-icon>
+        </v-btn> -->
+        <v-btn
+          color="#95D51E"
+          size="large"
+          density="comfortable"
+          icon="mdi-plus"
+        ></v-btn>
+      </div>
+    </div>
+
+    <v-data-table :headers="headers" :items="items">
+      <template v-slot:item.actions="{ item }">
+        <v-icon icon="mdi-dots-vertical"   v-tooltip="'Edit'"   @click="!EditOverlay"></v-icon>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -47,7 +54,17 @@
   const loading = ref(false);
 
   const isMobile = ref(false);
- 
+
+  const headers = ref([
+    { title: "ลำดับ", value: "id" },
+    { title: "ชื่อ-สกุล", value: "name" },
+    { title: "เบอร์โทร", value: "phone" },
+    { title: "ทัพภาค", value: "position" },
+    { title: "ผู้เกี่ยวข้อง", value: "collaborators" },
+    { title: "", value: "actions", sortable: false },
+  ]);
+
+  const item = ref([]);
 
   // Only run this logic in the client environment
   if (process.client) {

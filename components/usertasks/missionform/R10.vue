@@ -47,38 +47,37 @@
             </div>
 
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="pb-0">
                 <span class="text-h6">สถานที่</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="pb-0">
                 <span class="text-h6">แขวง/ตำบล</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="pb-0">
                 <span class="text-h6">เขต/อำเภอ</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จังหวัด</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">ไปรษณีย์</span>
                 <v-text-field density="compact" variant="outlined">
                 </v-text-field>
               </v-col>
 
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">วันที่จัดกิจกรรม</span>
                 <date-picker
-
                   v-model:value="DateRange"
                   range
                   :editable="false"
@@ -89,7 +88,7 @@
             </v-row>
 
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จำนวนผู้เข้าร่วม</span>
                 <v-number-input
                   density="compact"
@@ -100,20 +99,20 @@
                   variant="outlined"
                 ></v-number-input>
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">สนับสนุน</span>
                 <v-autocomplete density="compact" variant="outlined">
                 </v-autocomplete>
               </v-col>
 
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">รูปแบบ</span>
                 <v-autocomplete density="compact" variant="outlined">
                 </v-autocomplete>
               </v-col>
             </v-row>
 
-            <div>
+            <div class="pt-4">
               <span class="text-h6">ผู้ประสานงานของหน่วย</span>
               <v-text-field
                 density="compact"
@@ -214,7 +213,7 @@
         </v-row>
       </v-card>
     </div>
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
           variant="outlined"
@@ -224,7 +223,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึกร่าง</span>
+          <span class="text-h6">บันทึกร่าง</span>
         </v-btn>
       </div>
       <div class="px-3">
@@ -235,7 +234,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึก</span>
+          <span class="text-h6">บันทึก</span>
         </v-btn>
       </div>
     </v-row>
@@ -248,11 +247,11 @@
   import "vue-datepicker-next/index.css";
   import { useRoute } from "vue-router";
 
-const route = useRoute();
+  const route = useRoute();
 
-// รับ title จาก query
-const title = route.query.title;
-const status = route.query.status;
+  // รับ title จาก query
+  const title = route.query.title;
+  const status = route.query.status;
   const today = new Date(); // วันที่ปัจจุบัน
   const lastWeek = new Date();
   lastWeek.setDate(today.getDate() - 6);
@@ -260,15 +259,18 @@ const status = route.query.status;
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
-    maxFilesize: 0.5,
+    thumbnailWidth: 100,
+    thumbnailHeight: 100,
+    maxFilesize: 1,
+    acceptedFiles: "image/jpeg,image/png",
+    maxFiles: 2,
     headers: { "My-Awesome-Header": "header value" },
     dictDefaultMessage: `
-        <div style="text-align: center;">
-          <i class="mdi mdi-upload-circle" style="font-size: 48px; color: #29A0AF;"></i>
-          <p style="font-size: 16px;">Drag files here or click to upload</p>
-        </div>
-      `,
+      <div style="text-align: center;margin-top:-40px">
+        <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+        <p style="font-size: 14px;">Drag files here or click to upload</p>
+      </div>
+    `,
   });
   const NumImport = ref(0);
   const fileLink = "/path/to/your/file.pdf";
@@ -295,7 +297,7 @@ const status = route.query.status;
         
               .custom-dropzone {
             background-color: #E9E9E9;
-              /* height: 200px; กำหนดความสูง */
+              height: 100px; 
               border: 2px dashed #707070; /* กำหนดขอบ */
               border-radius: 10px; /* กำหนดมุมโค้ง */
           }

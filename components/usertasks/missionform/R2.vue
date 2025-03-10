@@ -1,12 +1,12 @@
 <template>
   <v-row class="justify-end">
-    <div class="px-3">
+    <div class="pa-1">
       <v-btn color="#2A3547" size="large" rounded="lg" @click="addCard">
         <v-icon size="large" icon="mdi-comment-plus-outline"> </v-icon>
         <span class="text-h6">Add post</span>
       </v-btn>
     </div>
-    <div class="px-3">
+    <div class="pa-1">
       <v-btn
         color="#AEE0E8"
         outlined
@@ -41,7 +41,7 @@
           <span class="text-h6"> จังหวัด</span>
           <v-autocomplete variant="outlined" density="compact">
           </v-autocomplete>
-          <span class="text-h5">Link URL</span>
+          <span class="text-h6">Link URL</span>
           <v-row>
             <v-col cols="9" sm="11">
               <v-text-field
@@ -79,7 +79,7 @@
         @click="addCard"
         class="custom-btn"
       >
-        <span class="text-h6 custom-btn">บันทึกร่าง</span>
+        <span class="text-h6">บันทึกร่าง</span>
       </v-btn>
     </div>
     <div class="px-3">
@@ -90,7 +90,7 @@
         @click="addCard"
         class="custom-btn"
       >
-        <span class="text-h6 custom-btn">บันทึก</span>
+        <span class="text-h6">บันทึก</span>
       </v-btn>
     </div>
   </v-row>

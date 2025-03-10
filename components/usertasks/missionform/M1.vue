@@ -122,7 +122,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="status != 'PP'" class="justify-end pt-16">
+    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
           variant="outlined"
@@ -132,7 +132,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึกร่าง</span>
+          <span class="text-h6">บันทึกร่าง</span>
         </v-btn>
       </div>
       <div class="px-3">
@@ -143,7 +143,7 @@
           @click="addCard"
           class="custom-btn"
         >
-          <span class="text-h6 custom-btn">บันทึก</span>
+          <span class="text-h6">บันทึก</span>
         </v-btn>
       </div>
     </v-row>
