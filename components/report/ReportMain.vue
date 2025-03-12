@@ -60,7 +60,17 @@
         <MissionM7 v-if="selectedMission == 'M7'" :subjectIndex="selectedSubjects" />
         <MissionM8 v-if="selectedMission == 'M8'" :subjectIndex="selectedSubjects" />
         <MissionR1 v-if="selectedMission == 'R1'" :subjectIndex="selectedSubjects" />
+        <MissionR2 v-if="selectedMission == 'R2'" :subjectIndex="selectedSubjects" />
+        <MissionR3 v-if="selectedMission == 'R3'" :subjectIndex="selectedSubjects" />
+        <MissionR4 v-if="selectedMission == 'R4'" :subjectIndex="selectedSubjects" />
+        <MissionR5 v-if="selectedMission == 'R5'" :subjectIndex="selectedSubjects" />
+        <MissionR6 v-if="selectedMission == 'R6'" :subjectIndex="selectedSubjects" />
+        <MissionR7 v-if="selectedMission == 'R7'" :subjectIndex="selectedSubjects" />
+        <MissionR8 v-if="selectedMission == 'R8'" :subjectIndex="selectedSubjects" />
         <MissionR9 v-if="selectedMission == 'R9'" :subjectIndex="selectedSubjects" />
+        <MissionR10 v-if="selectedMission == 'R10'" :subjectIndex="selectedSubjects" />
+        <MissionR11 v-if="selectedMission == 'R11'" :subjectIndex="selectedSubjects" />
+        <MissionR12 v-if="selectedMission == 'R12'" :subjectIndex="selectedSubjects" />
 
     </div>
 </template>
@@ -71,6 +81,7 @@ import DatePicker from "vue-datepicker-next";
 import "vue-datepicker-next/index.css";
 import dayjs from "dayjs";
 import ButtonExport from "./ButtonExport.vue";
+import subject from "/public/mission/dataMockup.json"
 const today = new Date(); // วันที่ปัจจุบัน
 const lastWeek = new Date();
 lastWeek.setDate(today.getDate() - 6);
@@ -80,17 +91,41 @@ const selectedSubjects = ref([]);
 
 const items = [
     "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8",
-    "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"
+    "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", 
+    "R9", "R10", "R11", "R12"
 ];
 
-const subject = [
-    { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
-    { mission: 'R1', item: [{ label: 'ประชาสัมพันธ์ผ่านเพจ และ Influencer ของหน่วย', value: 1 }, { label: 'ประชาสัมพันธ์ผ่านเพจ', value: 2 }, { label: 'Influencer ของหน่วย', value: 3 }, { label: 'จำนวนโพสต์ Influencer', value: 4 }, { label: 'ประชาสัมพันธ์ผ่านแฟนด้อม', value: 5 }, { label: 'แฟนด้อม Line Open chat', value: 6 }, { label: 'จำนวนสมาชิก', value: 7 }, { label: 'จำนวนโพสต์', value: 8 }] },
-    { mission: 'M2', item: [{ label: 'จำนวนเพจเป้าหมาย', value: 1 }, { label: 'จำนวน Content', value: 2 }, { label: 'จำนวนโพสต์', value: 3 }, { label: 'จำนวนการเข้าถึง', value: 4 }, { label: 'จำนวน Content (Platform)', value: 5 }] },
-    { mission: 'M3', item: [{ label: 'ติดตามความเคลื่อนไหวทางกายภาพ', value: 1 }, { label: 'ข้อมูล Dark side', value: 2 }, { label: 'Timeline', value: 3 }, { label: 'Map', value: 4 }, { label: 'Top 5 (Engagement)', value: 5 }] },
-    { mission: 'R9', item: [{ label: 'สถิติสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 1 }, { label: 'กิจกรรมสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 2 }, ] },
+// const subject = [
+//     { mission: 'M1', item: [{ label: 'ชป.ไซเบอร์', value: 1 }, { label: 'จำนวนครั้งที่ดำเนินการ', value: 2 }, { label: 'จำนวนเป้าหมาย/บัญชี ที่ดำเนินการ', value: 3 }, { label: 'จำนวน Social Bot', value: 4 }, { label: 'ผลการเพิ่มยอด Like', value: 5 }] },
+//     { mission: 'M2', item: [{ label: 'จำนวนเพจเป้าหมาย', value: 1 }, { label: 'จำนวน Content', value: 2 }, { label: 'จำนวนโพสต์', value: 3 }, { label: 'จำนวนการเข้าถึง', value: 4 }, { label: 'จำนวน Content (Platform)', value: 5 }] },
+//     { mission: 'M3', item: [{ label: 'ติดตามความเคลื่อนไหวทางกายภาพ', value: 1 }, { label: 'ข้อมูล Dark side', value: 2 }, { label: 'Timeline', value: 3 }, { label: 'Map', value: 4 }, { label: 'Top 5 (Engagement)', value: 5 }] },
+//     { mission: 'R1', item: [{ label: 'ประชาสัมพันธ์ผ่านเพจ และ Influencer ของหน่วย', value: 1 }, { label: 'ประชาสัมพันธ์ผ่านเพจ', value: 2 }, { label: 'Influencer ของหน่วย', value: 3 }, { label: 'จำนวนโพสต์ Influencer', value: 4 }, { label: 'ประชาสัมพันธ์ผ่านแฟนด้อม', value: 5 }, { label: 'แฟนด้อม Line Open chat', value: 6 }, { label: 'จำนวนสมาชิก', value: 7 }, { label: 'จำนวนโพสต์', value: 8 }] },
+//     { mission: 'R9', item: [{ label: 'สถิติสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 1 }, { label: 'กิจกรรมสนับสนุนเครือข่ายโรงเรียนและอุดมศึกษา', value: 2 }, ] },
+//     {
+//         mission: 'R10', 
+//         item: [
+//             { label: 'สถิติสนับสนุนเครือข่ายสื่อ/Influencer/นักวิชาการ', value: 1 }, 
+//             { label: 'กิจกรรมสนับสนุนเครือข่ายสื่อ/Influencer/นักวิชาการ', value: 2 }, 
+//             { label: 'เพจสนับสนุนวิชาการ', value: 3 }, 
+//         ] 
+//     },
+//     {
+//         mission: 'R11', 
+//         item: [
+//             { label: 'แผนที่แสดงการสนับสนุนเครือข่ายภาคประชาสังคม', value: 1 }, 
+//             { label: 'กิจกรรมสนับสนุนเครือข่ายภาคประชาสังคม', value: 2 }, 
+//         ] 
+//     },
+//     {
+//         mission: 'R12', 
+//         item: [
+//             { label: 'สถิติสนับสนุนเครือข่ายกลุ่มโอกาส', value: 1 }, 
+//             { label: 'แผนที่แสดงการสนับสนุนเครือข่ายกลุ่มโอกาส', value: 2 }, 
+//             { label: 'กิจกรรมสนับสนุนเครือข่ายกลุ่มโอกาส', value: 3 }, 
+//         ] 
+//     },
 
-];
+// ];
 
 watch(selectedMission, () => {
     selectedSubjects.value = []; // เคลียร์ค่าเมื่อ selectedMission เปลี่ยน
