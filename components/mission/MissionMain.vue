@@ -39,7 +39,7 @@
   export default {
     data() {
       return {
-        mission: "R10", // Default selected mission
+        mission: "M4", // Default selected mission
         items: [
           "M1",
           "M2",

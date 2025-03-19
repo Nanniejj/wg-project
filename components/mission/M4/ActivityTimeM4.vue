@@ -8,8 +8,15 @@
         </v-chip-group>
         <v-card class="pa-8 card-stat-shadow mb-5">
         <v-row>
-            <v-col v-for="(image, index) in images" :key="index">
-                <v-img :src="image" cover height="230"></v-img>
+            <v-col v-for="(image, index) in images" :key="index" class="image-wrapper">
+                <v-img :src="image.imageUrl" @click="openImageModal(image)" cover height="230">
+                    <v-container
+                        style="backgroundColor: rgba(0, 0, 0, 0.7);"
+                        class="overlay position-absolute fill-height d-flex align-center justify-center text-overlay"
+                    >
+                        <v-icon color="white" class="ml-4" size="72"> mdi-download-circle</v-icon>
+                    </v-container>
+                </v-img>
             </v-col>
         </v-row>
         <div class="text-right mt-2"> <v-btn color="cyan-darken-2" variant="text"> ดูเพิ่มเติม</v-btn> </div>
@@ -39,6 +46,12 @@
                 </v-card>
             </v-col>
         </v-row>
+        <ImageModal 
+            :image="imageData" 
+            :dialog="isOpenModal" 
+            @close="closeImageModal()"
+            @increment-downloads="incrementDownloads"
+        />
     </v-container>
 </template>
 
@@ -48,10 +61,10 @@ import { ref } from 'vue';
 const selectedCategory = ref('กิจกรรมมหาเสียง');
 const categories = ref(['กิจกรรมมหาเสียง', 'กิจกรรมชุมชน', 'กิจกรรมจิบกาแฟ']);
 const images = ref([
-    './M4(1).png',
-    './M4(2).png',
-    './M4(3).png',
-      './M4(4).png'
+      { imageUrl: "./M4(1).png", view: 32, download: 12},
+      { imageUrl: "./M4(2).png", view: 32, download: 12},
+      { imageUrl: "./M4(3).png", view: 32, download: 12},
+      { imageUrl: "./M4(4).png", view: 32, download: 12},
 ]);
 const events = ref([
     {
@@ -77,9 +90,51 @@ const events = ref([
     }
 ]);
 </script>
+<script>
+  import ImageModal from "../../modal/imageModal.vue";
+  export default {
+    components:{
+        ImageModal
+    },
+    data() {
+        return {
+            isOpenModal: false,
+            isHover: false,
+            imageData:""
+        }
+    },
+    methods: {
+        openImageModal(image){
+            this.imageData = image
+            this.isOpenModal = true
+            this.incrementViews()
+        },
+        closeImageModal(){
+            this.isOpenModal = false
+            this.imageData = {}
+        },
+        incrementViews() {
+            this.imageData.view += 1; // เพิ่มจำนวนผู้เข้าชมเมื่อเปิด Modal
+        },
+        incrementDownloads() {
+            this.imageData.download += 1; // เพิ่มจำนวนครั้งที่ดาวน์โหลด
+        }
+    },
+  };
+</script>
 
 <style>
 .v-chip-group {
     margin-bottom: 16px;
+}
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.overlay {
+  opacity: 0; 
+}
+.image-wrapper:hover .overlay {
+  opacity: 1;
 }
 </style>

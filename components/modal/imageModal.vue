@@ -1,6 +1,6 @@
 <template>
-  <v-dialog persistent v-model="localDialog" max-width="500px">
-    <v-card class="rounded-lg">
+  <v-dialog persistent v-model="localDialog" fullscreen>
+    <v-card>
       <v-card-title>
         <div class="d-flex justify-space-between align-center">
           <div class="headline">รูปภาพ</div>
@@ -9,9 +9,11 @@
           </v-btn>
         </div>
       </v-card-title>
-      <v-card-text class="py-1">
-        <v-img :src="image.imageUrl" alt="Image in Modal" />
-      </v-card-text>
+      <v-img 
+        :src="image.imageUrl" 
+        alt="Image in Modal"
+        class="fill-height h-50"
+      />
       <v-card-actions class="justify-space-between ">
         <div class="d-flex align-center">
           <v-chip

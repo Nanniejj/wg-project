@@ -7,11 +7,20 @@
         <div>
             <div class="text-h6  my-5"> ตัวอย่างข้อมูล </div>
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col v-for="item in images" :key="item" cols="12" md="4" class="image-wrapper">
                     <v-img :height="250"  cover
-                        src="./M2(1).png"></v-img>
+                      @click="openImageModal(item)"
+                      :src="item.imageUrl"
+                    >
+                      <v-container
+                          style="backgroundColor: rgba(0, 0, 0, 0.7);"
+                          class="overlay position-absolute fill-height d-flex align-center justify-center text-overlay"
+                      >
+                          <v-icon color="white" class="ml-4" size="72"> mdi-download-circle</v-icon>
+                      </v-container>
+                    </v-img>
                 </v-col>
-                <v-col cols="12" md="4">
+                <!-- <v-col cols="12" md="4">
                     <v-img :height="250"  cover
                        src="./M2(2).png"
                         ></v-img>
@@ -19,7 +28,7 @@
                 <v-col cols="12" md="4">
                     <v-img :height="250" cover
                     src="./M2(3).png"></v-img>
-                </v-col>
+                </v-col> -->
             </v-row>
             <v-row>
       <v-col v-for="(team, index) in teams" :key="index" cols="12" sm="6" md="" >
@@ -40,7 +49,12 @@
       </v-col>
     </v-row>
         </div>
-
+    <ImageModal 
+        :image="imageData" 
+        :dialog="isOpenModal" 
+        @close="closeImageModal()"
+        @increment-downloads="incrementDownloads"
+    />
     </v-container>
 </template>
 
@@ -85,4 +99,56 @@ const chartOptions = {
     legend: { position: "top" },
     tooltip: { theme: "dark" },
 };
+
+const images = [
+  { imageUrl: "./M2(1).png", view: 32, download: 12},
+  { imageUrl: "./M2(2).png", view: 2, download: 1},
+  { imageUrl: "./M2(3).png", view: 3, download: 2},
+]
 </script>
+<script>
+  import ImageModal from "../../modal/imageModal.vue";
+  export default {
+    components:{
+        ImageModal
+    },
+    data() {
+        return {
+            isOpenModal: false,
+            isHover: false,
+            imageData:""
+        }
+    },
+    methods: {
+        openImageModal(image){
+            this.imageData = image
+            this.isOpenModal = true
+            this.incrementViews()
+        },
+        closeImageModal(){
+            this.isOpenModal = false
+            this.imageData = {}
+        },
+        incrementViews() {
+            this.imageData.view += 1; // เพิ่มจำนวนผู้เข้าชมเมื่อเปิด Modal
+        },
+        incrementDownloads() {
+            this.imageData.download += 1; // เพิ่มจำนวนครั้งที่ดาวน์โหลด
+        }
+    },
+  };
+</script>
+
+<style scoped>
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.overlay {
+  opacity: 0; 
+}
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+</style>

@@ -51,7 +51,13 @@ export const useColors = () => {
   };
   //#96CCD5
   const getTeamColorSoft = (team: string) => {
+    // console.log(team);
+    
     switch (team) {
+      case "A":
+        return "#FAD0C4";
+      case "B":
+        return "#FFF7F3";
       case "C":
         return "#DDD6F1";
       case "D":
