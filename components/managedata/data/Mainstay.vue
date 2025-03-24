@@ -23,7 +23,7 @@
             />
           </div>
           <div class="pa-1">
-            <v-btn color="#529B41" rounded="lg"
+            <v-btn color="#529B41" rounded="lg" @click="addMainstay = true"
               ><v-icon color="white">mdi-plus</v-icon>
               <span style="color: white">เพิ่มแกนนำ</span>
             </v-btn>
@@ -160,6 +160,76 @@
         </tbody>
       </v-table>
     </v-container>
+    <v-dialog v-model="addMainstay" max-width="1200">
+      <v-card class="pa-2" rounded="lg">
+        <v-card-title class="text-h6">
+          เพิ่มแกนนำ
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            size="large"
+            @click="addMainstay = false"
+            class="float-right"
+          ></v-btn>
+        </v-card-title>
+        <div class="pt-1 pb-1">
+          <v-divider class="border-opacity-75 dashed-divider"></v-divider>
+        </div>
+
+        <v-card-text class="pt-4">
+          <div class="pt-0 pb-0">
+            <span class="text-h6">ชื่อ-สกุล</span>
+            <v-text-field
+              placeholder="กรอกชื่อ-สกุล"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </div>
+
+          <div class="pt-0 pb-0">
+            <span class="text-h6">การศึกษา</span>
+            <v-text-field
+              placeholder="กรอกข้อมูล"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </div>
+          <v-row>
+            <v-col cols="12" sm="8" class="pt-4 pb-0">
+              <span class="text-h6">เบอร์โทรผู้ประสาน</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="4" class="pt-4 pb-0">
+              <span class="text-h6">สถานะแกนนำ</span>
+              <v-autocomplete
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <div class="d-flex justify-end pb-6 px-6">
+          <v-btn
+            color="#2A3547"
+            rounded="lg"
+            size="large"
+            @click="addMainstay = false"
+            class="text-white"
+            min-width="200"
+          >
+            บันทึก
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -168,6 +238,7 @@
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   // Reactive property to track if the viewport is mobile
   const isMobile = ref(false);
+  const addMainstay = ref(false);
 
   // Only run this logic in the client environment
   if (process.client) {
@@ -193,10 +264,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
@@ -204,10 +275,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
@@ -215,10 +286,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
@@ -226,10 +297,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
@@ -237,10 +308,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
@@ -248,10 +319,10 @@
     {
       school: "รุจิเสรี",
       name: "น.ส.เขมอัปสร จันทรา",
-      student: 159, 
+      student: 159,
       level: "0",
       position: "แกนนำ",
-      phone:"082-5555555",
+      phone: "082-5555555",
 
       image:
         "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",

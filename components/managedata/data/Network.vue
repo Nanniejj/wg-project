@@ -21,7 +21,7 @@
     </div>
     <div class="text-end pb-5">
       <div v-if="!isMobile">
-        <v-btn color="#95D51E" rounded="lg"
+        <v-btn color="#95D51E" rounded="lg" @click="addNetwork = true"
           ><v-icon color="white">mdi-plus</v-icon>
           <span style="color: white">เพิ่ม POC</span>
         </v-btn>
@@ -41,9 +41,113 @@
 
     <v-data-table :headers="headers" :items="items">
       <template v-slot:item.actions="{ item }">
-        <v-icon icon="mdi-dots-vertical"   v-tooltip="'Edit'"   @click="!EditOverlay"></v-icon>
+        <v-icon
+          icon="mdi-dots-vertical"
+          v-tooltip="'Edit'"
+          @click="!EditOverlay"
+        ></v-icon>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="addNetwork" max-width="1200">
+      <v-card class="pa-2" rounded="lg">
+        <v-card-title class="text-h6">
+          เพิ่มแกนนำ
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            size="large"
+            @click="addNetwork = false"
+            class="float-right"
+          ></v-btn>
+        </v-card-title>
+        <div class="pt-1 pb-1">
+          <v-divider class="border-opacity-75 dashed-divider"></v-divider>
+        </div>
+
+        <v-card-text class="pt-4">
+          <div class="pt-0 pb-0">
+            <span class="text-h6">ชื่อ-สกุล</span>
+            <v-text-field
+              placeholder="กรอกชื่อ-สกุล"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </div>
+
+          <v-row>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">เบอร์โทรผู้ประสาน</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">ทัพภาค</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">การศึกษา</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">กิจกรรมที่มีความเชื่อมโยง/ตำรวจ</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">ตำแหน่งปัจจุบัน</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">ผู้ที่เกี่ยวข้อง</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <div class="d-flex justify-end pb-6 px-6">
+          <v-btn
+            color="#2A3547"
+            rounded="lg"
+            size="large"
+            @click="addNetwork = false"
+            class="text-white"
+            min-width="200"
+          >
+            บันทึก
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -52,7 +156,7 @@
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const loaded = ref(false);
   const loading = ref(false);
-
+  const addNetwork = ref(false);
   const isMobile = ref(false);
 
   const headers = ref([

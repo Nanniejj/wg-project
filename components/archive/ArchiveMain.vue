@@ -7,14 +7,14 @@
       </v-col>
       <v-col cols="auto" class="justify-end align-center d-flex">
         <v-btn
-          class="font-weight-bold"
           color="#2A3547"
           size="large"
           rounded
           @click="createNew = !createNew"
           style="margin-top: -10px"
+          width="220px"
         >
-          <span class="text-h6"> Create new</span>
+          <span class="text-h6">Create new</span>
         </v-btn>
       </v-col>
     </v-row>
@@ -222,7 +222,6 @@
             class="pa-2 card-stat-shadow card-archive"
             max-width="230"
             @click="toggleVideo"
-            
             :style="{
               backgroundColor: isCardVdoClicked ? '#AFD5F0' : '',
               opacity: isCardInfoClicked ? 0.8 : 1,

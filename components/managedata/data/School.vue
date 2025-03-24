@@ -23,9 +23,9 @@
             />
           </div>
           <div class="pa-1">
-            <v-btn color="#E58383" rounded="lg"
+            <v-btn color="#E58383" rounded="lg" @click="addSchool = true"
               ><v-icon color="white">mdi-plus</v-icon>
-              <span style="color: white">เพิ่มข้อมูลเครือข่าย</span>
+              <span style="color: white">เพิ่มข้อมูลโรงเรียน</span>
             </v-btn>
           </div>
         </v-row>
@@ -139,6 +139,130 @@
         </template>
       </v-data-table>
     </v-container>
+
+    <v-dialog v-model="addSchool" max-width="1200">
+      <v-card class="pa-2" rounded="lg">
+        <v-card-title class="text-h6">
+          เพิ่มโรงเรียน
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            size="large"
+            @click="addSchool = false"
+            class="float-right"
+          ></v-btn>
+        </v-card-title>
+        <div class="pt-1 pb-1">
+          <v-divider class="border-opacity-75 dashed-divider"></v-divider>
+        </div>
+
+        <v-card-text class="pt-4">
+          <v-row>
+            <v-col cols="12" sm="8" class="pt-0 pb-0">
+              <span class="text-h6">ชื่อโรงเรียน</span>
+              <v-text-field
+                placeholder="เพิ่มชื่อโรงเรียน"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="4" class="pt-0 pb-0">
+              <span class="text-h6">ภูมิภาค</span>
+              <v-autocomplete
+                placeholder="เลือกภาค"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6" class="pt-0 pb-0">
+              <span class="text-h6">แขวง/ตำบล</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" class="pt-0 pb-0">
+              <span class="text-h6">เขต/อำเภอ</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="8" class="pt-0 pb-0">
+              <span class="text-h6">จังหวัด</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="4" class="pt-0 pb-0">
+              <span class="text-h6">ไปรษณีย์</span>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+     
+
+          <v-row>
+            <v-col cols="12" md="4" class="py-0">
+              <span class="text-h6">จำนวนนักเรียน</span>
+              <v-number-input
+                density="compact"
+                v-model="NumImport"
+                :min="0"
+                control-variant="split"
+                inset
+                variant="outlined"
+              ></v-number-input>
+            </v-col>
+            <v-col cols="12" md="4" class="py-0">
+              <span class="text-h6">จำนวนแกนนำ</span>
+              <v-number-input
+                density="compact"
+                v-model="NumImport"
+                :min="0"
+                control-variant="split"
+                inset
+                variant="outlined"
+              ></v-number-input>
+            </v-col>
+
+            <v-col cols="12" md="4" class="py-0">
+              <span class="text-h6">เลือกระดับปฏิบัติการ</span>
+              <v-autocomplete
+                density="compact"
+                variant="outlined"
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <div class="d-flex justify-end pb-6 px-6">
+          <v-btn
+            color="#2A3547"
+            rounded="lg"
+            size="large"
+            @click="addSchool = false"
+            class="text-white"
+            min-width="200"
+          >
+            บันทึก
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -148,7 +272,7 @@
   const loaded = ref(false);
   const loading = ref(false);
   const EditOverlay = ref(false);
-
+  const addSchool = ref(false);
   const headers = ref([
     { title: "ลำดับ", value: "ลำดับ", align: "start" },
     { title: "ชื่อโรงเรียน", value: "name", align: "left" },
@@ -162,7 +286,7 @@
     { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "left" },
     { title: "", value: "actions", sortable: false },
   ]);
-
+  const NumImport = ref(0);
   const isMobile = ref(false);
 
   // Only run this logic in the client environment

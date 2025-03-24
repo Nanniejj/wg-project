@@ -10,6 +10,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "ตะวันออก",
+        "offset": [-20 , -70],
         "list": [
           "ชลบุรี",
           "ระยอง",
@@ -1434,6 +1435,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "เหนือ",
+        "offset": [0 , 0],
         "list": [
           "เชียงใหม่",
           "แม่ฮ่องสอน",
@@ -2752,6 +2754,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "ตะวันตก",
+        "offset": [-5 , 40],
         "list": [
           "กาญจนบุรี",
           "ประจวบคีรีขันธ์",
@@ -4392,6 +4395,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "ตะวันออกเฉียงเหนือ",
+        "offset": [0 , 0],
         "list": [
           "กาฬสินธุ์",
           "ขอนแก่น",
@@ -5648,6 +5652,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "กลาง",
+        "offset": [0 , 0],
         "list": [
           "กรุงเทพมหานคร",
           "อุทัยธานี",
@@ -6973,6 +6978,7 @@
       "type": "Feature",
       "properties": {
         "reg_royin": "ใต้",
+        "offset": [-20 , -20],
         "list": [
           "กระบี่",
           "ชุมพร",

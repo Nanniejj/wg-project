@@ -58,6 +58,8 @@ export const useColors = () => {
     }
   };
 
+  
+
   const getMissionColor = (name: string): string => {
     switch (name) {
       case "R12":

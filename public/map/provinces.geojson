@@ -13,7 +13,7 @@
         "pro_th": "พะเยา",
         "pro_en": "Phayao",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 442.83883879102001,
         "area_sqkm": 6189.6359503633203
       },
@@ -281,7 +281,7 @@
         "pro_th": "เชียงราย",
         "pro_en": "Chiang Rai",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 668.41672486412995,
         "area_sqkm": 11583.01236533042
       },
@@ -693,7 +693,7 @@
         "pro_th": "แพร่",
         "pro_en": "Phrae",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 515.74681664387003,
         "area_sqkm": 6484.5324974724099
       },
@@ -1032,7 +1032,7 @@
         "pro_th": "น่าน",
         "pro_en": "Nan",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 674.01789143000997,
         "area_sqkm": 12165.114094464579
       },
@@ -1424,9 +1424,10 @@
         "pro_th": "ตาก",
         "pro_en": "Tak",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "West",
+        "reg_royin": "ภาคตะวันตก",
         "perimeter": 1350.9754068893701,
-        "area_sqkm": 17318.857031330572
+        "area_sqkm": 17318.857031330572,
+        "offset": [10,-20]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2257,9 +2258,10 @@
         "pro_th": "สุโขทัย",
         "pro_en": "Sukhothai",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 488.43520716555997,
-        "area_sqkm": 6672.3418363651099
+        "area_sqkm": 6672.3418363651099,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2583,9 +2585,10 @@
         "pro_th": "อุทัยธานี",
         "pro_en": "Uthai Thani",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 491.03004508420003,
-        "area_sqkm": 6649.6438050494598
+        "area_sqkm": 6649.6438050494598,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2876,9 +2879,10 @@
         "pro_th": "กำแพงเพชร",
         "pro_en": "Kamphaeng Phet",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 486.24219960444998,
-        "area_sqkm": 8520.4947679785091
+        "area_sqkm": 8520.4947679785091,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3173,9 +3177,10 @@
         "pro_th": "นครสวรรค์",
         "pro_en": "Nakhon Sawan",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 661.47566583692003,
-        "area_sqkm": 9529.8759187510004
+        "area_sqkm": 9529.8759187510004,
+        "offset": [30,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3552,9 +3557,10 @@
         "pro_th": "เพชรบูรณ์",
         "pro_en": "Phetchabun",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 721.28178694595999,
-        "area_sqkm": 12333.156078883399
+        "area_sqkm": 12333.156078883399,
+        "offset": [-20,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4004,9 +4010,10 @@
         "pro_th": "พิษณุโลก",
         "pro_en": "Phitsanulok",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 692.43325837147995,
-        "area_sqkm": 10598.922859617571
+        "area_sqkm": 10598.922859617571,
+        "offset": [0 , 0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4457,9 +4464,10 @@
         "pro_th": "พิจิตร",
         "pro_en": "Phichit",
         "reg_nesdb": "LowwerNorth",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 383.70807230815001,
-        "area_sqkm": 4318.6512618092302
+        "area_sqkm": 4318.6512618092302,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4686,7 +4694,7 @@
         "pro_th": "นครราชสีมา",
         "pro_en": "Nakhon Ratchasima",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 895.77844769407,
         "area_sqkm": 20688.81885376943
       },
@@ -5229,7 +5237,7 @@
         "pro_th": "บุรีรัมย์",
         "pro_en": "Buriram",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 817.41432042106999,
         "area_sqkm": 10047.112682037879
       },
@@ -5842,7 +5850,7 @@
         "pro_th": "สมุทรสาคร",
         "pro_en": "Samut Sakhon",
         "reg_nesdb": "West",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 144.02890572321999,
         "area_sqkm": 866.06545786263996
       },
@@ -6360,7 +6368,7 @@
         "pro_th": "สมุทรสงคราม",
         "pro_en": "Samut Songkhram",
         "reg_nesdb": "West",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 101.14320395073,
         "area_sqkm": 412.48672828898998
       },
@@ -6444,9 +6452,10 @@
         "pro_th": "สุพรรณบุรี",
         "pro_en": "Suphan Buri",
         "reg_nesdb": "West",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 508.30356071006003,
-        "area_sqkm": 5409.2610841041496
+        "area_sqkm": 5409.2610841041496,
+        "offset": [20,-20]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6750,9 +6759,10 @@
         "pro_th": "นครปฐม",
         "pro_en": "Nakhon Pathom",
         "reg_nesdb": "West",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 242.57464085800001,
-        "area_sqkm": 2141.72859749704
+        "area_sqkm": 2141.72859749704,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7069,7 +7079,7 @@
         "pro_th": "ราชบุรี",
         "pro_en": "Ratchaburi",
         "reg_nesdb": "West",
-        "reg_royin": "West",
+        "reg_royin": "ภาคตะวันตก",
         "perimeter": 396.61398035047,
         "area_sqkm": 5193.5302239491002
       },
@@ -7304,7 +7314,7 @@
         "pro_th": "บึงกาฬ",
         "pro_en": "Bueng Kan",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 423.37052678018,
         "area_sqkm": 3979.5452929892799
       },
@@ -7564,7 +7574,7 @@
         "pro_th": "กาญจนบุรี",
         "pro_en": "Kanchanaburi",
         "reg_nesdb": "West",
-        "reg_royin": "West",
+        "reg_royin": "ภาคตะวันตก",
         "perimeter": 808.23200765611,
         "area_sqkm": 19405.042979192691
       },
@@ -8003,7 +8013,7 @@
         "pro_th": "หนองบัวลำภู",
         "pro_en": "Nong Bua Lamphu",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 405.81992287162001,
         "area_sqkm": 4091.1941592698599
       },
@@ -8243,9 +8253,10 @@
         "pro_th": "ลพบุรี",
         "pro_en": "Lopburi",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 526.46738595741999,
-        "area_sqkm": 6501.0311852592504
+        "area_sqkm": 6501.0311852592504,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8547,7 +8558,7 @@
         "pro_th": "ชัยภูมิ",
         "pro_en": "Chaiyaphum",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 617.92133812274994,
         "area_sqkm": 12679.25394167537
       },
@@ -9008,9 +9019,10 @@
         "pro_th": "สิงห์บุรี",
         "pro_en": "Sing Buri",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 176.38818105745,
-        "area_sqkm": 818.42840644624005
+        "area_sqkm": 818.42840644624005,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9141,9 +9153,10 @@
         "pro_th": "พระนครศรีอยุธยา",
         "pro_en": "Phra Nakhon Si Ayutthaya",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 297.08565800818002,
-        "area_sqkm": 2547.0067048646301
+        "area_sqkm": 2547.0067048646301,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9372,7 +9385,7 @@
         "pro_th": "อำนาจเจริญ",
         "pro_en": "Amnat Charoen",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 355.31276101301,
         "area_sqkm": 3262.6137879980902
       },
@@ -9640,9 +9653,10 @@
         "pro_th": "อ่างทอง",
         "pro_en": "Ang Thong",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 160.09146749105,
-        "area_sqkm": 948.98724583936996
+        "area_sqkm": 948.98724583936996,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9774,7 +9788,7 @@
         "pro_th": "อุบลราชธานี",
         "pro_en": "Ubon Ratchathani",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 836.01457201787002,
         "area_sqkm": 15472.47978609577
       },
@@ -10269,9 +10283,10 @@
         "pro_th": "ยโสธร",
         "pro_en": "Yasothon",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 489.08479724026,
-        "area_sqkm": 4096.1543099610299
+        "area_sqkm": 4096.1543099610299,
+        "offset": [0,-20]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10631,9 +10646,10 @@
         "pro_th": "นนทบุรี",
         "pro_en": "Nonthaburi",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 133.87332373404001,
-        "area_sqkm": 640.29422318965999
+        "area_sqkm": 640.29422318965999,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10778,7 +10794,7 @@
         "pro_th": "สุรินทร์",
         "pro_en": "Surin",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 723.66334934004999,
         "area_sqkm": 8809.9351777687098
       },
@@ -11376,9 +11392,10 @@
         "pro_th": "ปทุมธานี",
         "pro_en": "Pathum Thani",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 203.51623734508999,
-        "area_sqkm": 1521.51426750265
+        "area_sqkm": 1521.51426750265,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11503,7 +11520,7 @@
         "pro_th": "กรุงเทพมหานคร",
         "pro_en": "Bangkok",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 250.16777331327,
         "area_sqkm": 1566.5778551537101
       },
@@ -13295,7 +13312,7 @@
         "pro_th": "ศรีสะเกษ",
         "pro_en": "Sisaket",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 591.15879085895995,
         "area_sqkm": 8869.4988587257594
       },
@@ -13706,9 +13723,10 @@
         "pro_th": "สมุทรปราการ",
         "pro_en": "Samut Prakan",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 174.79504855617,
-        "area_sqkm": 965.96104508808003
+        "area_sqkm": 965.96104508808003,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14010,7 +14028,7 @@
         "pro_th": "เพชรบุรี",
         "pro_en": "Phetchaburi",
         "reg_nesdb": "West",
-        "reg_royin": "West",
+        "reg_royin": "ภาคตะวันตก",
         "perimeter": 403.45322701967001,
         "area_sqkm": 6173.0017388286196
       },
@@ -14228,7 +14246,7 @@
         "pro_th": "ประจวบคีรีขันธ์",
         "pro_en": "Prachuap Khiri Khan",
         "reg_nesdb": "West",
-        "reg_royin": "West",
+        "reg_royin": "ภาคตะวันตก",
         "perimeter": 618.60080313078004,
         "area_sqkm": 6427.1846313731103
       },
@@ -14576,7 +14594,7 @@
         "pro_th": "อุดรธานี",
         "pro_en": "Udon Thani",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 863.24019825296,
         "area_sqkm": 11032.27063166398
       },
@@ -15141,7 +15159,7 @@
         "pro_th": "เลย",
         "pro_en": "Loei",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 779.44334394807004,
         "area_sqkm": 10490.07923183725
       },
@@ -15609,9 +15627,10 @@
         "pro_th": "ชลบุรี",
         "pro_en": "Chonburi",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 546.68718367410997,
-        "area_sqkm": 4510.4795786348604
+        "area_sqkm": 4510.4795786348604,
+        "offset": [50,-170]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16137,9 +16156,10 @@
         "pro_th": "ขอนแก่น",
         "pro_en": "Khon Kaen",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 770.84815746735001,
-        "area_sqkm": 10629.00058294659
+        "area_sqkm": 10629.00058294659,
+        "offset": [15,-20]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16703,9 +16723,10 @@
         "pro_th": "ระนอง",
         "pro_en": "Ranong",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 733.11798223187998,
-        "area_sqkm": 3223.6532567530098
+        "area_sqkm": 3223.6532567530098,
+        "offset": [30,-80]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17372,9 +17393,10 @@
         "pro_th": "ชุมพร",
         "pro_en": "Chumphon",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 652.35100014247996,
-        "area_sqkm": 6010.2878036949296
+        "area_sqkm": 6010.2878036949296,
+        "offset": [-20,-10]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18106,9 +18128,10 @@
         "pro_th": "ภูเก็ต",
         "pro_en": "Phuket",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 272.10447006442001,
-        "area_sqkm": 550.09843869970996
+        "area_sqkm": 550.09843869970996,
+        "offset": [0,-30]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18470,9 +18493,10 @@
         "pro_th": "สุราษฎร์ธานี",
         "pro_en": "Surat Thani",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 966.86338224021995,
-        "area_sqkm": 13086.21372902809
+        "area_sqkm": 13086.21372902809,
+        "offset": [-120,40]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19509,9 +19533,10 @@
         "pro_th": "กระบี่",
         "pro_en": "Krabi",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 777.02456363084002,
-        "area_sqkm": 5319.4152473746299
+        "area_sqkm": 5319.4152473746299,
+        "offset": [-10,-130]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20141,7 +20166,7 @@
         "pro_th": "มุกดาหาร",
         "pro_en": "Mukdahan",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 383.61164149613001,
         "area_sqkm": 4092.9699355799698
       },
@@ -20380,9 +20405,10 @@
         "pro_th": "พังงา",
         "pro_en": "Phang Nga",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 624.84610795173,
-        "area_sqkm": 4580.0690594532598
+        "area_sqkm": 4580.0690594532598,
+        "offset": [-20,-80]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20842,9 +20868,10 @@
         "pro_th": "สระแก้ว",
         "pro_en": "Sa Kaeo",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 483.87700077799002,
-        "area_sqkm": 6815.1150349824802
+        "area_sqkm": 6815.1150349824802,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21110,9 +21137,10 @@
         "pro_th": "สกลนคร",
         "pro_en": "Sakon Nakhon",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 674.04022646995998,
-        "area_sqkm": 9525.6054687764408
+        "area_sqkm": 9525.6054687764408,
+        "offset": [-15,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21598,7 +21626,7 @@
         "pro_th": "นครศรีธรรมราช",
         "pro_en": "Nakhon Si Thammarat",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 639.16176545932001,
         "area_sqkm": 9892.3915589095304
       },
@@ -21949,9 +21977,10 @@
         "pro_th": "นครพนม",
         "pro_en": "Nakhon Phanom",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 545.56122676468999,
-        "area_sqkm": 5591.2248017037
+        "area_sqkm": 5591.2248017037,
+        "offset": [-15,-20]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22269,7 +22298,7 @@
         "pro_th": "ปราจีนบุรี",
         "pro_en": "Prachin Buri",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 440.69876649742002,
         "area_sqkm": 5020.3357971740697
       },
@@ -22530,9 +22559,10 @@
         "pro_th": "ร้อยเอ็ด",
         "pro_en": "Roi Et",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 615.04465412539003,
-        "area_sqkm": 7831.5106648172996
+        "area_sqkm": 7831.5106648172996,
+        "offset": [-10,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22998,9 +23028,10 @@
         "pro_th": "นครนายก",
         "pro_en": "Nakhon Nayok",
         "reg_nesdb": "East",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 253.13236986516,
-        "area_sqkm": 2139.67123307373
+        "area_sqkm": 2139.67123307373,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23167,7 +23198,7 @@
         "pro_th": "กาฬสินธุ์",
         "pro_en": "Kalasin",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 565.49154255264,
         "area_sqkm": 6898.9834557863096
       },
@@ -23577,7 +23608,7 @@
         "pro_th": "ตราด",
         "pro_en": "Trat",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 653.52837531461,
         "area_sqkm": 2852.4168647738202
       },
@@ -24120,7 +24151,7 @@
         "pro_th": "หนองคาย",
         "pro_en": "Nong Khai",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 570.48523232284003,
         "area_sqkm": 3264.2368570057001
       },
@@ -24472,9 +24503,10 @@
         "pro_th": "ฉะเชิงเทรา",
         "pro_en": "Chachoengsao",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 476.29950774068999,
-        "area_sqkm": 5166.9035806361799
+        "area_sqkm": 5166.9035806361799,
+        "offset": [0,-15]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24785,9 +24817,10 @@
         "pro_th": "มหาสารคาม",
         "pro_en": "Maha Sarakham",
         "reg_nesdb": "Northeast",
-        "reg_royin": "Northeast",
+        "reg_royin": "ภาคตะวันออกเฉียงเหนือ",
         "perimeter": 465.98581968460002,
-        "area_sqkm": 5582.5856811366702
+        "area_sqkm": 5582.5856811366702,
+        "offset": [5,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25109,9 +25142,10 @@
         "pro_th": "ระยอง",
         "pro_en": "Rayong",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 354.66880561455997,
-        "area_sqkm": 3665.05762206486
+        "area_sqkm": 3665.05762206486,
+        "offset": [0,-70]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25406,9 +25440,10 @@
         "pro_th": "จันทบุรี",
         "pro_en": "Chanthaburi",
         "reg_nesdb": "East",
-        "reg_royin": "East",
+        "reg_royin": "ภาคตะวันออก",
         "perimeter": 479.93633473085998,
-        "area_sqkm": 6404.21977766077
+        "area_sqkm": 6404.21977766077,
+        "offset": [0,-100]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25760,9 +25795,10 @@
         "pro_th": "ชัยนาท",
         "pro_en": "Chainat",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 281.94797980513999,
-        "area_sqkm": 2511.7974764594901
+        "area_sqkm": 2511.7974764594901,
+        "offset": [0,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25952,7 +25988,7 @@
         "pro_th": "สระบุรี",
         "pro_en": "Saraburi",
         "reg_nesdb": "Central",
-        "reg_royin": "Central",
+        "reg_royin": "ภาคกลาง",
         "perimeter": 427.04356420091,
         "area_sqkm": 3487.6504514849998
       },
@@ -26227,7 +26263,7 @@
         "pro_th": "ลำปาง",
         "pro_en": "Lampang",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 802.11527908386995,
         "area_sqkm": 12500.43740698581
       },
@@ -26729,7 +26765,7 @@
         "pro_th": "อุตรดิตถ์",
         "pro_en": "Uttaradit",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 576.19079887103999,
         "area_sqkm": 7867.4802821287603
       },
@@ -27084,7 +27120,7 @@
         "pro_th": "เชียงใหม่",
         "pro_en": "Chiang Mai",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 1278.65433527608,
         "area_sqkm": 22056.887318348348
       },
@@ -27864,9 +27900,10 @@
         "pro_th": "ลำพูน",
         "pro_en": "Lamphun",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 499.28097271619998,
-        "area_sqkm": 4481.1881581135704
+        "area_sqkm": 4481.1881581135704,
+        "offset": [-5,0]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28187,7 +28224,7 @@
         "pro_th": "นราธิวาส",
         "pro_en": "Narathiwat",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 344.49928976172998,
         "area_sqkm": 4487.1435538813403
       },
@@ -28414,7 +28451,7 @@
         "pro_th": "ปัตตานี",
         "pro_en": "Pattani",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 287.18575047309997,
         "area_sqkm": 1975.9549969795401
       },
@@ -28589,7 +28626,7 @@
         "pro_th": "ยะลา",
         "pro_en": "Yala",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 483.68035913493998,
         "area_sqkm": 4467.2689414124798
       },
@@ -28904,9 +28941,10 @@
         "pro_th": "ตรัง",
         "pro_en": "Trang",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 482.96137382083998,
-        "area_sqkm": 4733.6716347988504
+        "area_sqkm": 4733.6716347988504,
+        "offset": [15,-70]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29399,7 +29437,7 @@
         "pro_th": "พัทลุง",
         "pro_en": "Phatthalung",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 320.75380694757001,
         "area_sqkm": 3858.38806176758
       },
@@ -29580,7 +29618,7 @@
         "pro_th": "สงขลา",
         "pro_en": "Songkhla",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 616.30784254173,
         "area_sqkm": 7745.41218398206
       },
@@ -29890,9 +29928,10 @@
         "pro_th": "แม่ฮ่องสอน",
         "pro_en": "Mae Hong Son",
         "reg_nesdb": "UpperNorth",
-        "reg_royin": "North",
+        "reg_royin": "ภาคเหนือ",
         "perimeter": 962.46584093359002,
-        "area_sqkm": 12784.28056691474
+        "area_sqkm": 12784.28056691474,
+        "offset": [30,-80]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30500,9 +30539,10 @@
         "pro_th": "สตูล",
         "pro_en": "Satun",
         "reg_nesdb": "South",
-        "reg_royin": "South",
+        "reg_royin": "ภาคใต้",
         "perimeter": 554.35743484883994,
-        "area_sqkm": 3011.5586545034198
+        "area_sqkm": 3011.5586545034198,
+        "offset": [70,-50]
       },
       "geometry": {
         "type": "MultiPolygon",
