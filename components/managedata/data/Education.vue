@@ -1,145 +1,142 @@
 <template>
-  <v-container>
-    <div class="text-end pb-5">
-      <div v-if="!isMobile">
-        <v-row class="justify-end">
-          <div class="pa-1">
-            <v-btn
-              color="#AEE0E8"
-              outlined
-              rounded="lg"
-              @click="triggerFileInput"
-            >
-              <v-icon class="px-3">mdi-tray-arrow-down</v-icon
-              ><span>Import CSV</span>
-            </v-btn>
+  <div class="text-end pb-10">
+    <div v-if="!isMobile">
+      <v-row class="justify-end">
+        <div class="pa-1">
+          <v-btn
+            color="#AEE0E8"
+            outlined
+            rounded="lg"
+            @click="triggerFileInput"
+          >
+            <v-icon class="px-3">mdi-tray-arrow-down</v-icon
+            ><span>Import CSV</span>
+          </v-btn>
 
-            <input
-              ref="fileInput"
-              type="file"
-              accept=".csv"
-              @change="handleFileUpload"
-              style="display: none"
-            />
-          </div>
-          <div class="pa-1">
-            <v-btn color="#FFA72F" rounded="lg"
-              ><v-icon color="white">mdi-plus</v-icon>
-              <span style="color: white">เพิ่มข้อมูลสถาณศึกษา</span>
-            </v-btn>
-          </div>
-        </v-row>
-      </div>
-      <div v-else>
-        <!-- <v-btn color="#FFA72F" rounded="lg"
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".csv"
+            @change="handleFileUpload"
+            style="display: none"
+          />
+        </div>
+        <div class="pa-1">
+          <v-btn color="#FFA72F" rounded="lg"
+            ><v-icon color="white">mdi-plus</v-icon>
+            <span style="color: white">เพิ่มข้อมูลสถาณศึกษา</span>
+          </v-btn>
+        </div>
+      </v-row>
+    </div>
+    <div v-else>
+      <!-- <v-btn color="#FFA72F" rounded="lg"
           ><v-icon  color="white">mdi-plus</v-icon>
         </v-btn> -->
-        <v-row class="justify-end">
-          <div class="pa-1">
-            <v-btn
-              color="#AEE0E8"
-              size="large"
-              density="comfortable"
-              icon="mdi-tray-arrow-down"
-              @click="triggerFileInput"
-            ></v-btn>
+      <v-row class="justify-end">
+        <div class="pa-1">
+          <v-btn
+            color="#AEE0E8"
+            size="large"
+            density="comfortable"
+            icon="mdi-tray-arrow-down"
+            @click="triggerFileInput"
+          ></v-btn>
 
-            <input
-              ref="fileInput"
-              type="file"
-              accept=".csv"
-              @change="handleFileUpload"
-              style="display: none"
-            />
-          </div>
-          <div class="pa-1">
-            <v-btn
-              color="#FFA72F"
-              size="large"
-              density="comfortable"
-              icon="mdi-plus"
-            ></v-btn>
-          </div>
-        </v-row>
-      </div>
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".csv"
+            @change="handleFileUpload"
+            style="display: none"
+          />
+        </div>
+        <div class="pa-1">
+          <v-btn
+            color="#FFA72F"
+            size="large"
+            density="comfortable"
+            icon="mdi-plus"
+          ></v-btn>
+        </div>
+      </v-row>
     </div>
+  </div>
 
-    <div class="pb-5">
-      <v-text-field
-        v-model="search"
-        placeholder="SEARCH"
-        prepend-inner-icon="mdi-magnify"
-        hide-details
-        rounded="lg"
+  <div class="pb-8">
+    <v-text-field
+      v-model="search"
+      placeholder="SEARCH"
+      prepend-inner-icon="mdi-magnify"
+      hide-details
+      rounded="lg"
+      variant="solo"
+    >
+      <template v-slot:append>
+        <v-btn @click="searchData" rounded="lg" size="large" color="#000000">
+          <span>ค้นหา</span>
+        </v-btn>
+      </template>
+    </v-text-field>
+  </div>
+
+  <v-row>
+    <v-col cols="12" md="3" class="py-0">
+      <v-autocomplete density="compact" variant="solo" placeholder="เลือกภาค">
+      </v-autocomplete>
+    </v-col>
+    <v-col cols="12" md="3" class="py-0">
+      <v-autocomplete
+        density="compact"
         variant="solo"
+        placeholder="เลือกจังหวัด"
       >
-        <template v-slot:append>
-          <v-btn @click="searchData" rounded="lg" size="large" color="#000000">
-            <span>ค้นหา</span>
-          </v-btn>
-        </template>
-      </v-text-field>
-    </div>
+      </v-autocomplete>
+    </v-col>
+    <v-col cols="12" md="3" class="py-0">
+      <v-autocomplete density="compact" variant="solo" placeholder="เลือกอำเภอ">
+      </v-autocomplete>
+    </v-col>
+    <v-col cols="12" md="2" class="py-0">
+      <v-autocomplete density="compact" variant="solo" placeholder="ระดับแกนนำ">
+      </v-autocomplete>
+    </v-col>
 
-    <v-row>
-      <v-col cols="12" md="3">
-        <v-autocomplete density="compact" variant="solo" placeholder="เลือกภาค">
-        </v-autocomplete>
-      </v-col>
-      <v-col cols="12" md="3">
-        <v-autocomplete
-          density="compact"
-          variant="solo"
-          placeholder="เลือกจังหวัด"
-        >
-        </v-autocomplete>
-      </v-col>
-      <v-col cols="12" md="3">
-        <v-autocomplete
-          density="compact"
-          variant="solo"
-          placeholder="เลือกอำเภอ"
-        >
-        </v-autocomplete>
-      </v-col>
-      <v-col cols="12" md="2">
-        <v-autocomplete
-          density="compact"
-          variant="solo"
-          placeholder="ระดับแกนนำ"
-        >
-        </v-autocomplete>
-      </v-col>
+    <v-col cols="12" md="1" class="py-0">
+      <v-btn block variant="text"> ล้างทิ้ง </v-btn>
+    </v-col>
+  </v-row>
 
-      <v-col cols="12" md="1">
-        <v-btn block variant="text"> ล้างทิ้ง </v-btn>
-      </v-col>
-    </v-row>
-
-    <v-container fluid>
-      <v-data-table :headers="headers" :items="desserts">
-        <template v-slot:item.ลำดับ="{ item, index }">
-          {{ index + 1 }}
-        </template>
-        <template v-slot:item.ผู้ที่เกี่ยวข้อง="{ item }">
-          <div class="d-flex align-items-center mx-5">
-            <v-avatar size="40">
-              <v-img :src="item.image"></v-img>
-            </v-avatar>
-          </div>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <div class="align-items-center">
-            <v-icon
-              v-tooltip="'Edit'"
-              icon="mdi-dots-vertical"
-              @click="!EditOverlay"
-            ></v-icon>
-          </div>
-        </template>
-      </v-data-table>
-    </v-container>
-  </v-container>
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :mobile="isMobile"
+    :hide-default-header="isMobile"
+    :items-per-page="isMobile ? 5 : 10"
+  >
+    <template v-slot:item.ลำดับ="{ item, index }">
+      {{ index + 1 }}
+    </template>
+    <template v-slot:item.ผู้ที่เกี่ยวข้อง="{ item }">
+      <div>
+        <v-avatar size="40">
+          <v-img :src="item.image"></v-img>
+        </v-avatar>
+      </div>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <div v-if="!isMobile" class="align-items-center">
+        <v-icon
+          v-tooltip="'Edit'"
+          icon="mdi-dots-vertical"
+          @click="!EditOverlay"
+        ></v-icon>
+      </div>
+      <div v-else class="align-items-center">
+        <span style="color: #29a0af" @click="!EditOverlay">แก้ไข</span>
+      </div>
+    </template>
+  </v-data-table>
 </template>
 
 <script setup>
@@ -149,16 +146,16 @@
   const isMobile = ref(false);
 
   const headers = ref([
-    { title: "ลำดับ", value: "ลำดับ", align: "start" },
-    { title: "ชื่อสถาณศึกษา", value: "name", align: "left" },
-    { title: "จำนวนนักศึกษา", value: "student", align: "left" },
-    { title: "ภาค", value: "sector", align: "start" },
-    { title: "จังหวัด", value: "province", align: "left" },
-    { title: "อำเภอ", value: "district", align: "left" },
-    { title: "ระดับแกนนำ", value: "level", align: "start" },
-    { title: "แกนนำ", value: "leader", align: "left" },
-    { title: "กิจกรรม", value: "acivity", align: "left" },
-    { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "left" },
+    { title: "ลำดับ", value: "ลำดับ", align: "center" },
+    { title: "ชื่อสถาณศึกษา", value: "name", align: "center" },
+    { title: "จำนวนนักศึกษา", value: "student", align: "center" },
+    { title: "ภาค", value: "sector", align: "center" },
+    { title: "จังหวัด", value: "province", align: "center" },
+    { title: "อำเภอ", value: "district", align: "center" },
+    { title: "ระดับแกนนำ", value: "level", align: "center" },
+    { title: "แกนนำ", value: "leader", align: "center" },
+    { title: "กิจกรรม", value: "acivity", align: "center" },
+    { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
 

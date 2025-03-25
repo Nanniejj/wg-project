@@ -5,6 +5,11 @@
       :items="lobbyItems"
       v-model="selected"
       item-value="user"
+      :mobile="isMobile"
+      :hide-default-header="isMobile"
+       :items-per-page="isMobile ? 5 : 10"
+
+      
     >
       <!-- สร้าง template สำหรับคอลัมน์ status -->
       <template #item.is_active="{ item }">
@@ -23,9 +28,12 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-icon class="mx-4" size="small" @click="editItem(item)">
+        <v-icon v-if="!isMobile" class="mx-4" size="small" @click="editItem(item)">
           mdi-pencil
         </v-icon>
+        <span style="color: #29a0af;" v-else class="mx-4" size="small" @click="editItem(item)">
+          แก้ไข
+        </span>
 
         <v-dialog v-model="dialogDelete" max-width="800px">
           <v-card>
@@ -298,29 +306,29 @@
 
   const selectedMission = ref([]);
 
-const mission = [
-  "R1",
-  "R2",
-  "R3",
-  "R4",
-  "R5",
-  "R6",
-  "R7",
-  "R8",  
-  "R9",
-  "R10",
-  "R11",
-  "R12",
-  "M1",
-  "M2",
-  "M3",
-  "M4",
-  "M5",
-  "M6",
-  "M7",
-  "M8",
-  "หัวข้อประสาน",
-];
+  const mission = [
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+    "R12",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "หัวข้อประสาน",
+  ];
 
   const menu_user = ["MyTasks", "TaskManagement", "Report", "DataManagement"];
 
@@ -342,11 +350,31 @@ const mission = [
     dialogDelete.value = false;
   }
 
+  // Reactive property to track if the viewport is mobile
+  const isMobile = ref(false);
+
+  // Only run this logic in the client environment
+  if (process.client) {
+    isMobile.value = window.innerWidth < 860;
+
+    // Function to update `isMobile` on window resize
+    const updateIsMobile = () => {
+      isMobile.value = window.innerWidth < 960;
+    };
+
+    // Watch for window resize events
+    watchEffect(() => {
+      window.addEventListener("resize", updateIsMobile);
+      return () => {
+        window.removeEventListener("resize", updateIsMobile);
+      };
+    });
+  }
+
   // Function to handle saving the item (or deleting)
   const saveItem = async () => {
     // You can handle the save logic here
     // console.log("Item saved:", dialogData.value);
-  
 
     const accessArray = Object.keys(dialogData.value.access).filter(
       (key) => dialogData.value.access[key] === true
@@ -361,7 +389,7 @@ const mission = [
         access_menu: accessArray,
         is_active: dialogData.value.is_active,
         role: dialogData.value.role,
-        mission: dialogData.value.mission
+        mission: dialogData.value.mission,
       });
       // console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
       // console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
@@ -409,12 +437,12 @@ const mission = [
       //   console.log(affiliations_data.value);
       // อัปเดต headers หลังจากดึงข้อมูล
       headers.value = [
-        { title: "ชื่อ", value: "username" },
-        { title: "สังกัด", value: "affiliation" },
+        { title: "ชื่อ", value: "username" , align: "center"},
+        { title: "สังกัด", value: "affiliation", align: "center" },
         // { title: "บทบาท", value: "role" },
-        { title: "รายละเอียด", value: "description" },
-        { title: "วันที่สมัคร", value: "create_date" },
-        { title: "สถานะ", value: "is_active" },
+        { title: "รายละเอียด", value: "description"  ,align: "center"},
+        { title: "วันที่สมัคร", value: "create_date" ,align: "center" },
+        { title: "สถานะ", value: "is_active"  ,align: "center"},
         { title: "Actions", key: "actions", sortable: false },
       ];
     } catch (error) {

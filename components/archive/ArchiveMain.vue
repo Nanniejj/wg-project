@@ -31,7 +31,7 @@
           variant="solo-filled"
           @click:append="toggleMarker"
         >
-          <template v-slot:append>
+          <!-- <template v-slot:append>
             <div>
               <v-icon
                 class="text-h4"
@@ -39,12 +39,10 @@
                 v-tooltip="'ค้นหาด้วยภาพ'"
                 @click="isOverlayVisible = true"
                 >mdi-image-filter-center-focus-strong-outline
-                <!-- <v-tooltip activator="self" location="bottom">
-                  Tooltip Text
-                </v-tooltip> -->
+ 
               </v-icon>
             </div>
-          </template>
+          </template> -->
         </v-text-field>
 
         <!-- <v-text-field
@@ -308,6 +306,24 @@
     isCardImgClicked.value = false; // สลับสถานะการคลิก
     isCardVdoClicked.value = !isCardVdoClicked.value; // สลับสถานะการคลิก
   };
+
+  const { $apiClient } = useNuxtApp();
+  let MediaData = ref([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await $apiClient.get("/api/getArchive");
+
+      MediaData.value = response.data[0].file;
+      console.log(MediaData.value[0]);
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+    }
+  };
+
+  onMounted(() => {
+    fetchData();
+  });
 </script>
 
 <style scoped>
