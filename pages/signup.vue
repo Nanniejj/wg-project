@@ -245,10 +245,11 @@
 
   const fetchData = async () => {
     try {
-      const response = await $apiClient.get("/api/getTeam");
+      const response = await $apiClient.get("/auth/getAllTeam");
+      // console.log(response);
       // affiliations_data.value = response.data;
       affiliations_data.value = response.data.map((team) => team.name);
-      console.log(affiliations_data.value);
+      // console.log(affiliations_data.value);
     } finally {
       // loading.value = false;
     }

@@ -105,8 +105,10 @@
                   :key="item.month"
                   class="text-h6 d-flex align-center justify-center flex-column"
                 >
-                  <span style="font-size: 22px">{{ item.month }}</span>
-                  <span style="font-size: 22px; color: orange">{{
+                  <span class="text-h5 pb-2" >{{
+                    item.month
+                  }}</span>
+                  <span class="text-h4">{{
                     item.activities
                   }}</span>
                 </v-col>
@@ -200,8 +202,10 @@
                   :key="item.month"
                   class="text-h6 d-flex align-center justify-center flex-column"
                 >
-                  <span style="font-size: 22px">{{ item.month }}</span>
-                  <span style="font-size: 22px; color: orange">{{
+                  <span class="text-h5 pb-2" >{{
+                    item.month
+                  }}</span>
+                  <span class="text-h4" >{{
                     item.activities
                   }}</span>
                 </v-col>
@@ -210,7 +214,12 @@
           </v-card>
         </v-col>
       </v-col>
-      <v-col cols="12" md="6" v-if="zone_true === true" class="d-flex justify-start">
+      <v-col
+        cols="12"
+        md="6"
+        v-if="zone_true === true"
+        class="d-flex justify-start"
+      >
         <v-timeline
           align="start"
           side="end"
@@ -223,16 +232,16 @@
             size="small"
           >
             <div class="d-flex">
-              <strong class="me-4">{{ item.date }}</strong>
+              <strong class="me-4"><span style="font-size: 18px;">{{ item.date }}</span></strong>
               <div>
                 <strong
-                  >{{ item.category }}
-                  <span :style="{ color: getTeamColor(item.team) }"
+                  ><span style="font-size: 18px;">{{ item.category }}</span>
+                  <span :style="{ color: getTeamColor(item.team)}" style="font-size: 18px; margin-left: 5px;"
                     >({{ item.team }})</span
                   ></strong
                 >
 
-                <div class="text-caption">{{ item.content }}</div>
+                <div class="text-caption"><span style="font-size: 16px;">{{ item.content }}</span></div>
               </div>
             </div>
           </v-timeline-item>
@@ -580,7 +589,7 @@
           province: "ปทุมธานี",
           activity: "งานประเพณีรับบัว",
         },
-     
+
         {
           lat: 13.9165,
           lng: 100.0034,
@@ -1076,18 +1085,18 @@
   watch(selectedZone, async () => {
     if (selectedZone.value) {
       // ลบ marker เก่าทั้งหมดออกจากแผนที่
-if (window.markers && window.markers.length > 0) {
-  window.markers.forEach((marker) => {
-    map.removeLayer(marker);
-  });
-  window.markers = []; // ล้าง array ของ marker เก่า
-}
+      if (window.markers && window.markers.length > 0) {
+        window.markers.forEach((marker) => {
+          map.removeLayer(marker);
+        });
+        window.markers = []; // ล้าง array ของ marker เก่า
+      }
       console.log("selectedZone.value", selectedZone.value);
       const zoneData = zone.value.find(
         (z) => z.title === cleanZone(selectedZone.value)
       );
       if (zoneData) {
-        map.flyTo([zoneData.lat, zoneData.lng], zoneData.zoom); // ซูมไปที่ตำแหน่งของเขตที่เลือก
+        map.setView([zoneData.lat, zoneData.lng], zoneData.zoom); // ซูมไปที่ตำแหน่งของเขตที่เลือก
       }
 
       console.log("zoneData", zoneData);
@@ -1222,7 +1231,6 @@ if (window.markers && window.markers.length > 0) {
               const activityTotal = regionData.activities; // ค่า activities
               console.log("activityTotal", activityTotal);
 
-
               layer.bindTooltip(
                 `
                   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -1257,10 +1265,10 @@ if (window.markers && window.markers.length > 0) {
                 map.removeLayer(currentLayer);
               }
 
-              map.flyTo([Zoom[0], Zoom[1]], Zoom[2]); // ซูมไปที่ตำแหน่งของเขตที่เลือก
+              map.setView([Zoom[0], Zoom[1]], Zoom[2]); // ซูมไปที่ตำแหน่งของเขตที่เลือก
 
               // const center = getRegionCenter(feature.properties.reg_royin);
-              // map.flyTo([center[0], center[1]], center[2]);
+              // map.setView([center[0], center[1]], center[2]);
 
               // กรองข้อมูลให้ตรงกับ selectedZone.title
               const filteredData = {
@@ -1407,10 +1415,10 @@ if (window.markers && window.markers.length > 0) {
             map.removeLayer(currentLayer);
           }
 
-          map.flyTo([Zoom[0], Zoom[1]], Zoom[2]); // ซูมไปที่ตำแหน่งของเขตที่เลือก
+          map.setView([Zoom[0], Zoom[1]], Zoom[2]); // ซูมไปที่ตำแหน่งของเขตที่เลือก
 
           // const center = getRegionCenter(feature.properties.reg_royin);
-          // map.flyTo([center[0], center[1]], center[2]);
+          // map.setView([center[0], center[1]], center[2]);
 
           // กรองข้อมูลให้ตรงกับ selectedZone.title
           const filteredData = {

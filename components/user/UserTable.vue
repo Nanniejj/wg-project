@@ -117,6 +117,22 @@
                 </div> -->
               </div>
 
+              <div
+                v-if="dialogData.role == 'ADMIN' && dialogData.role != null"
+                class="px-4"
+              >
+                <span class="text-h6">ภารกิจสั่งการ</span>
+                <v-autocomplete
+                  density="compact"
+                  v-model="dialogData.mission"
+                  :items="mission"
+                  label="เลือกภารกิจ"
+                  variant="outlined"
+                  multiple
+                  chips
+                ></v-autocomplete>
+              </div>
+
               <span class="text-h6 px-4">ระดับการเข้าถึงเมนู</span>
               <div
                 v-if="dialogData.role != 'USER' && dialogData.role != null"
@@ -287,6 +303,30 @@
     "HVT",
   ];
 
+  const mission = [
+  "R1",
+  "R2",
+  "R3",
+  "R4",
+  "R5",
+  "R6",
+  "R7",
+  "R8",  
+  "R9",
+  "R10",
+  "R11",
+  "R12",
+  "M1",
+  "M2",
+  "M3",
+  "M4",
+  "M5",
+  "M6",
+  "M7",
+  "M8",
+  "หัวข้อประสาน",
+];
+
   const menu_user = ["MyTasks", "TaskManagement", "Report", "DataManagement"];
 
   // Function to populate dialog data when editing an item
@@ -297,6 +337,8 @@
     dialogData.value.affiliation = item.affiliation;
     dialogData.value.email = item.email;
     dialogData.value.role = item.role;
+    dialogData.value.mission = item.mission;
+
 
     // สำคัญ: ใช้ spread operator เพื่อคัดลอก object
     dialogData.value.access = { ...item.access_menu };
@@ -326,6 +368,7 @@
           access_menu: selectedMenus.value,
           is_active: dialogData.value.is_active,
           role: dialogData.value.role,
+          mission: dialogData.value.mission,
         }
       );
       console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
