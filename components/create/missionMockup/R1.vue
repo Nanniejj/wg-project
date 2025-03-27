@@ -1,5 +1,33 @@
 <template>
   <v-row>
+    <!-- <v-col cols="2">
+      <v-row>
+        <v-col cols="12" class="justify-center align-center d-flex pa-1">
+          <v-card-title style="font-size: 30px">Create Mission</v-card-title>
+        </v-col>
+
+        <v-col cols="12" class="d-flex pa-1">
+          <v-btn
+            rounded="xl"
+            size="large"
+            block
+            color="#2A3547"
+            :disabled="!valid"
+            @click="submitForm"
+          >
+            <span style="font-size: 16px">Create new</span>
+          </v-btn>
+          <v-divider
+            vertical
+            :thickness="2"
+            style="margin-top: -55px"
+            class="px-1 border-opacity-50"
+            color="#707070"
+          ></v-divider>
+        </v-col>
+      </v-row>
+    </v-col> -->
+
     <v-col cols="12">
       <v-row>
         <!-- <v-col
@@ -21,7 +49,7 @@
               height: '270px',
               maxHeight: '300px',
               border: '2px dashed #707070',
-              backgroundColor: getMissionColor(selectedMission),
+              backgroundColor: getMissionColor('R1'),
               borderRadius: '30px',
               marginTop: '20px',
               display: 'flex',
@@ -30,7 +58,7 @@
               textAlign: 'center',
             }"
           >
-            <span style="font-size: 100px; color: white">{{ selectedMission }}</span>
+            <span style="font-size: 100px; color: white">R1</span>
           </v-container>
           <v-col cols="12" class="d-flex justify-center">
             <span style="font-size: 16px">Logo cover mission</span>
@@ -49,38 +77,22 @@
             ></v-text-field> -->
 
             <v-row>
-              <v-col cols="12" sm="6" lg="3"  class="py-0">
+              <v-col cols="12" sm="8" class="py-0">
                 <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
                   variant="outlined"
                   rounded="lg"
                   :items="priority"
-                  item-title="title"
-                  item-value="value"
                   v-model="selectedPriority"
                   :style="{
                     marginTop: '5px',
                   }"
                 ></v-select>
               </v-col>
-              <v-col cols="12" sm="6" lg="4" class="py-0">
-                <span style="font-size: 16px">ประเภท</span>
-                <v-select
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  :items="taskType"
-                  item-title="title"
-                  item-value="value"
-                  v-model="selectedTaskType"
-                  :style="{
-                    marginTop: '5px',
-                  }"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" lg="5" class="py-md-0">
+              <v-col cols="12" sm="4" class="py-0">
                 <span style="font-size: 16px">วันที่กำหนด</span>
+                <!-- <v-col cols="12" class="px-0 pt-1"> -->
                 <date-picker
                   style="margin-top: 5px"
                   v-model:value="DateRange"
@@ -89,70 +101,90 @@
                   :clearable="false"
                   class="w-100"
                 ></date-picker>
+                <!-- </v-col> -->
               </v-col>
-              <!-- ช่องกรอกรายละเอียด -->
-               <v-col cols="12">
-                  <span style="font-size: 16px">รายละเอียด</span>
-                  <v-text-field
-                    placeholder="รายละเอียด"
-                    v-model="DescriptionMessage"
-                    variant="outlined"
-                    rounded="lg"
-                    clearable
-                    :rules="[rules.required]"
-                  ></v-text-field>
-  
-               </v-col>
-
-               <!-- เลือกทีมปฏิบัติการ -->
-               <v-col col="12">
-                   <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
-                   <v-combobox
-                     :items="props.teams.map(team => team.name)"
-                     v-model="selectedTeam"
-                     density="compact"
-                     placeholder="เลือกทีมปฏิบัติการ"
-                     multiple
-                     variant="outlined"
-                     rounded="lg"
-                     :rules="[rules.required]"
-                   >
-                     <template v-slot:selection="data">
-                       <v-chip
-                         closable
-                         :key="JSON.stringify(data.item)"
-                         v-bind="data.attrs"
-                         :disabled="data.disabled"
-                         :model-value="data.selected"
-                         size="small"
-                         :color="getTeamColor(data.item.title.replace('Team ', ''))"
-                         @click:close="removeSelection(data.item.title)"
-                       >
-                         <span style="color: black"> {{ data.item.title }} </span>
-                       </v-chip>
-                     </template>
-                   </v-combobox>
-       
-                   <!-- แสดงข้อความในรูปแบบ Chip -->
-                   <v-row class="mt-4">
-                     <v-col cols="12">
-                       <div>
-                         <v-chip
-                           v-for="(message, index) in formData.messages"
-                           :key="index"
-                           class="ma-1"
-                           close
-                           @click:close="removeMessage(index)"
-                         >
-                           {{ message }}
-                         </v-chip>
-                       </div>
-                     </v-col>
-                   </v-row>
-               </v-col>
             </v-row>
 
+            <!-- ช่องกรอกรายละเอียด -->
+            <span style="font-size: 16px">รายละเอียด</span>
+            <v-text-field
+              placeholder="รายละเอียด"
+              v-model="newMessage"
+              variant="outlined"
+              rounded="lg"
+              clearable
+            ></v-text-field>
 
+            <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
+            <v-combobox
+              :items="team"
+              v-model="selectedTeam"
+              density="compact"
+              placeholder="เลือกทีมปฏิบัติการ"
+              multiple
+              variant="outlined"
+              rounded="lg"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  closable
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :disabled="data.disabled"
+                  :model-value="data.selected"
+                  size="small"
+                  :color="getTeamColor(data.item.title.replace('Team ', ''))"
+                  @click:close="removeSelection(data.item.title)"
+                >
+                  <span style="color: black"> {{ data.item.title }} </span>
+                </v-chip>
+              </template>
+            </v-combobox>
+
+            <!-- <span style="font-size: 16px">Link URL</span>
+            <v-row>
+              <v-col cols="9" sm="11">
+                <v-text-field
+                  density="compact"
+                  placeholder="Link URL"
+                  v-model="newMessage"
+                  variant="outlined"
+                  rounded="lg"
+                  clearable
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
+                <v-btn
+                  density="compact"
+                  rounded="md"
+                  color="#46AFC7"
+                  @click="addMessage"
+                  height="63%"
+                  min-width="40"
+                  size="small"
+                >
+                  <v-icon style="color: white; font-size: 20px"
+                    >mdi-plus</v-icon
+                  >
+                </v-btn>
+              </v-col>
+            </v-row> -->
+            <!-- แสดงข้อความในรูปแบบ Chip -->
+            <v-row class="mt-4">
+              <v-col cols="12">
+                <div>
+                  <v-chip
+                    v-for="(message, index) in formData.messages"
+                    :key="index"
+                    class="ma-1"
+                    close
+                    @click:close="removeMessage(index)"
+                  >
+                    {{ message }}
+                  </v-chip>
+                </div>
+              </v-col>
+            </v-row>
           </v-form>
         </v-col>
 
@@ -189,11 +221,6 @@
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
   const { getTeamColor, getMissionColor, getPriorityColor } = useColors();
-  const props = defineProps({
-    teams: Object,
-    selectedMission: String
-  });
-  const emit = defineEmits(["taskData"]);
   const formRef = ref(null);
   const valid = ref(false);
   const today = new Date(); // วันที่ปัจจุบัน
@@ -205,7 +232,7 @@
     details: "",
     image: null,
   });
-  const DescriptionMessage = ref(""); // ตัวแปรที่เก็บค่าจาก v-text-field
+
   const team = ref([
     "Team C",
     "Team D",
@@ -219,20 +246,15 @@
   const selectedTeam = ref(null);
 
   const priority = ref([
-    {title:"ต่ำ", value:"low"},
-    {title:"ปานกลาง", value:"medium"},
-    {title:"สูง", value:"high"},
+    "ต่ำ",
+    "กลาง",
+    "สูง",
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
-  const taskType = ref([
-    {title:"รายงานผลทั่วไป", value:"general"},
-    {title:"รายงานประจำสัปดาห์", value:"weekly"},
-    // {title:"ด่วนมาก", value:"very_urgent"},
-    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
-  ]);
-  const selectedPriority = ref("low");
-  const selectedTaskType = ref("general");
-  // const selectedMission = ref("R1");
+
+  const selectedPriority = ref("ต่ำ");
+
+  const selectedMission = ref("R1");
 
   // ฟังก์ชันเพิ่มข้อความ
   const addMessage = () => {
@@ -259,21 +281,8 @@
   };
 
   const submitForm = () => {
-    setTaskData()
-    console.log("Form submitted with mission:", props.selectedMission);
-    props.selectedMission = null; // รีเซ็ต selectedMission เป็น null
-  };
-
-  const setTaskData = () => {
-    const taskData = {
-      "mission": props.selectedMission,
-      "description": DescriptionMessage.value,
-      "priority":  selectedPriority.value,
-      "assign_team": selectedTeam.value,
-      "start_date": DateRange.value[0].toISOString().split("T")[0],
-      "end_date": DateRange.value[1].toISOString().split("T")[0]
-    };
-    emit("taskData", taskData);
+    console.log("Form submitted with mission:", selectedMission.value);
+    selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
   };
 </script>
 <style scoped>

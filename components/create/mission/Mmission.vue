@@ -49,7 +49,7 @@
             ></v-text-field> -->
 
             <v-row>
-              <v-col cols="12" sm="6" lg="3"  class="py-0">
+              <v-col cols="12" sm="8" class="py-0">
                 <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
@@ -64,22 +64,7 @@
                   }"
                 ></v-select>
               </v-col>
-              <v-col cols="12" sm="6" lg="4" class="py-0">
-                <span style="font-size: 16px">ประเภท</span>
-                <v-select
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  :items="taskType"
-                  item-title="title"
-                  item-value="value"
-                  v-model="selectedTaskType"
-                  :style="{
-                    marginTop: '5px',
-                  }"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" lg="5" class="py-md-0">
+              <v-col cols="12" sm="4" class="py-md-0">
                 <span style="font-size: 16px">วันที่กำหนด</span>
                 <date-picker
                   style="margin-top: 5px"
@@ -224,14 +209,8 @@
     {title:"สูง", value:"high"},
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
-  const taskType = ref([
-    {title:"รายงานผลทั่วไป", value:"general"},
-    {title:"รายงานประจำสัปดาห์", value:"weekly"},
-    // {title:"ด่วนมาก", value:"very_urgent"},
-    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
-  ]);
+  
   const selectedPriority = ref("low");
-  const selectedTaskType = ref("general");
   // const selectedMission = ref("R1");
 
   // ฟังก์ชันเพิ่มข้อความ
