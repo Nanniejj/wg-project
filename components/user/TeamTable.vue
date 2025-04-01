@@ -22,6 +22,7 @@
         <div>
           <div>ชื่อทีม</div>
           <v-text-field
+            density="compact"
             placeholder="ใส่ชื่อทีมที่ต้องการสร้าง"
             variant="outlined"
             v-model="teamName"
@@ -185,6 +186,4 @@
   background-color: var(--dropzone-bg-color, #E9E9E9); /* ใช้ CSS Variable */
   border-radius: 20px; 
 }
-
-
 </style>

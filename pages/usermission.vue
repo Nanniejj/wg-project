@@ -13,8 +13,8 @@
       size="x-large"
       icon="mdi-chevron-double-left"
     ></v-icon>
-    <span class="text-h4 px-4 font-weight-bold">Mission {{ title }}</span>
-    <span class="text-h5">{{ getMissionName(title) }}</span>
+    <span class="text-h6 px-4 font-weight-bold">Mission {{ title }}</span>
+    <span class="text-h6">{{ getMissionName(title) }}</span>
   </v-row>
   <component :is="getMissionComponent(title)" />
 </template>
@@ -22,7 +22,27 @@
 <script setup>
   //   import create from "./components/userMission/mission/M1.vue";
   import M1 from "./components/usertasks/missionform/M1.vue";
+  import M2 from "./components/usertasks/missionform/M2.vue";
+  import M3 from "./components/usertasks/missionform/M3.vue";
+  import M4 from "./components/usertasks/missionform/M4.vue";
+  import M5 from "./components/usertasks/missionform/M5.vue";
   import M6 from "./components/usertasks/missionform/M6.vue";
+  import M7 from "./components/usertasks/missionform/M7.vue";
+  import M8 from "./components/usertasks/missionform/M8.vue";
+  import R1 from "./components/usertasks/missionform/R1.vue";
+  import R2 from "./components/usertasks/missionform/R2.vue";
+  import R3 from "./components/usertasks/missionform/R3.vue";
+  import R4 from "./components/usertasks/missionform/R4.vue";
+  import R5 from "./components/usertasks/missionform/R5.vue";
+  import R6 from "./components/usertasks/missionform/R6.vue";
+  import R7 from "./components/usertasks/missionform/R7.vue";
+  import R8 from "./components/usertasks/missionform/R8.vue";
+  import R9 from "./components/usertasks/missionform/R9.vue";
+  import R10 from "./components/usertasks/missionform/R10.vue";
+  import R11 from "./components/usertasks/missionform/R11.vue";
+  import R12 from "./components/usertasks/missionform/R12.vue";
+  import Coordinate from "./components/usertasks/missionform/Coordinate.vue";
+
   // import create from "./components/create/mission/M3.vue";
   import { useRoute, useRouter } from "vue-router";
   const { getTeamColor, getMissionColor, getMissionName, getColorPriority } =
@@ -37,8 +57,46 @@
     switch (missionTitle) {
       case "M1":
         return M1;
+      case "M2":
+        return M2;
+      case "M3":
+        return M3;
+      case "M4":
+        return M4;
+      case "M5":
+        return M5;
       case "M6":
         return M6;
+      case "M7":
+        return M7;
+      case "M8":
+        return M8;
+      case "R1":
+        return R1;
+      case "R2":
+        return R2;
+      case "R3":
+        return R3;
+      case "R4":
+        return R4;
+      case "R5":
+        return R5;
+      case "R6":
+        return R6;
+      case "R7":
+        return R7;
+      case "R8":
+        return R8;
+      case "R9":
+        return R9;
+      case "R10":
+        return R10;
+      case "R11":
+        return R11;
+      case "R12":
+        return R12;
+      case "หัวข้อประสาน":
+        return Coordinate;
       // เพิ่ม case สำหรับ mission อื่นๆ
       default:
         return null; // หรือแสดง component default

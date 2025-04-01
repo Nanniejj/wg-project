@@ -14,6 +14,64 @@
           <v-icon icon="mdi-menu" size="30"></v-icon>
         </v-btn>
       </div>
+      <div v-if="isMobile">
+        <v-row class="pa-4">
+          <!-- Right Element -->
+          <span
+            class="d-flex align-items-center icon-right"
+            style="z-index: 999; margin-right: 15px; margin-top: 15px"
+          >
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-badge color="error" content="0">
+                  <v-icon
+                    v-bind="props"
+                    icon="mdi-bell"
+                    v-tooltip="{ text: 'แจ้งเตือน', location: 'bottom' }"
+                  ></v-icon>
+                </v-badge>
+              </template>
+
+              <!-- เมนูที่แสดงเมื่อคลิก -->
+              <v-card>
+                <v-card-title> แจ้งเตือน </v-card-title>
+                <v-card-text> ไม่มีการแจ้งเตือนใหม่! </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" @click="handleActionClick"
+                    >ดูทั้งหมด</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </span>
+          <span
+            class="d-flex align-items-center icon-right"
+            style="
+              z-index: 999;
+              margin-right: 20px;
+              border-radius: 10px;
+              margin-top: 15px;
+            "
+          >
+            <!-- <v-avatar
+            color="#2A3547"
+            size="45"
+            class="my-1 elevation-4"
+            rounded
+            style="border-radius: 10px"
+          > -->
+
+            <v-icon
+              v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
+              @click="dialogLogout = true"
+              class="hover-pointer"
+              icon="mdi-logout"
+            ></v-icon>
+
+            <!-- </v-avatar> -->
+          </span>
+        </v-row>
+      </div>
     </div>
     <!-- Conditional List for Mobile -->
     <v-list
@@ -81,6 +139,7 @@
           color="#2A3547"
           show-arrows
           style="flex-grow: 1"
+          fixed-tabs
         >
           <v-tab
             v-for="(tabData, index) in tabs"
@@ -118,9 +177,8 @@
                 <v-icon
                   v-bind="props"
                   icon="mdi-bell"
-                  size="x-large"
+                  size="large"
                   v-tooltip="{ text: 'แจ้งเตือน', location: 'bottom' }"
-                  class="hover-pointer"
                 ></v-icon>
               </v-badge>
             </template>
@@ -154,7 +212,7 @@
             @click="dialogLogout = true"
             class="hover-pointer"
             icon="mdi-logout"
-            size="x-large"
+            size="large"
           ></v-icon>
 
           <!-- </v-avatar> -->
@@ -196,9 +254,9 @@
         isMobile: false,
         tabs: [
           { label: "My Tasks", path: "/mytasks" },
-          { label: "Task Management", path: "/tasks" },
-          { label: "Report", path: "/report" },
+          // { label: "Task Management", path: "/tasks" },
           { label: "Data Management", path: "/data" },
+          { label: "Report", path: "/report" },
         ],
       };
     },
@@ -209,12 +267,14 @@
         const path = this.$route.path;
         if (path.startsWith("/mytasks")) {
           this.tab = 0;
-        } else if (path.startsWith("/tasks")) {
+        }
+        //  else if (path.startsWith("/tasks")) {
+        //   this.tab = 1;
+        // }
+        else if (path.startsWith("/data")) {
           this.tab = 1;
-        } else if (path.startsWith("/data")) {
-          this.tab = 2;
         } else if (path.startsWith("/report")) {
-          this.tab = 3;
+          this.tab = 2;
         }
       });
     },

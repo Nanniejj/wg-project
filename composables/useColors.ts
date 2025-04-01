@@ -73,6 +73,8 @@ export const useColors = () => {
     }
   };
 
+  
+
   const getMissionColor = (name: string): string => {
     switch (name) {
       case "R12":
@@ -164,6 +166,8 @@ export const useColors = () => {
         return "จัดตั้งและสนับสนุน เครือข่ายประชาธิปไตย";
       case "M8":
         return "วิเคราะห์ข้อมูล";
+      case "หัวข้อประสาน":
+        return "หัวข้อประสาน";
       default:
         return "";
     }

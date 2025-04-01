@@ -91,7 +91,7 @@
             ></v-text-field> -->
 
             <v-row>
-              <v-col cols="12" sm="8" class="py-0">
+              <v-col cols="12" sm="8">
                 <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select
                   density="compact"
@@ -106,7 +106,7 @@
                   }"
                 ></v-select>
               </v-col>
-              <v-col cols="12" sm="4" class="py-0">
+              <v-col cols="12" sm="4">
                 <span style="font-size: 16px">วันที่กำหนด</span>
                 <!-- <v-col cols="12" class="px-0 pt-1"> -->
                 <date-picker

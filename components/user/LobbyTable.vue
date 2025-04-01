@@ -5,6 +5,11 @@
       :items="lobbyItems"
       v-model="selected"
       item-value="user"
+      :mobile="isMobile"
+      :hide-default-header="isMobile"
+       :items-per-page="isMobile ? 5 : 10"
+
+      
     >
       <!-- สร้าง template สำหรับคอลัมน์ status -->
       <template #item.is_active="{ item }">
@@ -23,9 +28,12 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-icon class="mx-4" size="small" @click="editItem(item)">
+        <v-icon v-if="!isMobile" class="mx-4" size="small" @click="editItem(item)">
           mdi-pencil
         </v-icon>
+        <span style="color: #29a0af;" v-else class="mx-4" size="small" @click="editItem(item)">
+          แก้ไข
+        </span>
 
         <v-dialog v-model="dialogDelete" max-width="800px">
           <v-card>
@@ -81,6 +89,7 @@
               <div class="px-4">
                 <span class="text-h6">ระดับการเข้าถึง</span>
                 <v-autocomplete
+                  density="compact"
                   v-model="dialogData.role"
                   :items="roles"
                   item-title="text"
@@ -106,12 +115,29 @@
                 </div> -->
               </div>
 
+              <div
+                v-if="dialogData.role == 'ADMIN' && dialogData.role != null"
+                class="px-4"
+              >
+                <span class="text-h6">ภารกิจสั่งการ</span>
+                <v-autocomplete
+                  density="compact"
+                  v-model="dialogData.mission"
+                  :items="mission"
+                  label="เลือกภารกิจ"
+                  variant="outlined"
+                  multiple
+                  chips
+                ></v-autocomplete>
+              </div>
+
               <span class="text-h6 px-4">ระดับการเข้าถึงเมนู</span>
               <div
                 v-if="dialogData.role != 'USER' && dialogData.role != null"
                 class="px-4"
               >
                 <v-autocomplete
+                  density="compact"
                   v-model="selectedMenus"
                   :items="menu_admin"
                   label="เมนู"
@@ -202,6 +228,7 @@
                 </div> -->
                 <v-autocomplete
                   v-model="selectedMenus"
+                  density="compact"
                   :items="menu_user"
                   label="เมนู"
                   variant="outlined"
@@ -250,6 +277,7 @@
       DataManagement: false,
     },
     is_active: true,
+    mission: null,
   });
   const selected = ref([]);
   let lobbyItems = ref([]);
@@ -276,6 +304,32 @@
     "HVT",
   ];
 
+  const selectedMission = ref([]);
+
+  const mission = [
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+    "R12",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "หัวข้อประสาน",
+  ];
+
   const menu_user = ["MyTasks", "TaskManagement", "Report", "DataManagement"];
 
   // Function to populate dialog data when editing an item
@@ -286,6 +340,7 @@
     dialogData.value.affiliation = item.affiliation;
     dialogData.value.email = item.email;
     dialogData.value.role = null;
+    dialogData.value.mission = null;
 
     // สำคัญ: ใช้ spread operator เพื่อคัดลอก object
     dialogData.value.access = { ...item.access };
@@ -295,30 +350,49 @@
     dialogDelete.value = false;
   }
 
+  // Reactive property to track if the viewport is mobile
+  const isMobile = ref(false);
+
+  // Only run this logic in the client environment
+  if (process.client) {
+    isMobile.value = window.innerWidth < 860;
+
+    // Function to update `isMobile` on window resize
+    const updateIsMobile = () => {
+      isMobile.value = window.innerWidth < 960;
+    };
+
+    // Watch for window resize events
+    watchEffect(() => {
+      window.addEventListener("resize", updateIsMobile);
+      return () => {
+        window.removeEventListener("resize", updateIsMobile);
+      };
+    });
+  }
+
   // Function to handle saving the item (or deleting)
   const saveItem = async () => {
     // You can handle the save logic here
-    console.log("Item saved:", dialogData.value);
+    // console.log("Item saved:", dialogData.value);
 
     const accessArray = Object.keys(dialogData.value.access).filter(
       (key) => dialogData.value.access[key] === true
     );
-    console.log(accessArray); // Output: ["management", "mission"]
+    // console.log(accessArray); // Output: ["management", "mission"]
 
     let response;
     // console.log("this zone",selectedAffiliation.value,Message.value)
     // console.log(form.value);
     try {
-      response = await $apiClient.put(
-        `/api/editUser/${dialogData.value._id}`,
-        {
-          access_menu: accessArray,
-          is_active: dialogData.value.is_active,
-          role: dialogData.value.role,
-        }
-      );
-      console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
-      console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
+      response = await $apiClient.put(`/api/editUser/${dialogData.value._id}`, {
+        access_menu: accessArray,
+        is_active: dialogData.value.is_active,
+        role: dialogData.value.role,
+        mission: dialogData.value.mission,
+      });
+      // console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
+      // console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
 
       if (response.status == 200) {
         alert(`แก้ไขสำเร็จ`);
@@ -363,12 +437,12 @@
       //   console.log(affiliations_data.value);
       // อัปเดต headers หลังจากดึงข้อมูล
       headers.value = [
-        { title: "ชื่อ", value: "username" },
-        { title: "สังกัด", value: "affiliation" },
+        { title: "ชื่อ", value: "username" , align: "center"},
+        { title: "สังกัด", value: "affiliation", align: "center" },
         // { title: "บทบาท", value: "role" },
-        { title: "รายละเอียด", value: "description" },
-        { title: "วันที่สมัคร", value: "create_date" },
-        { title: "สถานะ", value: "is_active" },
+        { title: "รายละเอียด", value: "description"  ,align: "center"},
+        { title: "วันที่สมัคร", value: "create_date" ,align: "center" },
+        { title: "สถานะ", value: "is_active"  ,align: "center"},
         { title: "Actions", key: "actions", sortable: false },
       ];
     } catch (error) {
