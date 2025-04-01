@@ -1,8 +1,8 @@
 import axios from "axios";
-export const URL_HOST = "http://192.168.1.122:3001";
+export const URL_HOST = "http://192.168.1.127:3001";
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: "http://192.168.1.122:3001/api",
+  baseURL: "http://192.168.1.127:3001/api",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTliNjlhODM1ODUwNzY2YWQwZjA2NSIsInVzZXJuYW1lIjoiYXRhcHkiLCJyb2xlIjoiVVNFUiIsInRlYW0iOiJDIiwiZW1haWwiOiJhdGFweTIwMDJAZ21haWwuY29tIiwiaWF0IjoxNzQwMDQzNzExLCJleHAiOjE3NzE1Nzk3MTF9.V6dnx8mfP6bzESlGXwfvZkcyUZ4UxXECn1wgE6HLWrY`, // Secure this in runtimeConfig
