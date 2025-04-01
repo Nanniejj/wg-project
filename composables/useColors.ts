@@ -19,10 +19,19 @@ export function shouldShowComponent(subjectIndex: any, index: number): boolean {
   // ถ้า subjectIndex มีค่า ให้แสดง component ที่ตรงกับ index เท่านั้น
   return subjectIndex.includes(index);
 }
+
+export function downloadImage(imagePath: string, fileName: string){
+    const link = document.createElement("a");
+    link.href = imagePath;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // composables/useColors.ts
 // type Team = "C" | "D" | "E" | "F" | "G";
 // type Mission = "R2" | "R1" | "M7";
-
 export const useColors = () => {
   const getTeamColor = (team: string): string => {
     switch (team) {
@@ -42,7 +51,13 @@ export const useColors = () => {
   };
   //#96CCD5
   const getTeamColorSoft = (team: string) => {
+    // console.log(team);
+    
     switch (team) {
+      case "A":
+        return "#FAD0C4";
+      case "B":
+        return "#FFF7F3";
       case "C":
         return "#DDD6F1";
       case "D":

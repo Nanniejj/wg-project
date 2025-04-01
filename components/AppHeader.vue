@@ -162,7 +162,7 @@ export default {
         { label: "Archive", path: "/archive" },
         { label: "User Management", path: "/management" },
         { label: "Report", path: "/report" },
-        { label: "HVT", path: "/hvt" },
+        { label: "Data Management", path: "/hvt" },
       ],
     }
   },

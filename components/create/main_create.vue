@@ -78,7 +78,7 @@
           <v-card-text>
             <v-form ref="formRef" v-model="valid">
               <span style="font-size: 16px">Mission name</span>
-              <v-select
+              <!-- <v-select
                 density="compact"
                 label="Select mission"
                 variant="outlined"
@@ -86,7 +86,25 @@
                 style="margin-top: 5px"
                 :items="missions"
                 v-model="selectedMission"
-              ></v-select>
+              ></v-select> -->
+              <v-select
+                density="compact"
+                label="Select mission"
+                variant="outlined"
+                rounded="lg"
+                style="margin-top: 5px"
+                :items="missions"
+                item-value="mission"
+                v-model="selectedMission"
+              >
+                <template v-slot:item="{ props, item, index }">
+                  <v-list-item :key="index">
+                    <v-list-item-title v-bind="props" class="cursor-pointer">
+                      Mission {{ item.raw.mission }} {{ item.raw.name }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </template>
+              </v-select>
 
               <!-- <span style="font-size: 16px">Link URL</span>
               <v-row>
@@ -200,7 +218,12 @@
     </v-col>
 
     <v-col cols="12" sm="12" md="10">
-      <component :is="getMissionComponent(selectedMission)" />
+      <component 
+        :is="getMissionComponent(selectedMission)"
+        :teams="teams"
+        :selectedMission ="selectedMission"
+        @taskData="handleCreateTaskData"
+      />
     </v-col>
   </v-row>
 </template>
@@ -210,6 +233,7 @@
   import { useDisplay } from "vuetify";
   import { computed } from "vue";
   import vueDropzone from "dropzone-vue3";
+  import RMission from "./components/create/mission/Rmission.vue";
   import R1 from "./components/create/mission/R1.vue";
   import R2 from "./components/create/mission/R2.vue";
   import R3 from "./components/create/mission/R3.vue";
@@ -231,6 +255,7 @@
   import M7 from "./components/create/mission/M7.vue";
   import M8 from "./components/create/mission/M8.vue";
   import Coordinate from "./mission/Coordinate.vue";
+  import Swal from "sweetalert2";
   const display = useDisplay();
   const isMobile = computed(() => display.smAndDown.value);
   const dropzoneOptions = ref({
@@ -246,59 +271,59 @@
   `,
   });
 
-  const missions = ref([
-  "Mission M1",
-    "Mission M2",
-    "Mission M3",
-    "Mission M4",
-    "Mission M5",
-    "Mission M6",
-    "Mission M7",
-    "Mission M8",
-    "Mission R1",
-    "Mission R2",
-    "Mission R3",
-    "Mission R4",
-    "Mission R5",
-    "Mission R6",
-    "Mission R7",
-    "Mission R8",
-    "Mission R9",
-    "Mission R10",
-    "Mission R11",
-    "Mission R12",
-    "หัวข้อประสาน"
-    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
-  ]);
-
-  const selectedMission = ref(null);
+  const missions = ref([])
+  const teams = ref([])
+  // const missions = ref([
+  //   "Mission M1",
+  //   "Mission M2",
+  //   "Mission M3",
+  //   "Mission M4",
+  //   "Mission M5",
+  //   "Mission M6",
+  //   "Mission M7",
+  //   "Mission M8",
+  //   "Mission R1",
+  //   "Mission R2",
+  //   "Mission R3",
+  //   "Mission R4",
+  //   "Mission R5",
+  //   "Mission R6",
+  //   "Mission R7",
+  //   "Mission R8",
+  //   "Mission R9",
+  //   "Mission R10",
+  //   "Mission R11",
+  //   "Mission R12",
+  //   "หัวข้อประสาน"
+  //   // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  // ]);
+  const selectedMission = ref("");
 
   // Method to map mission name to component
   const getMissionComponent = (missionName) => {
     const missionComponents = {
-      "Mission M1": M1,
-      "Mission M2": M2,
-      "Mission M3": M3,
-      "Mission M4": M4,
-      "Mission M5": M5,
-      "Mission M6": M6,
-      "Mission M7": M7,
-      "Mission M8": M8,
-      "Mission R1": R1,
-      "Mission R2": R2,
-      "Mission R3": R3,
-      "Mission R4": R4,
-      "Mission R5": R5,
-      "Mission R6": R6,
-      "Mission R7": R7,
-      "Mission R8": R8,
-      "Mission R9": R9,
-      "Mission R10": R10,
-      "Mission R11": R11,
-      "Mission R12": R12,
+      "M1": M1,
+      "M2": RMission,
+      "M3": RMission,
+      "M4": RMission,
+      "M5": M5,
+      "M6": M6,
+      "M7": RMission,
+      "M8": M8,
+      "R1": RMission,
+      "R2": RMission,
+      "R3": RMission,
+      "R4": RMission,
+      "R5": RMission,
+      "R6": RMission,
+      "R7": RMission,
+      "R8": RMission,
+      "R9": RMission,
+      "R10": RMission,
+      "R11": RMission,
+      "R12": RMission,
       "หัวข้อประสาน": Coordinate,
-    };
-
+    };    
     return missionComponents[missionName] || null;
   };
   const { getTeamColor, getMissionColor } = useColors();
@@ -311,7 +336,6 @@
     image: null,
   });
 
-  // ฟังก์ชันเพิ่มข้อความ
   const addMessage = () => {
     if (newMessage.value.trim()) {
       formData.value.messages.push(newMessage.value.trim());
@@ -323,7 +347,25 @@
   const removeMessage = (index) => {
     formData.value.messages.splice(index, 1);
   };
-
+  const confirmedAlert = () =>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+  };
   const rules = {
     required: (value) => !!value || "จำเป็นต้องกรอกข้อมูล",
   };
@@ -332,6 +374,21 @@
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
   };
+  const handleCreateTaskData = async(data) => {
+    let mission = missions.value.find(item => item.mission == selectedMission.value)
+    data.name =  mission.name
+    console.log("Task data :", data);
+    await createTask(data);
+    submitForm()
+  };
+  onMounted(async () => {
+    try {
+        missions.value = await getTaskCategories();
+        teams.value = await getTeams();
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+});
 </script>
 <style scoped>
   .v-divider {
