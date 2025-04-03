@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   },
   devServer: {
     host: "0.0.0.0",
-    port: 3000,
+    port: 3003,
   },
   runtimeConfig: {
     public: {
@@ -57,6 +57,11 @@ export default defineNuxtConfig({
       script: [],
     },
   },
+  
+  //   modules: [
+  //     'nuxt-sweetalert2'
+  //   ]
+  // ,
   ssr: false,
   // routeRules: {
   //   '/report': { ssr: false },

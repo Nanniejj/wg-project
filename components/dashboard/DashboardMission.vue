@@ -3,27 +3,31 @@
     <v-row>
       <v-col cols="12" md="8">
         <v-row>
-          <!-- MISSION -->
+          <!-- Lobby -->
           <v-col cols="12" md="6" class="card-h-maxmin">
-            <div class="font-title2 base-color">Mission</div>
+            <div class="font-title2 base-color">Lobby</div>
             <v-card class="mx-auto pa-3 mt-3 card-h-90" elevation="3" rounded="lg">
-              <div class="text-medium-emphasis text-topic">Mission</div>
-              <div v-for="(item, i) in mission" :key="i" class="py-3">
+              <div class="text-medium-emphasis text-topic">Lobby</div>
+              <div v-for="(user, i) in userRequests" :key="i" class="py-3">
                 <hr class="mb-3" />
-                <v-row>
-                  <v-col cols="auto">
-                    <v-avatar size="40" class="my-1 elevation-4" rounded
-                      :style="{ borderRadius: '10px', backgroundColor: getMissionColor(item.name) }">
-                      <v-icon :icon="item.name.startsWith('R') ? 'mdi-archive-outline' : 'mdi-account-supervisor'"
+                <v-row class="align-center">
+                  <v-col >
+                    <!-- <v-avatar size="40" class="my-1 elevation-4" rounded-circle
+                      :style="{ borderRadius: '10px', backgroundColor: getMissionColor(user.name) }">
+                      <v-icon :icon="user.name.startsWith('R') ? 'mdi-archive-outline' : 'mdi-account-supervisor'"
                         size="30" color="white"></v-icon>
-                    </v-avatar>
-                    <span class="text-topic mx-2">{{ item.name }}</span>
+                    </v-avatar> -->
+                    <v-avatar icon="mdi-account" size="38" class="my-1 elevation-4"></v-avatar>
+                    <span class="text-topic mx-2">{{ user.name }}</span>
                   </v-col>
-                  <v-col cols="" class="py-3">
-                    <v-chip v-for="(team, i) in item.team" :key="i" class="mr-1 mt-1" variant="flat"
-                      :color="getTeamColor(team)">
-                      <span class="text-white font-weight-bold">Team {{ team }}</span>
+                  <v-col cols="auto" class="py-3">
+                    <v-chip class="mr-1 mt-1" variant="flat"
+                      :color="getTeamColor(user.team.replace('Team ', ''))">
+                      <span class="text-white font-weight-bold">{{ user.team }}</span>
                     </v-chip>
+                  </v-col>
+                  <v-col cols="auto" class="h-100">
+                      <v-icon class="pe-3">mdi-chevron-right-circle-outline</v-icon>
                   </v-col>
                 </v-row>
               </div>
@@ -110,20 +114,45 @@
         </div>
         <div class="my-2">
           <v-card class="mx-auto pa-3 mt-3" elevation="3" rounded="lg">
-            <div class="font-title2 my-2 base-color">Onboarding calendar</div>
+            <div class="font-title2 my-2 base-color">Calendar</div>
             <hr />
             <v-date-picker v-model="date" class="mx-auto mt-2 elevation-0" color="#96CCD5"></v-date-picker>
-            <div>
-              <div class="font-title2 my-2 base-color">Upcoming schedule</div>
-              <hr class="mb-3" />
-              <div v-if="date" class="text-topic text-medium-emphasis">{{ $moment(date).format("ddd MMM DD YYYY") }}
-              </div>
-              <div class="text-topic">Mission R1 | Team C/D/E/F/G</div>
-              <div class="text-topic">Mission M5 | Team C/D/E/F/G</div>
-            </div>
+            <v-row>
+              <v-col cols="12" class="font-title2 my-2 base-color">Upcoming schedule</v-col>
+              <hr class="mb-3 mx-3 w-100"/>
+              <!-- <hr class="mb-3" /> -->
+              <v-col cols="12" v-if="date" class="text-topic text-medium-emphasis pt-0">
+                {{ $moment(date).format("ddd MMM DD YYYY") }}
+              </v-col>
+              <!-- <div class="text-topic">Mission R1 | Team C/D/E/F/G</div>
+              <div class="text-topic">Mission M5 | Team C/D/E/F/G</div> -->
+              <v-col cols="12" class="px-0 pt-0">
+                  <div class="d-flex align-center">
+                    <v-col cols="4" sm="2" md="5" lg="3" class="py-0 pe-0">
+                      Mission R1
+                    </v-col>
+                    <hr class="mx-2" style="background-color: #f48fb1; width: 5px; height: 40px; border: none;">
+                    <v-col class="py-0 ps-0">
+                      Team C/D/E/F/G
+                    </v-col>
+                  </div>
+              </v-col>
+              <v-col cols="12" class="px-0 pt-0">
+                  <div class="d-flex align-center">
+                    <v-col cols="4" sm="2" md="5" lg="3" class="py-0 pe-0">
+                      Mission M5
+                    </v-col>
+                    <hr class="mx-2" style="background-color: #671D1D; width: 5px; height: 40px; border: none;">
+                    <v-col class="py-0 ps-0">
+                      Team C/D/E/F/G
+                    </v-col>
+                  </div>
+              </v-col>
+            </v-row>
           </v-card>
         </div>
       </v-col>
+      
     </v-row>
   </div>
 </template>
@@ -137,6 +166,12 @@ const mission = ref([
   { name: "R2", team: ["C", "D"] },
   { name: "R1", team: ["C", "D", "E", "F"] },
   { name: "M7", team: ["C", "E"] },
+]);
+
+const userRequests  = ref([
+  { name: "user01", team: "Team C" },
+  { name: "user02", team: "Team A" },
+  { name: "user03", team: "Team G" },
 ]);
 
 const team = ref(["C", "D", "E", "F", "G"]);

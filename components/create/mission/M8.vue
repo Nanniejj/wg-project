@@ -98,6 +98,8 @@
                   variant="outlined"
                   rounded="lg"
                   :items="priority"
+                  item-title="title"
+                  item-value="value"
                   v-model="selectedPriority"
                   :style="{
                     marginTop: '5px',
@@ -123,15 +125,16 @@
             <span style="font-size: 16px">รายละเอียด</span>
             <v-text-field
               placeholder="รายละเอียด"
-              v-model="newMessage"
+              v-model="DescriptionMessage"
               variant="outlined"
               rounded="lg"
               clearable
+              :rules="[rules.required]"
             ></v-text-field>
 
             <span style="font-size: 16px">เลือกทีมปฏิบัติการ</span>
             <v-combobox
-              :items="team"
+              :items="props.teams.map(team => team.name)"
               v-model="selectedTeam"
               density="compact"
               placeholder="เลือกทีมปฏิบัติการ"
@@ -435,18 +438,22 @@
   import vueDropzone from "dropzone-vue3";
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
+  const props = defineProps({
+    teams: Object
+  });
+  const emit = defineEmits(["taskData"]);
   const today = new Date(); // วันที่ปัจจุบัน
   const lastWeek = new Date();
   lastWeek.setDate(today.getDate() - 6);
   const DateRange = ref([lastWeek, today]);
 
   const priority = ref([
-    "ต่ำ",
-    "กลาง",
-    "สูง",
+    {title:"ต่ำ", value:"low"},
+    {title:"ปานกลาง", value:"medium"},
+    {title:"สูง", value:"high"},
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
-  const selectedPriority = ref("ต่ำ");
+  const selectedPriority = ref("low");
 
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
@@ -530,8 +537,22 @@
   };
 
   const submitForm = () => {
+    setTaskData()
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
+  };
+
+  const setTaskData = () => {
+    const taskData = {
+      "mission": selectedMission.value,
+      "description": DescriptionMessage.value,
+      "priority":  selectedPriority.value,
+      "assign_team": selectedTeam.value,
+      "start_date": DateRange.value[0].toISOString().split("T")[0],
+      "end_date": DateRange.value[1].toISOString().split("T")[0]
+    };
+    
+    emit("taskData", taskData);
   };
 </script>
 <style scoped>

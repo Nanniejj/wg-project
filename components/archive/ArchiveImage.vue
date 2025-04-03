@@ -34,7 +34,11 @@
       <v-row class="pt-2">
         <v-col cols="9"> {{ media.title }} </v-col>
         <v-col cols="3" class="justify-end d-flex">
-          <v-btn v-tooltip="'ดาวน์โหลดรูปภาพ'" variant="text">
+          <v-btn
+            v-tooltip="'ดาวน์โหลดรูปภาพ'"
+            @click="downloadThisImage(media.file, media._id)"
+            variant="text"
+          >
             <v-icon> mdi-tray-arrow-down </v-icon></v-btn
           >
         </v-col>
@@ -69,7 +73,13 @@
           <v-row class="pt-2">
             <v-col cols="9"> ผู้นำเข้า: {{ selectedMedia.user_insert }}</v-col>
             <v-col cols="3" class="justify-end d-flex">
-              <v-btn v-tooltip="'ดาวน์โหลดรูปภาพ'" variant="text">
+              <v-btn
+                v-tooltip="'ดาวน์โหลดรูปภาพ'"
+                @click="
+                  downloadThisImage(selectedMedia.file, selectedMedia._id)
+                "
+                variant="text"
+              >
                 <v-icon> mdi-tray-arrow-down </v-icon></v-btn
               >
             </v-col>
@@ -142,7 +152,7 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-end px-6">
-        <v-btn width="150" size="large" @click="editdialog">{{
+        <v-btn width="150" size="large" @click="editdialog(selectedMedia)">{{
           isDisabled ? "แก้ไข" : "บันทึก"
         }}</v-btn>
       </div>
@@ -151,7 +161,12 @@
 </template>
 <script setup>
   import { useRuntimeConfig } from "#imports";
+  import { title } from "process";
   import { onMounted, ref } from "vue";
+  import { defineEmits } from "vue";
+
+  // สร้าง emit event
+  const emit = defineEmits();
   const config = useRuntimeConfig();
   const Type = ref([
     "Image",
@@ -170,6 +185,30 @@
   let ArchiveData = ref(null);
   const loading = ref(true); // สถานะการโหลด
 
+  // ฟังก์ชัน downloadThisImage
+  async function downloadThisImage(image, id) {
+    emit("increment-downloads"); // ส่ง event ไปยัง parent
+    downloadImage(image, "download.jpg"); // เรียกฟังก์ชัน downloadImage ที่จะดาวน์โหลดไฟล์
+    console.log(id);
+    try {
+      const response = await $apiClient.put(`/api/ImageDownload/${id}`);
+
+      console.log(response.data);
+
+      loading.value = false; // เปลี่ยนสถานะเป็นไม่โหลดเมื่อเสร็จแล้ว
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+    }
+  }
+
+  // ฟังก์ชันสำหรับดาวน์โหลดภาพ
+  function downloadImage(image, filename) {
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = filename;
+    link.click();
+  }
+
   const handleClick = () => {
     isOverlayVisible.value = false; // ปิด overlay
     isDisabled.value = true; // เปิดใช้งาน field
@@ -182,9 +221,32 @@
   };
 
   // ฟังก์ชันสำหรับเปิด/ปิดการแก้ไข
-  const editdialog = () => {
+  async function editdialog(data) {
+    if (isDisabled.value != true) {
+      console.log(data);
+      const payload = {
+        title: data.title,
+        description: data.description,
+        tagged_topic: data.tagged_topic,
+        link: data.link,
+        hastag: data.hastag,
+      };
+
+      try {
+        const response = await $apiClient.put(
+          `/api/updateArchive/${data._id}`,
+          payload
+        );
+
+        console.log(response.data);
+
+        loading.value = false; // เปลี่ยนสถานะเป็นไม่โหลดเมื่อเสร็จแล้ว
+      } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+      }
+    }
     isDisabled.value = !isDisabled.value; // เปลี่ยนสถานะ disabled
-  };
+  }
 
   // ฟังก์ชัน format ตัวเลขให้มีคอมม่า
   const formatNumber = (number) => {
@@ -196,7 +258,7 @@
       const response = await $apiClient.get("/api/getArchive");
 
       // MediaData.value = response.data[0].file;
-      console.log(response.data);
+      // console.log(response.data);
       // // สร้าง URL ของภาพ
       // const imageUrl = config.public.API_BASE_URL + "/" + MediaData.value;
 
@@ -226,7 +288,7 @@
       );
 
       // ตรวจสอบว่าได้ path ของไฟล์แล้วหรือไม่
-      console.log("ArchiveData:", ArchiveData);
+      // console.log("ArchiveData:", ArchiveData);
       loading.value = false; // เปลี่ยนสถานะเป็นไม่โหลดเมื่อเสร็จแล้ว
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);

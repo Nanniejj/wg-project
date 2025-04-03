@@ -3,7 +3,8 @@
         <v-row>
             <v-col cols="12">
                 <div class="font-title2 font-weight-medium my-5"> ติดตามความเคลื่อนไหวทางกายภาพ</div>
-                <v-data-table :headers="headers" :items="items" class="elevation-1 table-m3" :mobile="isMobile">
+                <v-img src="/tableM3.png" width="95%"></v-img>
+                <v-data-table :headers="headers" :items="items" class="elevation-1 table-m3 d-none" :mobile="isMobile">
                     <!-- Customize header -->
                     <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
                         <tr>
@@ -26,19 +27,25 @@
                         </div>
                     </template>
                     <template #item.columnC="{ item }">
-                        <div class="d-flex flex-wrap" >
-                            <div class="ma-2 pa-2" v-for="img in item.columnC"> <v-avatar size="55" color="primary"
-                                    class="ma-2">
+                        <div class="d-flex flex-wrap">
+                            <div class="ma-2 pa-2" v-for="img in item.columnC">
+                               <!-- <span  style="color:transparent;" class=""> {{ img.img }}</span>  -->
+                                <span >
+                                    <v-img :lazy-src="img.img" :src="img.img"  height="200px" v-if="img && img.img" >
+                                    </v-img>
+                                </span>
+
+                                <!-- <v-avatar size="55" color="primary" class="ma-2" v-if="img&&img.img&&img.img.length==0">
                                     <v-icon icon="mdi-account"></v-icon>
-                                </v-avatar>
-                                <div class="mt-1">username</div>
+                                </v-avatar> -->
+                                <div class="mt-1" v-if="img.name">{{ img.name }}</div>
                             </div>
                         </div>
 
 
                     </template>
                     <template #item.columnD="{ item }">
-                        <div class="d-flex flex-wrap" >
+                        <div class="d-flex flex-wrap">
                             <div class="ma-2 pa-2" v-for="img in item.columnD"> <v-avatar size="55" color="primary"
                                     class="ma-2">
                                     <v-icon icon="mdi-account"></v-icon>
@@ -48,7 +55,7 @@
                         </div>
                     </template>
                     <template #item.columnE="{ item }">
-                        <div class="d-flex flex-wrap" >
+                        <div class="d-flex flex-wrap">
                             <div class="ma-2 pa-2" v-for="img in item.columnE"> <v-avatar size="55" color="primary"
                                     class="ma-2">
                                     <v-icon icon="mdi-account"></v-icon>
@@ -58,7 +65,7 @@
                         </div>
                     </template>
                     <template #item.columnF="{ item }">
-                        <div class="d-flex flex-wrap" >
+                        <div class="d-flex flex-wrap">
                             <div class="ma-2 pa-2" v-for="img in item.columnF"> <v-avatar size="55" color="primary"
                                     class="ma-2">
                                     <v-icon icon="mdi-account"></v-icon>
@@ -68,7 +75,7 @@
                         </div>
                     </template>
                     <template #item.columnG="{ item }">
-                        <div class="d-flex flex-wrap" >
+                        <div class="d-flex flex-wrap">
                             <div class="ma-2 pa-2" v-for="img in item.columnG"> <v-avatar size="55" color="primary"
                                     class="ma-2">
                                     <v-icon icon="mdi-account"></v-icon>
@@ -99,7 +106,7 @@ const headers = ref([
 const items = ref([
     {
         group: 'กลุ่มทุนต่างชาติ (5)',
-        columnC: ['/path/to/image1.png', '/path/to/image2.png', '/path/to/image19.png', '/path/to/image20.png'],
+        columnC: [{ img: 'Mask Group 65.png', name: '' }, { img: 'Mask Group 66.png', name: '' }, { img: 'Mask Group 67.png', name: '' }],
         columnD: ['/path/to/image3.png', '/path/to/image4.png'],
         columnE: ['/path/to/image5.png'],
         columnF: ['/path/to/image6.png', '/path/to/image7.png'],

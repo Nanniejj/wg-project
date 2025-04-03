@@ -130,6 +130,12 @@
 .text-h4 {
   font-size: 28px !important;
 }
+.swal2-container.swal2-center.swal2-backdrop-show{
+z-index: 999999;
+}
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+    color: #fff !important;
+}
 @media (min-width: 1580px) {
   .v-container {
     /* max-width: 1400px; */

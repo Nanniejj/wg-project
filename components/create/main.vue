@@ -29,13 +29,13 @@
           </v-col>
         </v-row>
         <v-select
-  label="Select mission"
-  variant="outlined"
-  rounded="lg"
-  style="margin-top: 5px"
-  :items="missions"
-  v-model="selectedMission"
-></v-select>
+          label="Select mission"
+          variant="outlined"
+          rounded="lg"
+          style="margin-top: 5px"
+          :items="missions"
+          v-model="selectedMission"
+        ></v-select>
       </v-col>
   
       <!-- Display specific components based on selectedMission -->

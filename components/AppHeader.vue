@@ -174,53 +174,29 @@
 <script>
   //   import SearchContents from './SearchContents.vue';
 
-  export default {
-    // components: { SearchContents },
-    data() {
-      return {
-        dialogLogout: false,
-        overlay: false,
-        tab: null,
-        activeTab: null, // เก็บค่าที่แสดง tab active
-        menuVisible: false,
-        isMobile: false,
-        tabs: [
-          { label: "Dashboard", path: "/dashboard" },
-          { label: "Tasks", path: "/tasks" },
-          { label: "Create", path: "/create" },
-          { label: "Mission", path: "/mission" },
-          { label: "Archive", path: "/archive" },
-          { label: "User Management", path: "/management" },
-          { label: "Report", path: "/report" },
-        ],
-      };
-    },
-    mounted() {
-      this.updateIsMobile();
-      window.addEventListener("resize", this.updateIsMobile);
-      nextTick(() => {
-        const path = this.$route.path;
-        if (path.startsWith("/dashboard")) {
-          this.tab = 0;
-        } else if (path.startsWith("/tasks")) {
-          this.tab = 1;
-        } else if (path.startsWith("/create")) {
-          this.tab = 2;
-        } else if (path.startsWith("/mission")) {
-          this.tab = 3;
-        } else if (path.startsWith("/archive")) {
-          this.tab = 4;
-        } else if (path.startsWith("/management")) {
-          this.tab = 5;
-        } else if (path.startsWith("/report")) {
-          this.tab = 6;
-        }
-      });
-    },
-    beforeDestroy() {
-      window.removeEventListener("resize", this.updateIsMobile);
-    },
-    methods: {
+export default {
+  // components: { SearchContents },
+  
+  data() {
+    return {
+      overlay: false,
+      tab: null,
+      activeTab: null, // เก็บค่าที่แสดง tab active
+      menuVisible: false,
+      isMobile: false,
+      tabs: [
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Tasks", path: "/tasks" },
+        { label: "Create", path: "/create" },
+        { label: "Mission", path: "/mission" },
+        { label: "Archive", path: "/archive" },
+        { label: "User Management", path: "/management" },
+        { label: "Report", path: "/report" },
+        { label: "Data Management", path: "/hvt" },
+      ],
+    }
+  },
+  methods: {
       updateIsMobile() {
         this.isMobile = window.innerWidth <= 800;
       },
@@ -249,6 +225,33 @@
         this.$router.push("/login");
       },
     },
+  mounted() {
+    this.updateIsMobile();
+    window.addEventListener("resize", this.updateIsMobile);
+    nextTick(() => {
+      const path = this.$route.path;
+      if (path.startsWith("/dashboard")) {
+        this.tab = 0;
+      } else if (path.startsWith("/tasks")) {
+        this.tab = 1;
+      } else if (path.startsWith("/create")) {
+        this.tab = 2;
+      } else if (path.startsWith("/mission")) {
+        this.tab = 3;
+      } else if (path.startsWith("/archive")) {
+        this.tab = 4;
+      } else if (path.startsWith("/management")) {
+        this.tab = 5;
+      } else if (path.startsWith("/report")) {
+        this.tab = 6;
+      }else if (path.startsWith("/hvt")) {
+        this.tab = 7;
+      }
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateIsMobile);
+  },
   };
 </script>
 
