@@ -159,17 +159,18 @@
           error.value.data.message || "An error occurred while logging in."
         );
       }
-      console.log("value login", data.value);
+      // console.log("value login", data.value.twofac);
       const token = data.value.token;
       const refresh_token = data.value.refresh_token;
       const role = data.value.role;
       const access_menu = data.value.access_menu;
+      const twofac = data.value.twofac;
       // console.log("role", role,);
       // console.log("access_menu", access_menu,);
 
       // console.log("login auth", localStorage, "refreshToken", refresh_token);
 
-      if (role == null) {
+      if (role == null || role == "") {
         alert("กรุณาแจ้ง admin อนุญาตสิทธิ์การเข้าถึง account ของคุณ");
         localStorage.removeItem("authToken");
         // ใช้ router.push เพื่อทำการ redirect ไปที่หน้า login
@@ -177,10 +178,15 @@
       } else {
         // นำไปยังหน้าindexหลังจากเข้าสู่ระบบสำเร็จ
         localStorage.setItem("refreshToken", refresh_token);
+        localStorage.setItem("twofac", twofac);
         localStorage.setItem("authToken", token);
         localStorage.setItem("role", role);
         localStorage.setItem("access_menu", access_menu);
-        router.push("/");
+        if (twofac == true) {
+          router.push("/authen");
+        } else {
+          router.push("/generate");
+        }
       }
     } catch (error) {
       console.error(error.message);
@@ -202,15 +208,18 @@
   };
 
   onMounted(() => {
-  nextTick(() => {
-    const localData = localStorage.getItem("role");
-    if (localData != null && localData === "USER") {
-      router.push("/mytasks");
-    } else {
-      router.push("/");
-    }
+    nextTick(() => {
+      const localData = localStorage.getItem("role");
+      const twofactor = localStorage.getItem("2fa");
+      if (twofactor != null) {
+        if (localData != null && localData === "USER") {
+          router.push("/mytasks");
+        } else {
+          router.push("/");
+        }
+      }
+    });
   });
-});
 </script>
 
 <style scoped>

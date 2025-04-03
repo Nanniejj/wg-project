@@ -305,6 +305,7 @@
         localStorage.removeItem("authToken");
         localStorage.removeItem("role");
         localStorage.removeItem("access_menu");
+        localStorage.removeItem("2fa");
         // redirect to /login
         this.$router.push("/login");
       },

@@ -99,9 +99,9 @@
     url: "https://httpbin.org/post",
     thumbnailWidth: 320,
     thumbnailHeight: 320,
-    maxFilesize: 0.5,
-    acceptedFiles: "image/jpeg,image/png",
+    maxFilesize: 2,
     maxFiles: 1,
+    acceptedFiles: "image/jpeg,image/png",
     headers: { "My-Awesome-Header": "header value" },
     dictDefaultMessage: `
       <div style="text-align: center;">
@@ -137,7 +137,6 @@
       formData.append("image", file);
     });
 
-    console.log("files", files);
     console.log("Item saved:", teamName.value, selectedColor.value);
     let response;
     try {

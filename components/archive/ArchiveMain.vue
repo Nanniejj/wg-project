@@ -256,7 +256,7 @@
   import { ref, provide } from "vue";
   import ArchiveCreate from "./ArchiveCreate.vue";
   import vueDropzone from "dropzone-vue3";
-  // import ArchiveImage from "./ArchiveImage.vue";
+  import ArchiveImage from "./ArchiveImage.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
     thumbnailWidth: 150,
@@ -309,13 +309,14 @@
 
   const { $apiClient } = useNuxtApp();
   let MediaData = ref([]);
+  const image = ref([]);
 
   const fetchData = async () => {
     try {
       const response = await $apiClient.get("/api/getArchive");
 
-      MediaData.value = response.data[0].file;
-      console.log(MediaData.value[0]);
+      MediaData.value = response.data;
+      console.log(MediaData.value);
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
     }

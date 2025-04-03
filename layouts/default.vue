@@ -20,9 +20,4 @@ definePageMeta({
   //   import AppFooter  from "@/components/AppFooter";
   const role = localStorage.getItem("role");
 
-  if (role) {
-    console.log("Role retrieved from localStorage:", role);
-  } else {
-    console.log("No role found in localStorage.");
-  }
 </script>

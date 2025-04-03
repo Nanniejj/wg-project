@@ -1,11 +1,14 @@
-import { navigateTo } from '#app';
 export default defineNuxtRouteMiddleware((to, from) => {
-    // const authToken = process.client ? localStorage.getItem("authToken") : null;
-  
+  if (process.server) return; // ป้องกัน error บน server-side
+
+  // ตรวจสอบว่า localStorage ใช้งานได้
+  if (process.client) {
     const authToken = localStorage.getItem('authToken');
-    console.log("chckt auth",authToken)
-    if (!authToken) {
+    const twofactor = localStorage.getItem('2fa');
+
+
+    if (!authToken || (twofactor == null)) {
       return navigateTo('/login');
-    } 
-  });
-  
+    }
+  }
+});

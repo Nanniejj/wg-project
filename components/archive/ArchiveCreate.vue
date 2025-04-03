@@ -1,6 +1,6 @@
 <template>
-  <v-col cols="12" class="pa-10 ma-0">
-    <v-card class="mx-auto pa-2" rounded="xl" elevation="3" hover>
+  <v-container class="pt-10">
+    <v-card class="mx-auto pa-2" rounded="xl" elevation="3">
       <v-row>
         <v-col cols="6" class="pa-8 d-flex align-start justify-start">
           <span style="font-weight: bold" class="text-h4">Create</span>
@@ -11,9 +11,10 @@
           >
         </v-col>
       </v-row>
+
       <v-row>
-        <v-col cols="4">
-          <v-col cols="12" class="pa-4 d-flex align-center justify-center">
+        <v-col cols="12" md="4">
+          <div class="pa-4 d-flex align-center justify-center">
             <vue-dropzone
               ref="myVueDropzone"
               id="dropzone"
@@ -22,16 +23,16 @@
               @vdropzone-success="handleSuccess"
               v-model:files="selectedFiles"
             />
-          </v-col>
-          <v-col cols="12" class="pa-2 d-flex align-center justify-center">
+          </div>
+          <div class="pa-2 d-flex align-center justify-center">
             <v-divider
               :thickness="2"
               inset
               class="border-opacity-100"
               style="border-style: dashed; color: #707070"
             ></v-divider>
-          </v-col>
-          <v-col cols="12" class="justify-center d-flex pa-4">
+          </div>
+          <div class="justify-center d-flex pa-4">
             <v-btn
               rounded="xl"
               block
@@ -41,16 +42,16 @@
               @click="submitForm"
               ><span style="font-size: 18px; color: black">Save from URL</span>
             </v-btn>
-          </v-col>
+          </div>
         </v-col>
 
-        <v-divider
+        <!-- <v-divider
           :thickness="1"
           vertical
           class="border-opacity-100"
           style="border-style: dashed; color: #707070"
-        ></v-divider>
-        <v-col cols="8" class="pa-4">
+        ></v-divider> -->
+        <v-col cols="12" md="8" class="pa-4">
           <v-card-item>
             <span style="font-size: 16px">Title</span>
             <v-text-field
@@ -75,7 +76,7 @@
             <v-text-field
               placeholder="Add a link"
               density="compact"
-              v-model="NameMessage"
+              v-model="link"
               variant="outlined"
               rounded="lg"
               clearable
@@ -117,15 +118,15 @@
               ></v-divider>
             </v-col>
           </v-card-item>
-          <v-col cols="12" class="justify-end d-flex pb-10">
-            <v-btn rounded="lg" size="x-large" color="#2A3547" @click="saveItem"
+          <v-col cols="12" class="justify-end d-flex pb-10 px-5">
+            <v-btn rounded="lg" size="large" @click="saveItem" class="btn-hover"
               ><span style="font-size: 18px">Create</span>
             </v-btn>
           </v-col>
         </v-col>
       </v-row>
     </v-card>
-  </v-col>
+  </v-container>
 </template>
 <script setup>
   import vueDropzone from "dropzone-vue3";
@@ -163,6 +164,7 @@
   const selectedFiles = ref([]);
   const title = ref([]);
   const hastag = ref([]);
+  const link = ref([]);
   const topic = ref([]);
   const description = ref([]);
   const team = ref([
@@ -229,13 +231,14 @@
     formData.append("hastag", hastag.value);
     formData.append("tagged_topic", topic.value);
     formData.append("description", description.value);
+    formData.append("link", link.value);
 
     const files = getSelectedFiles();
     files.forEach((file) => {
       formData.append("file", file);
     });
 
-    console.log("formData", formData);
+    // console.log("formData", formData);
     let response;
     try {
       response = await $apiClient.post("/api/createArchive", formData, {
@@ -247,6 +250,7 @@
 
       if (response.status == 201) {
         alert(`เพิ่ม achive สำเร็จ`);
+        createNew.value = false;
       } else {
         alert(`ไม่สามารถสร้างทีมได้`);
       }
@@ -285,5 +289,16 @@
   color: #707070;
   background-color: #E9E9E9;
   border-radius: 20px; 
+}
+
+.btn-hover {
+  background-color: white !important; /* สีปกติ */
+  color: black !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-hover:hover {
+  background-color: #2A3547 !important; /* สีเปลี่ยนเมื่อชี้ */
+  color: white !important;
 }
 </style>
