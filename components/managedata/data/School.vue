@@ -153,6 +153,8 @@
       :mobile="isMobile"
       :hide-default-header="isMobile"
       hide-default-footer
+      :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.ลำดับ="{ index }">
         {{ calindexFunction(index + 1) }}
@@ -164,7 +166,7 @@
             : item.geography_name
         }}
       </template>
-      <template v-slot:item.ผู้ที่เกี่ยวข้อง="{ item }">
+      <template v-slot:item.POC="{ item }">
         <div
           :style="
             isMobile ? 'margin-left: 0; margin-right: 0;' : 'margin-left: 0px;'
@@ -414,7 +416,7 @@
         <div class="justify-end d-flex pt-10">
           <v-btn
             @click="addDropzone"
-            color="primary"
+            color="#AEE0E8"
             elevation="2"
             rounded
             class="mx-2"
@@ -518,16 +520,16 @@
     acceptedFiles:
       "image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/mov", // รองรับไฟล์ GIF, JPG, JPEG, PNG, MOV, MP4
     headers: { "My-Awesome-Header": "header value" },
-  //   dictDefaultMessage: `
-  //   <div style="text-align: center;">
-  //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
-  //     <p style="font-size: 12px;">Drag files here or click to upload</p>
-  //   </div>
-  //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
-  //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
-  //   </p>
-  // `,
-  dictDefaultMessage: `
+    //   dictDefaultMessage: `
+    //   <div style="text-align: center;">
+    //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+    //     <p style="font-size: 12px;">Drag files here or click to upload</p>
+    //   </div>
+    //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
+    //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
+    //   </p>
+    // `,
+    dictDefaultMessage: `
     <div style="text-align: center;">
       <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
       <p style="font-size: 12px;">Drag files here or click to upload</p>
@@ -538,8 +540,7 @@
   const selectedFiles = ref([]);
   const search = ref("");
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-  const loaded = ref(false);
-  const loading = ref(false);
+  const isLoading = ref(true);
   const EditOverlay = ref(false);
   const addSchool = ref(false);
   const deleteOverlay = ref(false);
@@ -573,7 +574,7 @@
     { title: "ระดับปฏิบัติการ", value: "level", align: "center" },
     { title: "แกนนำ", value: "leader_count", align: "center" },
     { title: "กิจกรรม", value: "activity_count", align: "center" },
-    { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "center" },
+    { title: "POC", value: "POC", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -704,7 +705,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -740,7 +741,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -771,7 +772,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -802,7 +803,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -856,7 +857,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -903,7 +904,7 @@
       alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
       //   alert(`Error: ${error.response.data.message}`);
     }
-    loading.value = false; // หยุดโหลดหลัง 0.5 วิ
+    isLoading.value = false; // หยุดโหลดหลัง 0.5 วิ
   };
 </script>
 <style scoped>

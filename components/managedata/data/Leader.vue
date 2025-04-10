@@ -153,6 +153,8 @@
       :mobile="isMobile"
       :hide-default-header="isMobile"
       hide-default-footer
+            :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.ลำดับ="{ index }">
         {{ calindexFunction(index + 1) }}
@@ -378,8 +380,8 @@
   const selectedFiles = ref([]);
   const search = ref("");
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-  const loaded = ref(false);
-  const loading = ref(false);
+
+  const isLoading = ref(true);
   const EditOverlay = ref(false);
   const addMainstay = ref(false);
   const deleteOverlay = ref(false);
@@ -409,7 +411,7 @@
     { title: "จำนวนกิจกรรม", value: "geography_name", align: "center" },
     { title: "เบอร์โทร", value: "phone_number", align: "center" },
     { title: "สถานะแกนนำ", value: "amphure_name", align: "center" },
-    { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "center" },
+    { title: "ผู้ประสาน", value: "ผู้ประสาน", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -534,7 +536,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -570,7 +572,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -601,7 +603,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -632,7 +634,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -684,7 +686,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -729,7 +731,7 @@
       alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
       //   alert(`Error: ${error.response.data.message}`);
     }
-    loading.value = false; // หยุดโหลดหลัง 0.5 วิ
+    isLoading.value = false; // หยุดโหลดหลัง 0.5 วิ
   };
 </script>
 <style scoped>

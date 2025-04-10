@@ -20,13 +20,21 @@
       <v-divider :thickness="2"></v-divider>
     </div>
 
-    <v-data-table :headers="headers" :items="items">
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :mobile="isMobile"
+      :hide-default-header="isMobile"
+      hide-default-footer
+      :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
+    >
       <template v-slot:header.media>
         ประเภทสื่อ
 
         <!-- <v-btn style="margin-left: 5px;" rounded="xl" color="#BABABA" size="20" @click="mediaButtonClicked">
-              <v-icon color="white" size="15">mdi-plus</v-icon>
-            </v-btn> -->
+                <v-icon color="white" size="15">mdi-plus</v-icon>
+              </v-btn> -->
 
         <v-menu :close-on-content-click="false" location="bottom">
           <template v-slot:activator="{ props }">
@@ -45,40 +53,35 @@
           <v-card min-width="340">
             <v-card-text>
               <!-- <div class="pa-0 pb-3 align-center d-flex">
-                  <span>เพิ่มประเภทสื่อ</span>
-                </div> -->
+                    <span>เพิ่มประเภทสื่อ</span>
+                  </div> -->
               <v-row class="pa-3">
                 <v-col cols="12" class="pa-1 h-100">
                   <!-- <v-text-field
-                      variant="outlined"
-                      density="compact"
-                      label="เพิ่มประเภทสื่อ"
-                      v-model="field1"
-                    ></v-text-field> -->
+                        variant="outlined"
+                        density="compact"
+                        label="เพิ่มประเภทสื่อ"
+                        v-model="field1"
+                      ></v-text-field> -->
                   <v-text-field
                     v-model="search"
-                    label="เพิ่มประเภทสื่อ"                   
+                    label="เพิ่มประเภทสื่อ"
                     hide-details
                     rounded="lg"
                     variant="solo"
                   >
                     <template v-slot:append>
-                      <v-btn
-                        @click="searchData"
-                        rounded="lg"
-                       
-                        color="#000000"
-                      >
+                      <v-btn @click="searchData" rounded="lg" color="#000000">
                         <span>ตกลง</span>
                       </v-btn>
                     </template>
                   </v-text-field>
                 </v-col>
                 <!-- <v-col cols="3" class="pa-1 h-100">
-                    <v-btn color="blue darken-1" text @click="closeMenu"
-                      >ADD</v-btn
-                    >
-                  </v-col> -->
+                      <v-btn color="blue darken-1" text @click="closeMenu"
+                        >ADD</v-btn
+                      >
+                    </v-col> -->
               </v-row>
             </v-card-text>
           </v-card>
@@ -104,8 +107,7 @@
 <script setup>
   import { ref } from "vue";
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-  const loaded = ref(false);
-  const loading = ref(false);
+  const isLoading = ref(false);
 
   const isMobile = ref(false);
 
@@ -237,27 +239,27 @@
   ]);
 
   const onClick = () => {
-    loading.value = true;
+    isLoading.value = true;
 
     setTimeout(() => {
-      loading.value = false;
+      isLoading.value = false;
       loaded.value = true;
     }, 2000);
   };
 </script>
 <style scoped>
   .v-divider {
-                  height: 1000px; /* กำหนดความสูงที่ต้องการ */
-                }
-                
-                .custom-divider {
-                  margin-left: 30px; /* กำหนดมาร์จินซ้าย */
-                  margin-right: 30px; /* กำหนดมาร์จินซ้าย */
-                  max-width: 100%;
-                
-                }
-        
-                ::v-deep(.v-input__append){
-            margin-inline-start: -95px !important; 
-          }
+                    height: 1000px; /* กำหนดความสูงที่ต้องการ */
+                  }
+                  
+                  .custom-divider {
+                    margin-left: 30px; /* กำหนดมาร์จินซ้าย */
+                    margin-right: 30px; /* กำหนดมาร์จินซ้าย */
+                    max-width: 100%;
+                  
+                  }
+          
+                  ::v-deep(.v-input__append){
+              margin-inline-start: -95px !important; 
+            }
 </style>

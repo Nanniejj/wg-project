@@ -44,6 +44,8 @@
       :items="POC"
       :mobile="isMobile"
       :hide-default-header="isMobile"
+            :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.actions="{ item }">
         <v-icon
@@ -160,8 +162,7 @@
   import { ref } from "vue";
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const { $apiClient } = useNuxtApp();
-  const loaded = ref(false);
-  const loading = ref(false);
+  const isLoading = ref(true);
   const addNetwork = ref(false);
   const isMobile = ref(false);
   const successMessage = ref("");
@@ -172,7 +173,7 @@
     { title: "ชื่อ-สกุล", value: "name" },
     { title: "เบอร์โทร", value: "phone_number" },
     { title: "ทัพภาค", value: "army_region" },
-    { title: "ผู้เกี่ยวข้อง", value: "stakeholder" },
+    // { title: "ผู้เกี่ยวข้อง", value: "stakeholder" },
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -211,7 +212,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -221,10 +222,10 @@
   });
 
   const onClick = () => {
-    loading.value = true;
+    isLoading.value = true;
 
     setTimeout(() => {
-      loading.value = false;
+      isLoading.value = false;
       loaded.value = true;
     }, 2000);
   };

@@ -30,7 +30,7 @@
               <Education />
             </div>
             <div v-if="tab === 3">
-              <Mainstay />
+              <Leader />
             </div>
             <div v-if="tab === 4">
               <Coordinator />
@@ -53,7 +53,7 @@
   import Education from "./components/managedata/data/Education.vue";
   import Coordinator from "./components/managedata/data/Coordinator.vue";
   import School from "./components/managedata/data/School.vue";
-  import Mainstay from "./data/Mainstay.vue";
+  import Leader from "./data/Leader.vue";
   import Media from "./data/Media.vue";
   import Mass from "./data/Mass.vue";
 

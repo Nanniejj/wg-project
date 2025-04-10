@@ -153,6 +153,8 @@
       :mobile="isMobile"
       :hide-default-header="isMobile"
       hide-default-footer
+      :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.ลำดับ="{ index }">
         {{ calindexFunction(index + 1) }}
@@ -164,7 +166,7 @@
             : item.geography_name
         }}
       </template>
-      <template v-slot:item.ผู้ที่เกี่ยวข้อง="{ item }">
+      <template v-slot:item.POC="{ item }">
         <div
           :style="
             isMobile ? 'margin-left: 0; margin-right: 0;' : 'margin-left: 0px;'
@@ -235,7 +237,7 @@
   <v-dialog v-model="addSchool" max-width="1200">
     <v-card class="pa-2" rounded="lg">
       <v-card-title class="text-h6 d-flex justify-space-between align-center">
-        <span class="text-h6">เพิ่มข้อมูลสถานศึกษา</span>
+        <span class="text-h6">เพิ่มข้อมูลโรงเรียน</span>
         <v-btn
           icon="mdi-close"
           variant="text"
@@ -250,10 +252,10 @@
       <v-card-text class="pt-4">
         <v-row>
           <v-col cols="12" sm="8" class="pt-0 pb-0">
-            <span class="text-h6">ชื่อสถานศึกษา</span>
+            <span class="text-h6">ชื่อโรงเรียน</span>
             <v-text-field
               v-model="SchoolValue"
-              placeholder="เพิ่มชื่อสถานศึกษา"
+              placeholder="เพิ่มชื่อโรงเรียน"
               variant="outlined"
               density="compact"
               rounded="lg"
@@ -383,7 +385,7 @@
             ></v-autocomplete>
           </v-col>
         </v-row>
-        <v-row>
+        <!-- <v-row>
           <v-col cols="12" md="4">
             <div class="pa-4 d-flex align-center justify-start">
               <vue-dropzone
@@ -406,7 +408,53 @@
               rounded="lg"
             ></v-text-field>
           </v-col>
-        </v-row>
+        </v-row> -->
+
+        <!-- สร้างหลายๆ Dropzone -->
+        <!-- ปุ่มสำหรับเพิ่ม Dropzone ใหม่ -->
+        <div class="justify-end d-flex pt-10">
+          <v-btn
+            @click="addDropzone"
+            color="#AEE0E8"
+            elevation="2"
+            rounded
+            class="mx-2"
+            style="font-size: 16px"
+          >
+            <v-icon left>mdi-account-plus</v-icon> เพิ่ม POC
+          </v-btn>
+        </div>
+        <div
+          v-for="(dropzone, index) in dropzones"
+          :key="index"
+          class="dropzone-container pt-10"
+        >
+          <v-row>
+            <v-col cols="12" md="2" class="justify-center d-flex">
+              <!-- Dropzone Component -->
+              <vue-dropzone
+                :id="'dropzone-' + index"
+                :options="dropzoneOptions"
+                class="custom-dropzone"
+                @vdropzone-success="handleSuccess(index)"
+                v-model:files="dropzone.files"
+            /></v-col>
+            <v-col cols="12" md="10">
+              <span class="text-h6">POC ({{ index + 1 }})</span>
+              <!-- Input สำหรับกรอกชื่อภาพ -->
+              <v-text-field
+                type="text"
+                class="w-100"
+                :id="'imageName-' + index"
+                v-model="dropzone.imageName"
+                placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              />
+            </v-col>
+          </v-row>
+        </div>
       </v-card-text>
 
       <div class="d-flex justify-end pb-6 px-6">
@@ -464,27 +512,35 @@
   import Editacademy from "./academy/Editacademy.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
+    thumbnailWidth: 110,
+    thumbnailHeight: 150,
     maxFilesize: 5,
     maxFiles: 1,
     acceptedFiles:
       "image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/mov", // รองรับไฟล์ GIF, JPG, JPEG, PNG, MOV, MP4
     headers: { "My-Awesome-Header": "header value" },
+    //   dictDefaultMessage: `
+    //   <div style="text-align: center;">
+    //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+    //     <p style="font-size: 12px;">Drag files here or click to upload</p>
+    //   </div>
+    //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
+    //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
+    //   </p>
+    // `,
     dictDefaultMessage: `
     <div style="text-align: center;">
-      <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
-      <p style="font-size: 14px;">Drag files here or click to upload</p>
+      <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+      <p style="font-size: 12px;">Drag files here or click to upload</p>
     </div>
-     <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
-      Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
-    </p>
+  
   `,
   });
+  const dropzones = ref([{ files: [], imageName: "" }]);
   const selectedFiles = ref([]);
   const search = ref("");
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-  const loaded = ref(false);
-  const loading = ref(false);
+  const isLoading = ref(true);
   const EditOverlay = ref(false);
   const addSchool = ref(false);
   const deleteOverlay = ref(false);
@@ -517,7 +573,7 @@
     { title: "ระดับปฏิบัติการ", value: "level", align: "center" },
     { title: "แกนนำ", value: "leader_count", align: "center" },
     { title: "กิจกรรม", value: "activity_count", align: "center" },
-    { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "center" },
+    { title: "POC", value: "POC", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -551,6 +607,11 @@
       };
     });
   }
+  // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
+  const addDropzone = () => {
+    // เพิ่มออบเจ็กต์ใหม่ใน dropzones
+    dropzones.value.push({ files: [], imageName: "" });
+  };
 
   const school_value = ref([]);
   const pagination = ref({});
@@ -642,7 +703,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -678,7 +739,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -709,7 +770,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -740,7 +801,7 @@
         error.response?.data_province?.message ||
         "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -794,7 +855,7 @@
       errorMessage.value =
         error.response?.data?.message || "An unexpected error occurred.";
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -841,7 +902,7 @@
       alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
       //   alert(`Error: ${error.response.data.message}`);
     }
-    loading.value = false; // หยุดโหลดหลัง 0.5 วิ
+    isLoading.value = false; // หยุดโหลดหลัง 0.5 วิ
   };
 </script>
 <style scoped>
@@ -860,11 +921,12 @@
       margin-inline-start: -95px !important; 
     }
 
+
     .custom-dropzone {
   position: relative;
   border: 2px dashed #ccc;
-  height: 250px; /* ตั้งค่าความสูง */
-  width: 250px;
+  height: 140px; /* ตั้งค่าความสูง */
+  width: 270px;
   text-align: center;
   display: flex;
   justify-content: center;
