@@ -23,7 +23,7 @@
       <div v-if="!isMobile">
         <v-btn color="#95D51E" rounded="lg" @click="addNetwork = true"
           ><v-icon color="white">mdi-plus</v-icon>
-          <span style="color: white">เพิ่ม POC</span>
+          <span style="color: white">เพิ่มผู้ประสาน</span>
         </v-btn>
       </div>
       <div v-else>
@@ -39,7 +39,12 @@
       </div>
     </div>
 
-    <v-data-table :headers="headers" :items="items">
+    <v-data-table
+      :headers="headers"
+      :items="POC"
+      :mobile="isMobile"
+      :hide-default-header="isMobile"
+    >
       <template v-slot:item.actions="{ item }">
         <v-icon
           icon="mdi-dots-vertical"
@@ -154,17 +159,20 @@
 <script setup>
   import { ref } from "vue";
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
+  const { $apiClient } = useNuxtApp();
   const loaded = ref(false);
   const loading = ref(false);
   const addNetwork = ref(false);
   const isMobile = ref(false);
-
+  const successMessage = ref("");
+  const errorMessage = ref("");
+  const POC = ref([]);
   const headers = ref([
     { title: "ลำดับ", value: "id" },
     { title: "ชื่อ-สกุล", value: "name" },
-    { title: "เบอร์โทร", value: "phone" },
-    { title: "ทัพภาค", value: "position" },
-    { title: "ผู้เกี่ยวข้อง", value: "collaborators" },
+    { title: "เบอร์โทร", value: "phone_number" },
+    { title: "ทัพภาค", value: "army_region" },
+    { title: "ผู้เกี่ยวข้อง", value: "stakeholder" },
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -188,74 +196,29 @@
     });
   }
 
-  const desserts = ref([
-    {
-      name: "รุจิเสรี",
-      student: 159,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "0",
-      leader: "1",
-      acivity: "10",
-      person: "-",
-    },
-    {
-      name: "สวนสตรี",
-      student: 89,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "0",
-      leader: "1",
-      acivity: "20",
-      person: "-",
-    },
-    {
-      name: "เบญจมาศ",
-      student: 139,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "1",
-      leader: "10",
-      acivity: "15",
-      person: "-",
-    },
-    {
-      name: "สามเสนวิทยา",
-      student: 120,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "1",
-      leader: "1",
-      acivity: "0",
-      person: "-",
-    },
-    {
-      name: "มาลีพิทักษ์",
-      student: 180,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "0",
-      leader: "1",
-      acivity: "10",
-      person: "-",
-    },
-    {
-      name: "ประชาภิบาล",
-      student: 119,
-      sector: "กลาง",
-      province: "กรุงเทพ",
-      district: "พญาไท",
-      level: "0",
-      leader: "1",
-      acivity: "10",
-      person: "-",
-    },
-  ]);
+  async function fetchPoc() {
+    try {
+      // params.page = page.value;
+
+      const response = await $apiClient.get("/api/getPOC");
+
+      POC.value = response.data;
+      console.log(POC.value);
+
+      successMessage.value = "Data fetched successfully!";
+    } catch (error) {
+      console.error("There was an error!", error);
+      errorMessage.value =
+        error.response?.data?.message || "An unexpected error occurred.";
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
+  onMounted(async () => {
+    await fetchPoc();
+  });
 
   const onClick = () => {
     loading.value = true;

@@ -12,7 +12,7 @@
         <v-tab :value="1">ข้อมูลโรงเรียน</v-tab>
         <v-tab :value="2">ข้อมูลสถานศึกษา</v-tab>
         <v-tab :value="3">ข้อมูลแกนนำ</v-tab>
-        <v-tab :value="4">POC</v-tab>
+        <v-tab :value="4">ข้อมูลผู้ประสาน</v-tab>
         <v-tab :value="5">ข้อมูลสื่อ</v-tab>
         <v-tab :value="6">ข้อมูลมวลชนฝั่งเรา</v-tab>
       </v-tabs>
@@ -33,7 +33,7 @@
               <Mainstay />
             </div>
             <div v-if="tab === 4">
-              <Network />
+              <Coordinator />
             </div>
             <div v-if="tab === 5">
               <Media />
@@ -51,7 +51,7 @@
 <script setup>
   import { ref } from "vue";
   import Education from "./components/managedata/data/Education.vue";
-  import Network from "./components/managedata/data/Network.vue";
+  import Coordinator from "./components/managedata/data/Coordinator.vue";
   import School from "./components/managedata/data/School.vue";
   import Mainstay from "./data/Mainstay.vue";
   import Media from "./data/Media.vue";

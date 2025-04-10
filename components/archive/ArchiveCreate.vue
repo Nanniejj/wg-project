@@ -24,15 +24,15 @@
               v-model:files="selectedFiles"
             />
           </div>
-          <div class="pa-2 d-flex align-center justify-center">
+          <!-- <div class="pa-2 d-flex align-center justify-center">
             <v-divider
               :thickness="2"
               inset
               class="border-opacity-100"
               style="border-style: dashed; color: #707070"
             ></v-divider>
-          </div>
-          <div class="justify-center d-flex pa-4">
+          </div> -->
+          <!-- <div class="justify-center d-flex pa-4">
             <v-btn
               rounded="xl"
               block
@@ -42,7 +42,7 @@
               @click="submitForm"
               ><span style="font-size: 18px; color: black">Save from URL</span>
             </v-btn>
-          </div>
+          </div> -->
         </v-col>
 
         <!-- <v-divider
@@ -72,7 +72,7 @@
               clearable
             ></v-text-field>
 
-            <span style="font-size: 16px">Link</span>
+            <!-- <span style="font-size: 16px">Link</span>
             <v-text-field
               placeholder="Add a link"
               density="compact"
@@ -80,7 +80,7 @@
               variant="outlined"
               rounded="lg"
               clearable
-            ></v-text-field>
+            ></v-text-field> -->
 
             <span style="font-size: 16px">Type</span>
             <v-select

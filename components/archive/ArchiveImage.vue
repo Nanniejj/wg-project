@@ -16,24 +16,24 @@
       :key="index"
       cols="12"
       sm="4"
-      md="2"
+      md="3"
       class="justify-center align-center"
     >
       <v-img
-        :aspect-ratio="0.9"
+        :aspect-ratio="1"
         class="bg-white hover-image"
         rounded="xl"
         @click="openDialog(media)"
         :src="media.file"
-        width="500"
+        style="width: 350px; height: 400px"
         cover
         @contextmenu.prevent
-        @dragstart.prevent
+
         @copy.prevent
       ></v-img>
       <v-row class="pt-2">
-        <v-col cols="9"> {{ media.title }} </v-col>
-        <v-col cols="3" class="justify-end d-flex">
+        <v-col cols="7"> {{ media.title }} </v-col>
+        <v-col cols="5" class="justify-end d-flex">
           <v-btn
             v-tooltip="'ดาวน์โหลดรูปภาพ'"
             @click="downloadThisImage(media.file, media._id)"
@@ -110,7 +110,7 @@
               clearable
             ></v-text-field>
 
-            <span style="font-size: 16px">Link</span>
+            <!-- <span style="font-size: 16px">Link</span>
             <v-text-field
               density="compact"
               v-model="selectedMedia.link"
@@ -118,7 +118,7 @@
               rounded="lg"
               :disabled="isDisabled"
               clearable
-            ></v-text-field>
+            ></v-text-field> -->
 
             <span style="font-size: 16px">Type</span>
             <v-select
@@ -152,9 +152,13 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-end px-6">
-        <v-btn width="150" size="large" @click="editdialog(selectedMedia)">{{
-          isDisabled ? "แก้ไข" : "บันทึก"
-        }}</v-btn>
+        <v-btn
+          width="150"
+          size="large"
+          @click="editdialog(selectedMedia)"
+          :color="isDisabled ? '#AEE0E8' : '#2A3547'"
+          >{{ isDisabled ? "แก้ไข" : "บันทึก" }}</v-btn
+        >
       </div>
     </v-card>
   </v-dialog>
@@ -303,6 +307,9 @@
 <style scoped>
   .hover-image:hover {
   transform: scale(1.05);
+  opacity: 0.9; /* ปรับค่า opacity ให้เหมาะสม */
+  filter: grayscale(10%); /* ปรับค่า grayscale ให้เหมาะสม */
+
   transition: transform 0.4s ease;
 }
 </style>

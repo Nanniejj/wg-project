@@ -23,9 +23,9 @@
           />
         </div>
         <div class="pa-1">
-          <v-btn color="#E58383" rounded="lg" @click="dialogSchool()"
+          <v-btn color="#529B41" rounded="lg" @click="addMainstay = true"
             ><v-icon color="white">mdi-plus</v-icon>
-            <span style="color: white">เพิ่มข้อมูลโรงเรียน</span>
+            <span style="color: white">เพิ่มแกนนำ</span>
           </v-btn>
         </div>
       </v-row>
@@ -54,11 +54,11 @@
         </div>
         <div class="pa-1">
           <v-btn
-            color="#E58383"
+            color="#529B41"
             size="large"
             density="comfortable"
             icon="mdi-plus"
-            @click="addSchool = true"
+            @click="addMainstay = true"
           ></v-btn>
         </div>
       </v-row>
@@ -68,7 +68,7 @@
   <div class="pb-8">
     <v-text-field
       v-model="search"
-      placeholder="ค้นหาชื่อโรงเรียน"
+      placeholder="ค้นหาชื่อสถานศึกษา"
       prepend-inner-icon="mdi-magnify"
       hide-details
       rounded="lg"
@@ -171,18 +171,10 @@
           "
         >
           <v-avatar size="40">
-            <!-- เช็คว่ามี photo หรือไม่ -->
-            <template v-if="item.photo">
-              <v-img :src="item.photo"></v-img>
-            </template>
-            <template v-else>
-              <!-- ถ้าไม่มี photo แสดงไอคอน -->
-              <v-icon style="font-size: 45px">mdi-account-circle</v-icon>
-            </template>
+            <v-img :src="item.photo"></v-img>
           </v-avatar>
         </div>
       </template>
-
       <template v-slot:item.actions="{ item }">
         <div v-if="!isMobile" class="align-items-center d-flex">
           <v-icon
@@ -233,15 +225,16 @@
     ></v-pagination>
   </div>
 
-  <v-dialog v-model="addSchool" max-width="1200">
+  <v-dialog v-model="addMainstay" max-width="1200">
     <v-card class="pa-2" rounded="lg">
-      <v-card-title class="text-h6 d-flex justify-space-between align-center">
-        <span class="text-h6">เพิ่มข้อมูลโรงเรียน</span>
+      <v-card-title class="text-h6">
+        เพิ่มแกนนำ
         <v-btn
           icon="mdi-close"
           variant="text"
           size="large"
-          @click="addSchool = false"
+          @click="addMainstay = false"
+          class="float-right"
         ></v-btn>
       </v-card-title>
       <div class="pt-1 pb-1">
@@ -249,211 +242,66 @@
       </div>
 
       <v-card-text class="pt-4">
-        <v-row>
-          <v-col cols="12" sm="8" class="pt-0 pb-0">
-            <span class="text-h6">ชื่อโรงเรียน</span>
-            <v-text-field
-              v-model="SchoolValue"
-              placeholder="เพิ่มชื่อโรงเรียน"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="4" class="pt-0 pb-0">
-            <span class="text-h6">ภูมิภาค</span>
-
-            <!-- Dropdown สำหรับเลือกภาค -->
-            <v-autocomplete
-              v-model="selectedZoneId"
-              :items="zoneItems"
-              item-title="name"
-              item-value="id"
-              density="compact"
-              placeholder="ภาค"
-              variant="outlined"
-              closable-chips
-              @update:modelValue="updateProvinces"
-              dense
-              hide-no-data
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="6" class="pt-0 pb-0">
-            <span class="text-h6">จังหวัด</span>
-            <!-- Dropdown สำหรับเลือกภาค -->
-            <v-autocomplete
-              v-model="selectedProvinceId"
-              :items="ProvinceItems"
-              item-title="name_th"
-              item-value="id"
-              density="compact"
-              placeholder="จังหวัด"
-              variant="outlined"
-              closable-chips
-              @update:modelValue="updateDistrict"
-              dense
-              hide-no-data
-            />
-          </v-col>
-          <v-col cols="12" sm="6" class="pt-0 pb-0">
-            <span class="text-h6">เขต/อำเภอ</span>
-            <!-- Dropdown สำหรับเลือกภาค -->
-            <v-autocomplete
-              v-model="selectedDistrictId"
-              :items="districtItems"
-              item-title="name_th"
-              item-value="id"
-              density="compact"
-              placeholder="อำเภอ"
-              variant="outlined"
-              closable-chips
-              @update:modelValue="updateSubDistrict"
-              dense
-              hide-no-data
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="8" class="pt-0 pb-0">
-            <span class="text-h6">แขวง/ตำบล</span>
-            <!-- Dropdown สำหรับเลือกภาค -->
-            <v-autocomplete
-              v-model="selectedSubDistrictId"
-              :items="SubDistrictItems"
-              item-title="name_th"
-              item-value="id"
-              density="compact"
-              placeholder="ภาค"
-              variant="outlined"
-              closable-chips
-              dense
-              hide-no-data
-            />
-          </v-col>
-          <v-col cols="12" sm="4" class="pt-0 pb-0">
-            <span class="text-h6">ไปรษณีย์</span>
-            <v-text-field
-              :items="SubDistrictItems"
-              item-title="zip_code"
-              item-value="zip_code"
-              return-object
-              density="compact"
-              variant="outlined"
-              placeholder="รหัสไปรษณีย์"
-              :model-value="initialZipCode"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" md="4" class="py-0">
-            <span class="text-h6">จำนวนนักเรียน</span>
-            <v-number-input
-              density="compact"
-              v-model="NumStudent"
-              :min="0"
-              control-variant="split"
-              inset
-              variant="outlined"
-            ></v-number-input>
-          </v-col>
-          <v-col cols="12" md="4" class="py-0">
-            <span class="text-h6">จำนวนแกนนำ</span>
-            <v-number-input
-              density="compact"
-              v-model="NumLead"
-              :min="0"
-              control-variant="split"
-              inset
-              variant="outlined"
-            ></v-number-input>
-          </v-col>
-
-          <v-col cols="12" md="4" class="py-0">
-            <span class="text-h6">เลือกระดับปฏิบัติการ</span>
-            <v-autocomplete
-              v-model="selectedLevel"
-              :items="level"
-              item-title="text"
-              item-value="value"
-              density="compact"
-              variant="outlined"
-              label="เลือกระดับ"
-            ></v-autocomplete>
-          </v-col>
-        </v-row>
-        <!-- <v-row>
-          <v-col cols="12" md="4">
-            <div class="pa-4 d-flex align-center justify-start">
-              <vue-dropzone
-                ref="myVueDropzone"
-                id="dropzone"
-                :options="dropzoneOptions"
-                class="custom-dropzone"
-                @vdropzone-success="handleSuccess"
-                v-model:files="selectedFiles"
-              />
-            </div>
-          </v-col>
-          <v-col cols="12" md="8">
-            <span class="text-h6">ผู้ที่เกี่ยวข้อง</span>
-            <v-text-field
-              v-model="CopersonValue"
-              placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-            ></v-text-field>
-          </v-col>
-        </v-row> -->
-
-        <!-- สร้างหลายๆ Dropzone -->
-        <!-- ปุ่มสำหรับเพิ่ม Dropzone ใหม่ -->
-        <div class="justify-end d-flex pt-10">
-          <v-btn
-            @click="addDropzone"
-            color="primary"
-            elevation="2"
-            rounded
-            class="mx-2"
-            style="font-size: 16px"
-          >
-            <v-icon left>mdi-account-plus</v-icon> เพิ่ม POC
-          </v-btn>
+        <div class="pt-0 pb-0">
+          <span class="text-h6">ชื่อ-สกุล</span>
+          <v-text-field
+            placeholder="กรอกชื่อ-สกุล"
+            variant="outlined"
+            density="compact"
+            rounded="lg"
+          ></v-text-field>
         </div>
-        <div
-          v-for="(dropzone, index) in dropzones"
-          :key="index"
-          class="dropzone-container pt-10"
-        >
+
+        <div class="pt-0 pb-0">
           <v-row>
-            <v-col cols="12" md="2" class="justify-center d-flex">
-              <!-- Dropzone Component -->
-              <vue-dropzone
-                :id="'dropzone-' + index"
-                :options="dropzoneOptions"
-                class="custom-dropzone"
-                @vdropzone-success="handleSuccess(index)"
-                v-model:files="dropzone.files"
-            /></v-col>
-            <v-col cols="12" md="10">
-              <span class="text-h6">POC ({{ index + 1 }})</span>
-              <!-- Input สำหรับกรอกชื่อภาพ -->
-              <v-text-field
-                type="text"
-                class="w-100"
-                :id="'imageName-' + index"
-                v-model="dropzone.imageName"
-                placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+            <v-col cols="12" sm="6" class="pt-4 pb-0">
+              <span class="text-h6">สถานศึกษา</span>
+              <v-autocomplete
+                placeholder="เลือกสถานศึกษา"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
-              />
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="3" class="pt-4 pb-0">
+              <span class="text-h6">การศึกษา</span>
+              <v-autocomplete
+                placeholder="เลือกระดับการศึกษา"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="3" class="pt-4 pb-0">
+              <span class="text-h6">สถานะแกนนำ</span>
+              <v-autocomplete
+                 placeholder="เลือกสถานะแกนนำ"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              ></v-autocomplete>
             </v-col>
           </v-row>
         </div>
+        <v-row>
+          <v-col cols="12" sm="7" class="pt-4 pb-0">
+            <span class="text-h6">ชื่อผู้ประสาน</span>
+            <v-text-field
+               placeholder="กรอก"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="5" class="pt-4 pb-0">
+            <span class="text-h6">เบอร์โทรผู้ประสาน</span>
+            <v-text-field
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <div class="d-flex justify-end pb-6 px-6">
@@ -461,7 +309,7 @@
           color="#2A3547"
           rounded="lg"
           size="large"
-          @click="onClick()"
+          @click="addMainstay = false"
           class="text-white"
           min-width="200"
         >
@@ -511,28 +359,20 @@
   import Editacademy from "./academy/Editacademy.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 110,
-    thumbnailHeight: 150,
+    thumbnailWidth: 150,
     maxFilesize: 5,
     maxFiles: 1,
     acceptedFiles:
       "image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/mov", // รองรับไฟล์ GIF, JPG, JPEG, PNG, MOV, MP4
     headers: { "My-Awesome-Header": "header value" },
-  //   dictDefaultMessage: `
-  //   <div style="text-align: center;">
-  //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
-  //     <p style="font-size: 12px;">Drag files here or click to upload</p>
-  //   </div>
-  //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
-  //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
-  //   </p>
-  // `,
-  dictDefaultMessage: `
+    dictDefaultMessage: `
     <div style="text-align: center;">
-      <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
-      <p style="font-size: 12px;">Drag files here or click to upload</p>
+      <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+      <p style="font-size: 14px;">Drag files here or click to upload</p>
     </div>
-  
+     <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
+      Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
+    </p>
   `,
   });
   const selectedFiles = ref([]);
@@ -541,7 +381,7 @@
   const loaded = ref(false);
   const loading = ref(false);
   const EditOverlay = ref(false);
-  const addSchool = ref(false);
+  const addMainstay = ref(false);
   const deleteOverlay = ref(false);
   const itemToAction = ref(null);
   const { $apiClient } = useNuxtApp();
@@ -561,18 +401,14 @@
   const SchoolValue = ref("");
   const CopersonValue = ref("");
   const myVueDropzone = ref(null);
-  const dropzones = ref([{ files: [], imageName: "" }]);
   const page = ref(1);
   const headers = ref([
     { title: "ลำดับ", value: "ลำดับ", align: "center" },
-    { title: "ชื่อโรงเรียน", value: "name", align: "center" },
-    { title: "จำนวนนักเรียน", value: "student_count", align: "center" },
-    { title: "ภาค", value: "geography_name", align: "center" },
-    { title: "จังหวัด", value: "province_name", align: "center" },
-    { title: "อำเภอ", value: "amphure_name", align: "center" },
-    { title: "ระดับปฏิบัติการ", value: "level", align: "center" },
-    { title: "แกนนำ", value: "leader_count", align: "center" },
-    { title: "กิจกรรม", value: "activity_count", align: "center" },
+    { title: "โรงเรียน", value: "name", align: "center" },
+    { title: "ชื่อ-สกุล", value: "student_count", align: "center" },
+    { title: "จำนวนกิจกรรม", value: "geography_name", align: "center" },
+    { title: "เบอร์โทร", value: "phone_number", align: "center" },
+    { title: "สถานะแกนนำ", value: "amphure_name", align: "center" },
     { title: "ผู้ที่เกี่ยวข้อง", value: "ผู้ที่เกี่ยวข้อง", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
@@ -612,12 +448,6 @@
   const pagination = ref({});
   const getSelectedFiles = () => {
     return myVueDropzone.value.getAcceptedFiles();
-  };
-
-  // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
-  const addDropzone = () => {
-    // เพิ่มออบเจ็กต์ใหม่ใน dropzones
-    dropzones.value.push({ files: [], imageName: "" });
   };
 
   const clearFilter = async () => {
@@ -823,9 +653,7 @@
 
   async function fetchSchool() {
     try {
-      const params = {
-        status: "school", // กำหนดค่า default ของ status เป็น "school"
-      };
+      const params = {};
       // ตรวจสอบค่าของ search
       if (search.value && search.value.trim() !== "") {
         params.name = search.value; // ถ้ามีค่าของ search ส่งไป
@@ -843,7 +671,7 @@
       }
       params.page = page.value;
 
-      const response = await $apiClient.get("/api/getAcademy", {
+      const response = await $apiClient.get("/api/getLeader", {
         params: params,
       });
 
@@ -862,14 +690,12 @@
 
   watch(page, fetchSchool);
 
-  // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
-  onMounted(async () => {
-    await fetchSchool();
-    await fetchGeographies();
-  });
-  const dialogSchool = async () => {
-    addSchool.value = true;
-  };
+  // // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
+  // onMounted(async () => {
+  //   await fetchSchool();
+  //   await fetchGeographies();
+  // });
+
 
   const onClick = async () => {
     const formData = new FormData();
@@ -879,7 +705,7 @@
     formData.append("leader_count", NumLead.value);
     formData.append("student_count", NumStudent.value);
     formData.append("stakeholder", CopersonValue.value);
-    formData.append("status", "school");
+    formData.append("status", "university");
     const files = getSelectedFiles();
     files.forEach((file) => {
       formData.append("personPhotos", file);
@@ -894,7 +720,7 @@
       console.log("Response status:", response.status);
 
       if (response.status == 201) {
-        addSchool.value = false;
+        addMainstay.value = false;
         await fetchSchool();
       } else {
         alert(`ไม่สามารถนำเข้าขอมูลได้ กรุณาลองใหม่อีกครั้ง`);
@@ -925,8 +751,8 @@
     .custom-dropzone {
   position: relative;
   border: 2px dashed #ccc;
-  height: 140px; /* ตั้งค่าความสูง */
-  width: 270px;
+  height: 250px; /* ตั้งค่าความสูง */
+  width: 250px;
   text-align: center;
   display: flex;
   justify-content: center;
