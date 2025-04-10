@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <!-- {{ taskData }} -->
     <!-- แสดงหัวข้อประเด็น -->
     <span class="text-h6">ประเด็น</span>
     <div class="pt-5 pb-5">
@@ -9,6 +10,7 @@
     <!-- แสดง v-card ด้านบนตามจำนวนข้อมูลใน cardsData -->
     <v-row>
       <v-col v-for="(card, index) in cardsData" :key="index" cols="12" md="4">
+        <!-- {{ card }} -->
         <v-card
           class="pa-8"
           rounded="lg"
@@ -26,7 +28,7 @@
             <span class="text-h6">Link(url)</span>
           </div>
           <div class="pa-2">
-            <div v-for="(link, idx) in card.link" :key="idx" class="pa-2">
+            <div v-for="(link, idx) in card.url" :key="idx" class="pa-2">
               <v-chip size="x-large" color="#F4F4F4" variant="flat">
                 <span style="color: #2ab6ea">{{ link }}</span>
               </v-chip>
@@ -36,7 +38,7 @@
             <div class="pt-6">
               <span class="text-h6">รูปแนบ</span>
             </div>
-            <div v-for="(image, idx) in card.image" :key="idx">
+            <div v-for="(image, idx) in card.photo" :key="idx">
               <v-img
                 class="bg-grey-lighten-2"
                 height="200"
@@ -89,9 +91,10 @@
             </div>
 
             <span class="text-h6">Link URL</span>
-            <v-row>
+            <v-row v-for="(link, index) in card.url" :key="index" class="pt-2">
               <v-col cols="9" sm="11">
                 <v-text-field
+                  v-model="card.url[index]"
                   density="compact"
                   placeholder="Link URL"
                   variant="outlined"
@@ -147,38 +150,59 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  import { useRoute } from "vue-router";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+const props = defineProps({
+  taskData: Object,
+});
+const route = useRoute();
+const topics = ref([]);
+// รับ title จาก query
+const title = route.query.title;
+const status = route.query.status;
 
-  const route = useRoute();
+const cardsData = ref([
+  {
+    title: "ตอบโต้ข้อมูลบิดเบือนสถาบัน",
+    url: ["https://example.com/2"],
+    image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
+  },
+  {
+    title: "ตอบโต้ข้อมูลบิดเบือนสถาบัน",
+    url: ["https://example.com/2"],
+    image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
+  },
+  {
+    title: "ตอบโต้ข้อมูลบิดเบือนองค์กร",
+    url: ["https://example.com/2"],
+    image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
+  },
+]);
 
-  // รับ title จาก query
-  const title = route.query.title;
-  const status = route.query.status;
+const selectedCard = ref(null);
 
-  const cardsData = ref([
-    {
-      title: "ตอบโต้ข้อมูลบิดเบือนสถาบัน",
-      link: ["https://example.com/2"],
-      image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
-    },
-    {
-      title: "ตอบโต้ข้อมูลบิดเบือนสถาบัน",
-      link: ["https://example.com/2"],
-      image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
-    },
-    {
-      title: "ตอบโต้ข้อมูลบิดเบือนองค์กร",
-      link: ["https://example.com/2"],
-      image: ["https://cdn.vuetifyjs.com/images/parallax/material.jpg"],
-    },
-  ]);
+function selectCard(card) {
+  selectedCard.value = card; // เก็บข้อมูลของ card ที่ผู้ใช้เลือก
+}
 
-  const selectedCard = ref(null);
-
-  function selectCard(card) {
-    selectedCard.value = card; // เก็บข้อมูลของ card ที่ผู้ใช้เลือก
+function getTopicDetail(topicId) {
+  console.log("topic id", topicId);
+  
+  return topics.value.find((topic) => topic._id === topicId).name;
+}
+onMounted(async () => {
+  topics.value = await getTopics('M5')
+  console.log(topics.value);
+  if (props.taskData.content_id) {
+    cardsData.value = props.taskData.content_id
+    cardsData.value.forEach((card) => {
+      card.title = getTopicDetail(card.topic_id);
+      console.log("card === ",card);
+    });
   }
+  
+  
+});
 </script>
 
 <style scoped>

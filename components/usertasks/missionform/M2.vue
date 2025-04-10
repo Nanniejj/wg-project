@@ -45,7 +45,7 @@
       <v-col cols="12" md="6" class="justify-start d-flex">
         <span class="text-h6">Content</span>
       </v-col>
-      <v-col cols="12" md="6" class="justify-end d-flex">
+      <v-col v-if="status != 'completed'" cols="12" md="6" class="justify-end d-flex">
         <v-btn
           color="#F49525"
           @click="openAddNewContent"
@@ -53,6 +53,7 @@
           style="aspect-ratio: 1; width: 30px"
           height="80%"
           size="small"
+          :disabled="status == 'completed'"
         >
           <v-icon style="color: white; font-size: 25px">mdi-plus</v-icon>
         </v-btn>

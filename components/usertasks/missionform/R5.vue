@@ -61,10 +61,11 @@
         </v-col>
       </v-row>
 
-      <div>
+      <!-- ตัดออก -->
+      <!-- <div>
         <span class="text-h6">รายชื่อแกนนำ</span>
         <v-autocomplete density="compact" variant="outlined"></v-autocomplete>
-      </div>
+      </div> -->
 
       <div>
         <span class="text-h6">ระดับปฏิบัติการ</span>

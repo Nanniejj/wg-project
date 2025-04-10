@@ -422,11 +422,8 @@ const setTaskData = () => {
             {
                 "topic_name": selectedIssue.value,
                 "detail": MainDescriptionMessage.value,
-                // "url": [""]
             }
         ]
-        // contentsPhoto: uploadedFiles.value,
-        
     }
     console.log("Task Data:", taskData);
     emit("taskDataM6", taskData);

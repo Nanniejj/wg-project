@@ -374,7 +374,7 @@ const setTaskData = () => {
         
     }
     console.log("Task Data:", taskData);
-    // emit("taskDataM5", taskData);
+    emit("taskDataM5", taskData);
 };
 onMounted(async () => { 
     topics.value = await getTopics(props.selectedMission);
