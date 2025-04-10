@@ -8,6 +8,9 @@
       :mobile="isMobile"
       :hide-default-header="isMobile"
       :items-per-page="isMobile ? 5 : 10"
+      hide-default-footer
+      :loading="isLoading"
+      loading-text="กำลังโหลดข้อมูล..."
     >
       <!-- สร้าง template สำหรับคอลัมน์ status
       <template #item.is_active="{ item }">
@@ -268,11 +271,21 @@
         </v-dialog>
       </template>
     </v-data-table>
+    <div class="text-center pt-16">
+      <v-pagination
+        v-model="page"
+        :length="pagination.value"
+        rounded="circle"
+        class="my-4"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 <script setup>
   import { ref, computed, watch, onMounted } from "vue";
   const { $apiClient } = useNuxtApp();
+  const pagination = ref({});
+  const page = ref(1);
   const storageRole = localStorage.getItem("role");
   const dialogData = ref({
     _id: null,
@@ -343,7 +356,7 @@
     "M8",
     "หัวข้อประสาน",
   ];
-
+  const isLoading = ref(true);
   const menu_user = ["MyTasks", "TaskManagement", "Report", "DataManagement"];
 
   // Function to populate dialog data when editing an item
@@ -435,31 +448,41 @@
     };
     return date.toLocaleString("th-TH", options);
   }
-  const params = {
-    is_active: "true", // หรอ false ตามที่ต้องการ
-  };
+
   const fetchData = async () => {
+    const params = {
+      is_active: "true", // หรอ false ตามที่ต้องการ
+    };
+    params.page = page.value;
+    isLoading.value = true;
     try {
       const response = await $apiClient.get("/api/getusertable", {
         params,
       });
 
       lobbyItems.value = response.data.data;
-      console.log(lobbyItems.value);
+      // console.log(lobbyItems.value);
+      pagination.value = response.data.totalPages;
       // affiliations_data.value = response.data;
       //   affiliations_data.value = response.data.map((team) => team.name);
       //   console.log(affiliations_data.value);
       // อัปเดต headers หลังจากดึงข้อมูล
       headers.value = [
-        { title: "ชื่อ", value: "username"  ,align: "center"},
-        { title: "E-mail", value: "email"  ,align: "center"},
-        { title: "บทบาท", value: "role" ,align: "center" },
-        { title: "สังกัด", value: "affiliation" ,align: "center" },
-        { title: "ประวัติการใช้งาน", key: "history", sortable: false  ,align: "center"},
+        { title: "ชื่อ", value: "username", align: "center" },
+        { title: "E-mail", value: "email", align: "center" },
+        { title: "บทบาท", value: "role", align: "center" },
+        { title: "สังกัด", value: "affiliation", align: "center" },
+        {
+          title: "ประวัติการใช้งาน",
+          key: "history",
+          sortable: false,
+          align: "center",
+        },
         // { title: "วันที่สมัคร", value: "create_date" },
         // { title: "สถานะ", value: "is_active" },
         { title: "Actions", key: "actions", sortable: false },
       ];
+      isLoading.value = false;
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
     }
