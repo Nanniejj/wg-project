@@ -4,7 +4,7 @@
       <v-col v-if="!selectedMission" cols="12">
         <v-row>
           <v-col cols="12" class="justify-center align-center d-flex pa-1">
-            <v-card-title class="text-h6">Create Mission</v-card-title>
+            <v-card-title style="font-size: 30px">Create Mission</v-card-title>
           </v-col>
   
           <v-col cols="12" class="d-flex pa-1">
@@ -16,13 +16,13 @@
               :disabled="!valid"
               @click="submitForm"
             >
-              <span class="text-h6">Create new</span>
+              <span style="font-size: 16px">Create new</span>
             </v-btn>
             <v-divider
               vertical
               :thickness="2"
               style="margin-top: -55px"
-              class="px-3 border-opacity-50"
+              class="px-1 border-opacity-50"
               color="#707070"
             ></v-divider>
 

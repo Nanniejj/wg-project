@@ -132,7 +132,8 @@
     password: "",
   });
   const config = useRuntimeConfig();
-  const apiUrl = config.public.API_BASE_URL;
+  // const apiUrl = config.public.API_BASE_URL;
+  const apiUrl = "http://192.168.1.104:3002";
   const rememberMe = ref(false);
   const loading = ref(false);
   const errorMessage = ref(""); // ย้าย errorMessage มาที่นี่
@@ -164,6 +165,7 @@
       const refresh_token = data.value.refresh_token;
       const role = data.value.role;
       const access_menu = data.value.access_menu;
+      const mission = data.value.mission;
       // console.log("role", role,);
       // console.log("access_menu", access_menu,);
 
@@ -180,6 +182,7 @@
         localStorage.setItem("authToken", token);
         localStorage.setItem("role", role);
         localStorage.setItem("access_menu", access_menu);
+        localStorage.setItem("mission", mission);
         router.push("/");
       }
     } catch (error) {

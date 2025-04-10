@@ -34,14 +34,15 @@
   </v-row>
   <v-divider style="margin-top: 20px" class="border-opacity-75"></v-divider>
 
+  <!-- newTasks -->
   <div v-if="ShowSelect === 0 || ShowSelect === 1" class="pt-10">
     <span class="text-h6 font-weight-bold">
-      แผนงานใหม่ ({{ items.length }})</span
+      แผนงานใหม่ ({{ newTasks.length }})</span
     >
     <v-row>
       <v-col
         class="pt-10"
-        v-for="item in items"
+        v-for="item in newTasks"
         :key="item.id"
         cols="12"
         sm="6"
@@ -51,34 +52,35 @@
           rounded="lg"
           class="pa-2 h-100"
           elevation="4"
-          @click="goToMission(title, 'NP')"
+          @click="goToMission(title, item.status,item)"
         >
           <v-row>
             <v-col cols="2">
-              <v-avatar :color="getMissionColor(title)" rounded="lg"></v-avatar>
+              <v-avatar :color="getMissionColor(item.mission)" rounded="lg"></v-avatar>
             </v-col>
             <v-col cols="10" class="pa-1">
-              <v-card-title class="pb-0">{{ title }}</v-card-title>
+              <v-card-title class="pb-0">{{ item.mission }}</v-card-title>
               <v-card-subtitle>{{ getMissionName(title) }}</v-card-subtitle>
             </v-col>
           </v-row>
           <div class="pb-3 pt-3">
-            <v-card-text class="pa-2"
+            <v-card-text class="py-2 px-0 truncate-text-1"
               >รายระเอียด:{{ item.description || "-" }}</v-card-text
             >
           </div>
           <v-row>
-            <v-col cols="8" class="text-start pa-0 d-flex align-end">
-              <v-card-text class="pa-4"
-                ><v-icon icon="mdi-calendar-blank"></v-icon
-                >{{ item.date || "-" }}</v-card-text
-              >
+            <v-col cols="8" sm="7" md="6" lg="7" class="text-start py-0 d-flex align-end">
+              <v-card-text class="px-0 truncate-text-1" v-if="(item.start_date) && (item.end_date)">
+                <v-icon icon="mdi-calendar-blank"></v-icon> 
+                {{ formatDate(item.start_date) }} - {{ formatDate(item.end_date) }}
+              </v-card-text>
+              <v-card-text class="px-0 truncate-text-1" v-else><v-icon icon="mdi-calendar-blank"></v-icon> - </v-card-text>
             </v-col>
-            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+            <v-col cols="4" sm="5" md="6" lg="5" class="text-end pa-0 d-flex align-end">
               <v-card-text
-                class="pa-4"
-                :style="{ color: getColorPriority(item.priority) }"
-                >{{ item.priority }}</v-card-text
+                class="py-4 px-2"
+                :style="{ color: getColorPriority(getPriorityTitle(item.priority)) }"
+                >ระดับ{{ getPriorityTitle(item.priority) }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -91,14 +93,15 @@
     ></v-divider>
   </div>
 
+  <!-- inProgressTasks -->
   <div v-if="ShowSelect === 0 || ShowSelect === 2" class="pt-10">
     <span class="text-h6 font-weight-bold">
-      กำลังดำเนินการ ({{ items2.length }})</span
+      กำลังดำเนินการ ({{ inProgressTasks.length }})</span
     >
     <v-row>
       <v-col
         class="pt-10"
-        v-for="item in items2"
+        v-for="item in inProgressTasks"
         :key="item.id"
         cols="12"
         sm="6"
@@ -108,7 +111,7 @@
           rounded="lg"
           class="pa-2 h-100"
           elevation="3"
-          @click="goToMission(title, 'IP')"
+          @click="goToMission(title, item.status,item)"
         >
           <v-row>
             <v-col cols="2">
@@ -120,22 +123,23 @@
             </v-col>
           </v-row>
           <div class="pb-3 pt-3">
-            <v-card-text class="pa-2"
+            <v-card-text class="py-2 px-0 truncate-text-1"
               >รายระเอียด:{{ item.description || "-" }}</v-card-text
             >
           </div>
           <v-row>
-            <v-col cols="8" class="text-start pa-0 d-flex align-end">
-              <v-card-text class="pa-4"
-                ><v-icon icon="mdi-calendar-blank"></v-icon
-                >{{ item.date || "-" }}</v-card-text
-              >
+            <v-col cols="8" sm="7" md="6" lg="7" class="text-start py-0 d-flex align-end">
+              <v-card-text class="px-0 truncate-text-1" v-if="(item.start_date) && (item.end_date)">
+                <v-icon icon="mdi-calendar-blank"></v-icon> 
+                {{ formatDate(item.start_date) }} - {{ formatDate(item.end_date) }}
+              </v-card-text>
+              <v-card-text class="px-0 truncate-text-1" v-else><v-icon icon="mdi-calendar-blank"></v-icon> - </v-card-text>
             </v-col>
-            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+            <v-col cols="4" sm="5" md="6" lg="5" class="text-end pa-0 d-flex align-end">
               <v-card-text
-                class="pa-4"
-                :style="{ color: getColorPriority(item.priority) }"
-                >{{ item.priority }}</v-card-text
+                class="py-4 px-2"
+                :style="{ color: getColorPriority(getPriorityTitle(item.priority)) }"
+                >ระดับ{{ getPriorityTitle(item.priority) }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -148,15 +152,16 @@
     ></v-divider>
   </div>
 
+  <!-- completedTasks -->
   <div v-if="ShowSelect === 0 || ShowSelect === 3" class="pt-10">
     <span class="text-h6 font-weight-bold">
-      แผนงานที่เสร็จสมบูรณ์ ({{ items3.length }})</span
+      แผนงานที่เสร็จสมบูรณ์ ({{ completedTasks.length }})</span
     >
 
     <v-row>
       <v-col
         class="pt-10"
-        v-for="item in items3"
+        v-for="item in completedTasks"
         :key="item.id"
         cols="12"
         sm="6"
@@ -166,7 +171,7 @@
           rounded="lg"
           class="pa-2 h-100"
           elevation="4"
-          @click="goToMission(title, 'PP')"
+          @click="goToMission(title, item.status, item)"
         >
           <v-row>
             <v-col cols="2">
@@ -178,22 +183,23 @@
             </v-col>
           </v-row>
           <div class="pb-3 pt-3">
-            <v-card-text class="pa-2"
+            <v-card-text class="py-2 px-0 truncate-text-1"
               >รายระเอียด:{{ item.description || "-" }}</v-card-text
             >
           </div>
           <v-row>
-            <v-col cols="8" class="text-start pa-0 d-flex align-end">
-              <v-card-text class="pa-4"
-                ><v-icon icon="mdi-calendar-blank"></v-icon
-                >{{ item.date || "-" }}</v-card-text
-              >
+            <v-col cols="8" sm="7" md="6" lg="7" class="text-start py-0 d-flex align-end">
+              <v-card-text class="px-0 truncate-text-1" v-if="(item.start_date) && (item.end_date)">
+                <v-icon icon="mdi-calendar-blank"></v-icon> 
+                {{ formatDate(item.start_date) }} - {{ formatDate(item.end_date) }}
+              </v-card-text>
+              <v-card-text class="px-0 truncate-text-1" v-else><v-icon icon="mdi-calendar-blank"></v-icon> - </v-card-text>
             </v-col>
-            <v-col cols="4" class="text-end pa-0 d-flex align-end">
+            <v-col cols="4" sm="5" md="6" lg="5" class="text-end pa-0 d-flex align-end">
               <v-card-text
-                class="pa-4"
-                :style="{ color: getColorPriority(item.priority) }"
-                >{{ item.priority }}</v-card-text
+                class="py-4 px-2"
+                :style="{ color: getColorPriority(getPriorityTitle(item.priority)) }"
+                >ระดับ{{ getPriorityTitle(item.priority) }}</v-card-text
               >
             </v-col>
           </v-row>
@@ -219,17 +225,26 @@
     { name: "แผนงานที่เสร็จสมบูรณ์", value: 3 },
   ]);
 
+  const priority = ref([
+    {title:"ต่ำ", value:"low"},
+    {title:"ปานกลาง", value:"medium"},
+    {title:"สูง", value:"high"},
+  ]);
   const route = useRoute();
   const router = useRouter();
   // รับ title จาก query
   const title = route.query.title;
   const ShowSelect = ref(0);
-
   const handleFilterClick = (filter) => {
     ShowSelect.value = filter; // ใช้ .value เพื่อแก้ไขค่า
     // console.log("filter",filter);
   };
 
+  const tasks = ref([]);
+  const newTasks = ref([]);
+  const inProgressTasks = ref([]);
+  const completedTasks = ref([]);
+  
   const items = ref([
     {
       id: 1,
@@ -295,13 +310,48 @@
     },
   ]);
 
+  const getPriorityTitle = (itemValue) => {
+    // let priorityItem = 
+    return priority.value.find(item => item.value === itemValue ).title
+  };
+  const filterTasks = (status) => {
+    return tasks.value.filter(task => task.status === status)
+  };
+  const setFilterTasks = () => {
+    newTasks.value =  filterTasks('create')
+    inProgressTasks.value = filterTasks('in_progress')
+    completedTasks.value = filterTasks('completed')
+  };
+  
   // ฟังก์ชันที่ใช้ในการไปยังหน้า Detail
-  const goToMission = (title, status) => {
+const goToMission = (title, status, task) => {
+    // console.log("task === ", task);
+    
     // ใช้ router.push เพื่อเปลี่ยนหน้าไปยัง detail page
-    router.push({ name: "usermission", query: { title, status } });
+    router.push({
+      name: "usermission",
+      query: { title, status, task: JSON.stringify(task) },
+      // state: {task}
+    });
   };
   // ฟังก์ชันสำหรับการย้อนกลับไปยังหน้าเดิม
   const handleBack = () => {
     router.back(); // ใช้ router.back() เพื่อกลับไปยังหน้าก่อนหน้า
   };
+
+  onMounted(async () => {
+    try {
+      console.log(title);
+      if (title) {
+        tasks.value = await getTasksByMission(title)
+        setFilterTasks()
+      }
+      // userTasks.value = await getAllTasksUser();
+      // setFilter()
+      // console.log("user tasks === ", userTasks.value);
+    } catch (error) {
+        tasks.value = items.value;
+    }
+  });
+  
 </script>

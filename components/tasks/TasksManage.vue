@@ -35,7 +35,7 @@
 
                             <v-tooltip v-else text="ยังไม่ส่ง" location="top">
                                 <template v-slot:activator="{ props }">
-                                    <span class="text-black" v-bind="props">{{ team }} </span>
+                                    <span class="text-black" v-bind="props">Team {{ team }} </span>
                                     <v-icon color="red" v-bind="props" size="15">mdi-close</v-icon>
                                 </template>
                             </v-tooltip>
@@ -63,6 +63,7 @@
         </div>
         <UpdateTask v-else 
             :selectedTask="selectedTask"
+            :hvtTargets="hvtTargets"
             @closeEdit = "closeEditTask"
         />
     </div>
@@ -372,7 +373,7 @@ const items = ref([
         ]
     },
 ]);
-
+const hvtTargets = ref([])
 const editTask = ref(false);
 const selectedTask = ref();
 const openEditTask = (task) =>{
@@ -384,14 +385,14 @@ const closeEditTask = () =>{
     selectedTask.value = null
     editTask.value = false
 };
-function formatDate(isoString) {
-    const date = new Date(isoString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนใน JavaScript เริ่มที่ 0
-    const year = String(date.getFullYear() + 543).slice(-2); // แปลงเป็น พ.ศ.
+// function formatDate(isoString) {
+//     const date = new Date(isoString);
+//     const day = String(date.getDate()).padStart(2, '0');
+//     const month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนใน JavaScript เริ่มที่ 0
+//     const year = String(date.getFullYear() + 543).slice(-2); // แปลงเป็น พ.ศ.
 
-    return `${day}/${month}/${year}`;
-}
+//     return `${day}/${month}/${year}`;
+// }
 function formatTeams(item){
     return item.map(team => team.name);
 }
@@ -405,23 +406,16 @@ function sortedData(data) {
 onMounted(async () => {
     try {
         tasks.value = await getAllTasks();
-        // teams.value = await getTeams();
-        // console.log("teams ==> ", teams.value);
         tasks.value.forEach(task => {
             if (task.assigned_teams.length !== 0) {
-                // console.log(task);
                 task.assign_team = formatTeams(task.assigned_teams)
             }else{
                 // task.assigned_teams = task.assign_team
             }
         });
         tasks.value = sortedData(tasks.value)
-        // let id = "67d7b17c90f13e3be9ea3a85"
-        // await getTaskById(id)
-        // console.log("tasks ==> ", tasks.value);
-        // missions.value = await getTaskCategories();
+        hvtTargets.value = await fetchUserHvt();
     } catch (error) {
-        // console.error("Error fetching users:", error);
         tasks.value = items.value;
         headers.value = headersMockup.value;
     }

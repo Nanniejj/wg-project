@@ -155,7 +155,58 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),di
   }
 }
 
-@media only screen and (min-width: 0px) and (max-width: 800px) {
+/* xl display */
+@media only screen and (min-width: 1920px){
+  
+}
+
+
+/* lg display */
+@media only screen and (min-width: 1280px) and (max-width: 1919px) {
+  .v-card-title{
+    font-size: 16px !important;
+  }
+  .v-card-subtitle{
+    font-size: 14px !important;
+  }
+  .v-radio .v-label {
+    font-size: 14px !important;
+  }
+  .font-title2{
+    font-size: 18px !important;
+  }
+  .text-h6 {
+    font-size: 16px !important;
+  }
+}
+
+/* md display */
+@media only screen and (min-width:  960px) and (max-width: 1279px) {
+  .v-card-title{
+    font-size: 14px !important;
+  }
+  .v-card-subtitle{
+    font-size: 12px !important;
+  }
+  .v-radio .v-label {
+    font-size: 12px !important;
+  }
+  .v-card-text{
+    font-size: 12px !important;
+  }
+  .font-title2{
+    font-size: 18px !important;
+  }
+  .text-h6 {
+    font-size: 14px !important;
+  }
+}
+
+/* sm display  */
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+  .text-h6 {
+    font-size: 16px !important;
+  }
   .text-h4 {
     font-size: 19px !important;
   }
@@ -188,6 +239,52 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),di
   .py-4.border-title {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
+  }
+  .v-card-title{
+    font-size: 16px !important;
+  }
+}
+
+/* xs display  */
+@media only screen and (min-width: 0px) and (max-width: 599px) {
+  .text-h6 {
+    font-size: 16px !important;
+  }
+  .text-h4 {
+    font-size: 19px !important;
+  }
+
+  .text-h3 {
+    font-size: 20px !important;
+  }
+
+  .font-title2 {
+    font-size: 17px !important;
+  }
+
+  .ql-editor {
+    font-size: 12px;
+  }
+
+  .text-h4 {
+    font-size: 19px !important;
+  }
+
+  .text-h5 {
+    font-size: 15px !important;
+  }
+
+  .font-subtitle {
+    font-size: 15px;
+    letter-spacing: 0px;
+  }
+
+  .py-4.border-title {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+  .v-card-title{
+    font-size: 16px !important;
   }
 }
 

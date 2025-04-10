@@ -188,7 +188,7 @@ export default {
         { label: "Dashboard", path: "/dashboard" },
         { label: "Tasks", path: "/tasks" },
         { label: "Create", path: "/create" },
-        { label: "Mission", path: "/mission" },
+        // { label: "Mission", path: "/mission" },
         { label: "Archive", path: "/archive" },
         { label: "User Management", path: "/management" },
         { label: "Report", path: "/report" },

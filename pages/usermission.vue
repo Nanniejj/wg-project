@@ -13,10 +13,16 @@
       size="x-large"
       icon="mdi-chevron-double-left"
     ></v-icon>
+    
     <span class="text-h6 px-4 font-weight-bold">Mission {{ title }}</span>
     <span class="text-h6">{{ getMissionName(title) }}</span>
+    <!-- {{ taskData }} -->
   </v-row>
-  <component :is="getMissionComponent(title)" />
+  <component 
+    :is="getMissionComponent(title)" 
+    :taskData="taskData"
+    @handleBack="handleBack"
+  />
 </template>
 
 <script setup>
@@ -52,7 +58,7 @@
   const router = useRouter();
   // รับ title จาก query
   const title = route.query.title;
-
+  const taskData = route.query.task ? JSON.parse(route.query.task) : {};
   const getMissionComponent = (missionTitle) => {
     switch (missionTitle) {
       case "M1":

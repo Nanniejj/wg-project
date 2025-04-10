@@ -10,7 +10,14 @@ export function formatNumber(value: number | string): string {
   return numericValue.toLocaleString(); // ใช้เครื่องหมายคั่นหลักพัน
 }
 // composables/useShowComponent.ts
+export function formatDate(isoString : string) {
+  const date = new Date(isoString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนใน JavaScript เริ่มที่ 0
+  const year = String(date.getFullYear() + 543).slice(-2); // แปลงเป็น พ.ศ.
 
+  return `${day}/${month}/${year}`;
+}
 export function shouldShowComponent(subjectIndex: any, index: number): boolean {
   // ถ้า subjectIndex ว่างหรือ undefined ให้แสดงทุก component
   if (!subjectIndex || subjectIndex.length === 0) {
@@ -187,12 +194,17 @@ export const useColors = () => {
     }
   };
 
-
+  const getMissionImage = (mission: string): string => {
+    // console.log(mission);
+    return `/logo/Icon-${mission}.png`;
+    
+  };
   return {
     getTeamColor,
     getMissionColor,
     getTeamColorSoft,
     getMissionName,
-    getColorPriority
+    getColorPriority,
+    getMissionImage
   };
 };
