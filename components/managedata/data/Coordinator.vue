@@ -44,7 +44,7 @@
       :items="POC"
       :mobile="isMobile"
       :hide-default-header="isMobile"
-            :loading="isLoading"
+      :loading="isLoading"
       loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.actions="{ item }">
@@ -58,14 +58,13 @@
 
     <v-dialog v-model="addNetwork" max-width="1200">
       <v-card class="pa-2" rounded="lg">
-        <v-card-title class="text-h6">
-          เพิ่มแกนนำ
+        <v-card-title class="text-h6 d-flex justify-space-between align-center">
+          <span class="text-h6"> เพิ่มผู้ประสาน</span>
           <v-btn
             icon="mdi-close"
             variant="text"
             size="large"
             @click="addNetwork = false"
-            class="float-right"
           ></v-btn>
         </v-card-title>
         <div class="pt-1 pb-1">
@@ -73,6 +72,16 @@
         </div>
 
         <v-card-text class="pt-4">
+          <div class="pa-4 d-flex align-center justify-center">
+            <vue-dropzone
+              ref="myVueDropzone"
+              id="dropzone"
+              :options="dropzoneOptions"
+              class="custom-dropzone"
+              @vdropzone-success="handleSuccess"
+              v-model:files="selectedFiles"
+            />
+          </div>
           <div class="pt-0 pb-0">
             <span class="text-h6">ชื่อ-สกุล</span>
             <v-text-field
@@ -160,6 +169,33 @@
 
 <script setup>
   import { ref } from "vue";
+  import vueDropzone from "dropzone-vue3";
+  const dropzoneOptions = ref({
+    url: "https://httpbin.org/post",
+    thumbnailWidth: 110,
+    thumbnailHeight: 150,
+    maxFilesize: 5,
+    maxFiles: 1,
+    acceptedFiles:
+      "image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/mov", // รองรับไฟล์ GIF, JPG, JPEG, PNG, MOV, MP4
+    headers: { "My-Awesome-Header": "header value" },
+    //   dictDefaultMessage: `
+    //   <div style="text-align: center;">
+    //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+    //     <p style="font-size: 12px;">Drag files here or click to upload</p>
+    //   </div>
+    //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
+    //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
+    //   </p>
+    // `,
+    dictDefaultMessage: `
+    <div style="text-align: center;">
+      <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+      <p style="font-size: 12px;">Drag files here or click to upload</p>
+    </div>
+  
+  `,
+  });
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const { $apiClient } = useNuxtApp();
   const isLoading = ref(true);
@@ -167,6 +203,7 @@
   const isMobile = ref(false);
   const successMessage = ref("");
   const errorMessage = ref("");
+  const myVueDropzone = ref(null);
   const POC = ref([]);
   const headers = ref([
     { title: "ลำดับ", value: "id" },
@@ -245,4 +282,19 @@
           ::v-deep(.v-input__append){
       margin-inline-start: -95px !important; 
     }
+
+    .custom-dropzone {
+  position: relative;
+  border: 2px dashed #ccc;
+  height: 250px; /* ตั้งค่าความสูง */
+  width: 250px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #707070;
+  background-color: #E9E9E9;
+  border-radius: 20px; 
+}
 </style>

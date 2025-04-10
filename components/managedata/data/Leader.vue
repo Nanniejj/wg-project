@@ -153,7 +153,7 @@
       :mobile="isMobile"
       :hide-default-header="isMobile"
       hide-default-footer
-            :loading="isLoading"
+      :loading="isLoading"
       loading-text="กำลังโหลดข้อมูล..."
     >
       <template v-slot:item.ลำดับ="{ index }">
@@ -229,14 +229,13 @@
 
   <v-dialog v-model="addMainstay" max-width="1200">
     <v-card class="pa-2" rounded="lg">
-      <v-card-title class="text-h6">
-        เพิ่มแกนนำ
+      <v-card-title class="text-h6 d-flex justify-space-between align-center">
+        <span class="text-h6">เพิ่มแกนนำ</span>
         <v-btn
           icon="mdi-close"
           variant="text"
           size="large"
           @click="addMainstay = false"
-          class="float-right"
         ></v-btn>
       </v-card-title>
       <div class="pt-1 pb-1">
@@ -277,7 +276,7 @@
             <v-col cols="12" sm="3" class="pt-4 pb-0">
               <span class="text-h6">สถานะแกนนำ</span>
               <v-autocomplete
-                 placeholder="เลือกสถานะแกนนำ"
+                placeholder="เลือกสถานะแกนนำ"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
@@ -289,7 +288,7 @@
           <v-col cols="12" sm="7" class="pt-4 pb-0">
             <span class="text-h6">ชื่อผู้ประสาน</span>
             <v-text-field
-               placeholder="กรอก"
+              placeholder="กรอก"
               variant="outlined"
               density="compact"
               rounded="lg"
@@ -304,6 +303,49 @@
             ></v-text-field>
           </v-col>
         </v-row>
+        <div class="justify-end d-flex pt-10">
+          <v-btn
+            @click="addDropzone"
+            color="#AEE0E8"
+            elevation="2"
+            rounded
+            class="mx-2"
+            style="font-size: 16px"
+          >
+            <v-icon left>mdi-account-plus</v-icon> เพิ่มผู้ประสาน
+          </v-btn>
+        </div>
+        <div
+          v-for="(dropzone, index) in dropzones"
+          :key="index"
+          class="dropzone-container pt-10"
+        >
+          <v-row>
+            <v-col cols="12" md="2" class="justify-center d-flex">
+              <!-- Dropzone Component -->
+              <vue-dropzone
+                :id="'dropzone-' + index"
+                :options="dropzoneOptions"
+                class="custom-dropzone"
+                @vdropzone-success="handleSuccess(index)"
+                v-model:files="dropzone.files"
+            /></v-col>
+            <v-col cols="12" md="10">
+              <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
+              <!-- Input สำหรับกรอกชื่อภาพ -->
+              <v-text-field
+                type="text"
+                class="w-100"
+                :id="'imageName-' + index"
+                v-model="dropzone.imageName"
+                placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+              />
+            </v-col>
+          </v-row>
+        </div>
       </v-card-text>
 
       <div class="d-flex justify-end pb-6 px-6">
@@ -358,29 +400,36 @@
 <script setup>
   import { ref } from "vue";
   import vueDropzone from "dropzone-vue3";
-  import Editacademy from "./academy/Editacademy.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
-    thumbnailWidth: 150,
+    thumbnailWidth: 110,
+    thumbnailHeight: 150,
     maxFilesize: 5,
     maxFiles: 1,
     acceptedFiles:
       "image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/mov", // รองรับไฟล์ GIF, JPG, JPEG, PNG, MOV, MP4
     headers: { "My-Awesome-Header": "header value" },
+    //   dictDefaultMessage: `
+    //   <div style="text-align: center;">
+    //     <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+    //     <p style="font-size: 12px;">Drag files here or click to upload</p>
+    //   </div>
+    //    <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
+    //     Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
+    //   </p>
+    // `,
     dictDefaultMessage: `
     <div style="text-align: center;">
-      <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
-      <p style="font-size: 14px;">Drag files here or click to upload</p>
+      <i class="mdi mdi-upload-circle" style="font-size: 30px; color: #29A0AF;"></i>
+      <p style="font-size: 12px;">Drag files here or click to upload</p>
     </div>
-     <p style="position: absolute; bottom: 0; left: 30%; transform: translateX(-20%); font-size: 10px;">
-      Recommend using high quality.jpg files less than 2MB .mp4 file less than 5MB
-    </p>
+  
   `,
   });
   const selectedFiles = ref([]);
   const search = ref("");
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-
+  const dropzones = ref([{ files: [], imageName: "" }]);
   const isLoading = ref(true);
   const EditOverlay = ref(false);
   const addMainstay = ref(false);
@@ -427,6 +476,13 @@
   const NumStudent = ref(0);
   const NumLead = ref(0);
   const isMobile = ref(false);
+
+   // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
+   const addDropzone = () => {
+    // เพิ่มออบเจ็กต์ใหม่ใน dropzones
+    dropzones.value.push({ files: [], imageName: "" });
+  };
+
 
   // Only run this logic in the client environment
   if (process.client) {
@@ -698,7 +754,6 @@
   //   await fetchGeographies();
   // });
 
-
   const onClick = async () => {
     const formData = new FormData();
     formData.append("level", selectedLevel.value);
@@ -753,8 +808,8 @@
     .custom-dropzone {
   position: relative;
   border: 2px dashed #ccc;
-  height: 250px; /* ตั้งค่าความสูง */
-  width: 250px;
+  height: 140px; /* ตั้งค่าความสูง */
+  width: 270px;
   text-align: center;
   display: flex;
   justify-content: center;
