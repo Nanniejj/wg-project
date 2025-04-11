@@ -607,7 +607,7 @@
 
 .card-h-maxmin {
   max-height: 450px;
-  min-height: 200px;
+  min-height: 450px;
 
 }
 

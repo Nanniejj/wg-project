@@ -1,119 +1,106 @@
 <template>
     <div>
-        <ApexChart type="line" :options="chartOptions" :series="series" height="450"></ApexChart>
+        <div>
+            <span class="text-topic font-weight-medium">จำนวนการค้นหา</span> ( โพสต์ )
+        </div>
+        <ApexChart v-if="statDataReady" type="line" :options="chartOptions" :series="series" height="450"
+            class="linechart" @click="onClickPie" />
+        <div v-else>ไม่พบข้อมูล</div>
     </div>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
 import ApexChart from "vue3-apexcharts";
+import dayjs from "dayjs";
 
-const series = reactive([
-    {
-        name: "พิธา",
-        data: [28, 29, 33, 36, 32, 32, 33]
+const router = useRouter();
+
+const props = defineProps({
+    statData: {
+        type: Array,
+        default: () => [],
     },
-    {
-        name: "ทักษิณ",
-        data: [12, 11, 14, 18, 17, 13, 13]
-    }
-]);
+});
 
-const chartOptions = reactive({
+const statDataReady = computed(() => Array.isArray(props.statData) && props.statData.length > 0);
+
+// series data สำหรับกราฟ
+const series = computed(() => {
+    return props.statData.map((person) => ({
+        name: person.name,
+        data: person.data.map((d) => d.y),
+    }));
+});
+
+// x-axis categories (วันที่)
+const xCategories = computed(() => {
+    const firstWithData = props.statData.find((p) => p.data && p.data.length > 0);
+    return firstWithData ? firstWithData.data.map((d) => d.x) : [];
+});
+
+const onClickPie = (event, chartContext, config) => {
+    console.log('config', config);
+
+    const personIndex = config.seriesIndex;
+    const pointIndex = config.dataPointIndex;
+
+
+    // ต้อง access ข้อมูล statData จาก context ภายนอก
+    const person = props.statData[personIndex];
+    const date = person?.data[pointIndex]?.x;
+    console.log('personIndex', date, personIndex, pointIndex, person);
+    if (person?.id && date) {
+        console.log('hvt', person.id);
+
+        const url = router.resolve({
+            name: "postcard",
+            query: {
+                hvtId: person.id,
+                date,
+            },
+        }).href;
+
+        window.open(url, "_blank");
+    }
+}
+
+
+const chartOptions = computed(() => ({
     chart: {
         height: 350,
-        type: 'line',
-
-        fontSize: '10px',
-
-        dropShadow: {
-            enabled: true,
-            color: '#000',
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 0.5
-        },
-        zoom: {
-            enabled: false
-        },
-        toolbar: {
-            show: false
+        type: "line",
+        zoom: { enabled: false },
+        toolbar: { show: false },
+        events: {
+            dataPointSelection:onClickPie,
+            markerClick:onClickPie
         }
+        // ✅ เพิ่ม event handler แบบ ApexCharts
+       
     },
-    // colors: ['#77B6EA', '#545454'],
     dataLabels: {
         enabled: true,
-        style: {
-            fontSize: '10px'
-        }
+        formatter: (val) => (val === 0 ? "" : val),
+        style: { fontSize: "8px" },
     },
-    stroke: {
-        curve: 'smooth'
-    },
-    title: {
-        text: 'จำนวนการค้นหา',
-        align: 'left',
-        style: {
-            fontSize: '10px'
-        }
-    },
-    grid: {
-        borderColor: '#e7e7e7',
-        row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
-        },
-    },
-    markers: {
-        size: 1
-    },
+    stroke: { curve: "smooth" },
+    markers: { size: 1 },
     xaxis: {
-        categories: ['2025-03-01', '2025-03-02', '2025-03-03', '2025-03-04', '2025-03-05', '2025-03-06', '2025-03-07'],
+        categories: xCategories.value,
         labels: {
-            style: {
-                fontSize: '10px'
-            }
-        }
-        // title: {
-        //     text: 'Month'
-        // }
+            formatter: (val) => dayjs(val).locale("th").format("D MMM YY"),
+        },
     },
     yaxis: {
-        labels: {
-            style: {
-                fontSize: '10px'
-            }
-        },
-        min: 5,
-        max: 40
+        min: 0,
+        labels: { style: { fontSize: "8px" } },
     },
     legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
+        position: "bottom",
         offsetY: -25,
-        offsetX: -5
-    }
-});
+    },
+}));
+
 </script>
-
-<style scoped>
-.apexcharts-text tspan {
-    font-size: 10px;
-}
-
-.img-size {
-    width: 30px;
-    cursor: pointer;
-}
-
-.bl-txt {
-    color: black;
-    text-align: center;
-}
-
-.bold {
-    font-weight: bold;
-}
-</style>

@@ -8,16 +8,19 @@
         </v-row>
         <v-row>
             <v-col cols="12" md="4">
-                <v-text-field v-model="search" label="ค้นหารายชื่อ" variant="outlined" prepend-inner-icon="mdi-magnify"></v-text-field>
+                <v-text-field v-model="search" label="ค้นหารายชื่อ" variant="outlined"
+                    prepend-inner-icon="mdi-magnify"></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
-                <v-select v-model="searchGroup" :items="groups" label="กรองตามกลุ่ม" clearable variant="outlined"></v-select>
+                <v-select v-model="searchGroup" :items="groups" label="กรองตามกลุ่ม" clearable
+                    variant="outlined"></v-select>
             </v-col>
             <v-col cols="12" md="4">
-                <v-select v-model="searchTeam" :items="teams" label="กรองตามทีม" clearable variant="outlined"></v-select>
+                <v-select v-model="searchTeam" :items="teams" label="กรองตามทีม" clearable
+                    variant="outlined"></v-select>
             </v-col>
         </v-row>
-        <v-data-table :items="users" :headers="headers"  :search="search||searchGroup||searchTeam">
+        <v-data-table :items="users" :headers="headers" :search="search || searchGroup || searchTeam">
             <template v-slot:item.name="{ item }">
                 <div>
                     <v-avatar icon="mdi-account" size="45" color="secondary" class="mr-2 my-2"
@@ -33,7 +36,8 @@
             <template v-slot:item.actions="{ item }">
                 <v-btn icon="mdi-pencil-outline" size="small" variant="text" color="#4DA3D9"
                     @click="openDialog(item)"></v-btn>
-                <v-btn icon="mdi-delete" size="small" variant="text" color="#404040" @click="confirmDelete(item)"></v-btn>
+                <v-btn icon="mdi-delete" size="small" variant="text" color="#404040"
+                    @click="confirmDelete(item)"></v-btn>
                 <v-btn variant="outlined" size="small">View</v-btn>
             </template>
         </v-data-table>
@@ -93,6 +97,10 @@
                             </div>
 
                             <v-select label="Team" :items="teams" v-model="newUser.team" variant="outlined"></v-select>
+                            <v-combobox v-model="newUser.keyword" label="Keyword" multiple chips clearable
+                                variant="outlined" hint="กรอกคำแล้วกด Enter เพื่อเพิ่ม" persistent-hint
+                                class="mb-3"></v-combobox>
+
                             <v-textarea label="รายละเอียด" v-model="newUser.description"
                                 variant="outlined"></v-textarea>
                         </v-col>
@@ -133,14 +141,31 @@ const newUser = ref({});
 
 const openDialog = (user = null) => {
     if (user) {
-        newUser.value = { ...user };
+        newUser.value = {
+            ...user,
+            keyword: Array.isArray(user.keyword) ? user.keyword : [],
+            social: Array.isArray(user.social)
+                ? user.social.map(s => (typeof s === "string" ? { url: s } : s))
+                : [{ url: "" }]
+        };
         imagePreview.value = null;
     } else {
-        newUser.value = { first_name: "", last_name: "", name: "", group: "", social: [{ url: "" }], team: "C", description: "", photo: null };
+        newUser.value = {
+            first_name: "",
+            last_name: "",
+            name: "",
+            group: "",
+            keyword: [],
+            social: [{ url: "" }],
+            team: "C",
+            description: "",
+            photo: null
+        };
         imagePreview.value = null;
     }
     dialog.value = true;
 };
+
 
 const previewImage = (event) => {
     const file = event.target.files[0];
@@ -193,7 +218,7 @@ const addSocialField = () => {
         newUser.value.social.push({ url: "", source: "" });
 
     } else {
-        newUser.value.social.push("");
+        newUser.value.social.push({ url: "", source: "" });
     }
 };
 
@@ -208,13 +233,12 @@ const saveUser = async () => {
     // confirmDelete()
     const formData = new FormData();
     Object.keys(newUser.value).forEach(key => {
-        if (key === 'social') {
+        if (['social', 'keyword', 'darkside'].includes(key)) {
             formData.append(key, JSON.stringify(newUser.value[key]));
         } else {
             formData.append(key, newUser.value[key]);
         }
     });
-
     if (newUser.value._id) {
         await updateUserHvt(formData);
     } else {
@@ -232,8 +256,8 @@ const saveUser = async () => {
     dialog.value = false;
 };
 const deleteUser = async (item) => {
-    console.log('newUser._id',item._id);
-    
+    console.log('newUser._id', item._id);
+
     try {
         await deleteUserHvt({ _id: item._id });
         $swal.fire({
@@ -263,3 +287,9 @@ onMounted(async () => {
     }
 });
 </script>
+<style>
+.v-messages__message {
+    line-height: 9px;
+    font-size: 13px !important;
+}
+</style>

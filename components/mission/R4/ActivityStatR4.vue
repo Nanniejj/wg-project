@@ -47,7 +47,6 @@
   
   <script setup>
   import { computed } from "vue";
-  
   // Data for target groups
   const targetGroupsRaw = [
     { name: "Babyboomer", ageRange: "ช่วง 55 ปีขึ้นไป", count: 150 },

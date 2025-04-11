@@ -11,7 +11,7 @@
 <style>
 * {
   font-family: "IBM Plex Sans Thai", sans-serif !important;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .base-color {
@@ -41,6 +41,10 @@
 
 .text-topic {
   font-size: 18px;
+  font-weight: 400;
+}
+.text-small {
+  font-size: 13px;
   font-weight: 400;
 }
 
@@ -135,6 +139,12 @@ z-index: 999999;
 }
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
     color: #fff !important;
+}
+.apexcharts-text tspan {
+    font-size: 12px !important;
+}
+g.apexcharts-bar-series.apexcharts-plot-series {
+  font-size: 13px !important;
 }
 @media (min-width: 1580px) {
   .v-container {
