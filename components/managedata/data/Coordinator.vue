@@ -99,6 +99,7 @@
                 variant="outlined"
                 density="compact"
                 rounded="lg"
+                   :rules="[isNumber, minLength(10)]"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" class="pt-4 pb-0">
@@ -216,6 +217,21 @@
 
   const item = ref([]);
 
+  
+  const isNumber = (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return /^[0-9]+$/.test(value) || "กรุณาใส่ตัวเลขเท่านั้น";
+  };
+
+  const minLength = (min) => (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return value.length >= min || `ต้องมีอย่างน้อย ${min} หลัก`;
+  };
+
   // Only run this logic in the client environment
   if (process.client) {
     isMobile.value = window.innerWidth < 860;
@@ -241,7 +257,7 @@
       const response = await $apiClient.get("/api/getPOC");
 
       POC.value = response.data;
-      console.log(POC.value);
+      // console.log(POC.value);
 
       successMessage.value = "Data fetched successfully!";
     } catch (error) {

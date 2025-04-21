@@ -61,7 +61,7 @@
           item-title="name_th"
           item-value="amphure_id"
           density="compact"
-          placeholder="อำเภอ"
+          placeholder="เขต/อำเภอ"
           variant="outlined"
           closable-chips
           @update:modelValue="updateSubDistrict"
@@ -81,7 +81,7 @@
           item-title="name_th"
           item-value="tambon_id"
           density="compact"
-          placeholder="ตำบล"
+          placeholder="แขวง/ตำบล"
           variant="outlined"
           closable-chips
           dense
@@ -96,6 +96,8 @@
           variant="outlined"
           density="compact"
           rounded="lg"
+                 :rules="[isNumber]"
+
         ></v-text-field>
       </v-col>
     </v-row>
@@ -457,6 +459,13 @@
 
     return changedFields;
   }
+
+  const isNumber = (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return /^[0-9]+$/.test(value) || "กรุณาใส่ตัวเลขเท่านั้น";
+  };
 
   // ฟังก์ชันที่จะเรียกเมื่อกดปุ่มบันทึก
   function handleSave() {

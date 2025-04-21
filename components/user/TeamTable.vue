@@ -97,6 +97,7 @@
   import vueDropzone from "dropzone-vue3";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
+    autoProcessQueue: false, 
     thumbnailWidth: 320,
     thumbnailHeight: 320,
     maxFilesize: 2,
@@ -117,6 +118,7 @@
   const selectedColor = ref(null);
   const Description = ref(null);
   const { getTeamColorSoft, getTeamColor } = useColors();
+  const isLoading = ref(true);
 
   // Function to handle saving the item (or deleting)
   const saveItem = async () => {

@@ -307,7 +307,7 @@
               item-title="name_th"
               item-value="id"
               density="compact"
-              placeholder="อำเภอ"
+              placeholder="เขต/อำเภอ"
               variant="outlined"
               closable-chips
               @update:modelValue="updateSubDistrict"
@@ -326,7 +326,7 @@
               item-title="name_th"
               item-value="id"
               density="compact"
-              placeholder="ภาค"
+              placeholder="แขวง/ตำบล"
               variant="outlined"
               closable-chips
               dense
@@ -343,6 +343,7 @@
               density="compact"
               variant="outlined"
               placeholder="รหัสไปรษณีย์"
+              :rules="[isNumber]"
               :model-value="initialZipCode"
             ></v-text-field>
           </v-col>
@@ -512,6 +513,7 @@
   import Editacademy from "./academy/Editacademy.vue";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
+    autoProcessQueue: false,
     thumbnailWidth: 110,
     thumbnailHeight: 150,
     maxFilesize: 5,
@@ -689,13 +691,13 @@
       const response_zone = await $apiClient.get("/api/getGeography");
       const data_zone = response_zone.data;
 
-      console.log(data_zone);
+      // console.log(data_zone);
       // names_zone.value = data_zone.map((item) => item.name);
       zoneItems.value = data_zone.map((item) => ({
         id: item.id,
         name: item.name,
       }));
-      console.log("get zone:", zoneItems.value);
+      // console.log("get zone:", zoneItems.value);
 
       successMessage.value = "Data fetched successfully!";
     } catch (error) {
@@ -858,6 +860,13 @@
       isLoading.value = false;
     }
   }
+
+  const isNumber = (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return /^[0-9]+$/.test(value) || "กรุณาใส่ตัวเลขเท่านั้น";
+  };
 
   watch(page, fetchSchool);
 

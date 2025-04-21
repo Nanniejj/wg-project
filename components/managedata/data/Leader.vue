@@ -23,7 +23,7 @@
           />
         </div>
         <div class="pa-1">
-          <v-btn color="#529B41" rounded="lg" @click="addMainstay = true"
+          <v-btn color="#529B41" rounded="lg" @click="openMainstayModal"
             ><v-icon color="white">mdi-plus</v-icon>
             <span style="color: white">เพิ่มแกนนำ</span>
           </v-btn>
@@ -243,21 +243,38 @@
       </div>
 
       <v-card-text class="pt-4">
-        <div class="pt-0 pb-0">
-          <span class="text-h6">ชื่อ-สกุล</span>
-          <v-text-field
-            placeholder="กรอกชื่อ-สกุล"
-            variant="outlined"
-            density="compact"
-            rounded="lg"
-          ></v-text-field>
-        </div>
+        <v-row class="pt-0 pb-0">
+          <v-col cols="12" sm="7" class="pt-0 pb-0">
+            <span class="text-h6">ชื่อ-สกุล</span>
+            <v-text-field
+              v-model="name_leader"
+              placeholder="กรอกชื่อ-สกุล"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="5" class="pt-0 pb-0">
+            <span class="text-h6">เบอร์โทร</span>
+            <v-text-field
+              v-model="phone_leader"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              :rules="[isNumber, minLength(10)]"
+            ></v-text-field>
+          </v-col>
+        </v-row>
 
         <div class="pt-0 pb-0">
           <v-row>
             <v-col cols="12" sm="6" class="pt-4 pb-0">
               <span class="text-h6">สถานศึกษา</span>
               <v-autocomplete
+                v-model="selectedAcademy"
+                :items="academyName"
+                item-title="name"
+                item-value="_id"
                 placeholder="เลือกสถานศึกษา"
                 variant="outlined"
                 density="compact"
@@ -267,6 +284,8 @@
             <v-col cols="12" sm="3" class="pt-4 pb-0">
               <span class="text-h6">การศึกษา</span>
               <v-autocomplete
+                v-model="selectedEducation"
+                :items="educationOptions"
                 placeholder="เลือกระดับการศึกษา"
                 variant="outlined"
                 density="compact"
@@ -276,6 +295,8 @@
             <v-col cols="12" sm="3" class="pt-4 pb-0">
               <span class="text-h6">สถานะแกนนำ</span>
               <v-autocomplete
+                v-model="selectedStatus"
+                :items="StatusOptions"
                 placeholder="เลือกสถานะแกนนำ"
                 variant="outlined"
                 density="compact"
@@ -284,25 +305,6 @@
             </v-col>
           </v-row>
         </div>
-        <v-row>
-          <v-col cols="12" sm="7" class="pt-4 pb-0">
-            <span class="text-h6">ชื่อผู้ประสาน</span>
-            <v-text-field
-              placeholder="กรอก"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="5" class="pt-4 pb-0">
-            <span class="text-h6">เบอร์โทรผู้ประสาน</span>
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-            ></v-text-field>
-          </v-col>
-        </v-row>
         <div class="justify-end d-flex pt-10">
           <v-btn
             @click="addDropzone"
@@ -331,18 +333,32 @@
                 v-model:files="dropzone.files"
             /></v-col>
             <v-col cols="12" md="10">
-              <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
-              <!-- Input สำหรับกรอกชื่อภาพ -->
-              <v-text-field
-                type="text"
-                class="w-100"
-                :id="'imageName-' + index"
-                v-model="dropzone.imageName"
-                placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              />
+              <v-row>
+                <v-col cols="12" sm="7" class="pt-0 pb-0">
+                  <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
+                  <!-- Input สำหรับกรอกชื่อภาพ -->
+                  <v-text-field
+                    type="text"
+                    class="w-100"
+                    :id="'imageName-' + index"
+                    v-model="dropzone.imageName"
+                    placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                  />
+                </v-col>
+                <v-col cols="12" sm="5" class="pt-0 pb-0">
+                  <span class="text-h6">เบอร์โทรผู้ประสาน</span>
+                  <v-text-field
+                    v-model="phone_leader"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    :rules="[isNumber, minLength(10)]"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </div>
@@ -353,7 +369,7 @@
           color="#2A3547"
           rounded="lg"
           size="large"
-          @click="addMainstay = false"
+          @click="SubmitAdd()"
           class="text-white"
           min-width="200"
         >
@@ -402,6 +418,7 @@
   import vueDropzone from "dropzone-vue3";
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
+    autoProcessQueue: false,
     thumbnailWidth: 110,
     thumbnailHeight: 150,
     maxFilesize: 5,
@@ -446,26 +463,44 @@
   const selectedSubDistrictId = ref(null);
   const selectedDistrictId = ref(null);
   const selectedProvinceId = ref(null);
+  const selectedAcademy = ref(null);
   const successMessage = ref("");
   const errorMessage = ref("");
   const initialZipCode = ref("");
   const SchoolValue = ref("");
+  const academyName = ref("");
+  const coordinate_name = ref("");
+  const phone_leader = ref("");
+  const name_leader = ref("");
   const CopersonValue = ref("");
   const myVueDropzone = ref(null);
   const page = ref(1);
   const headers = ref([
     { title: "ลำดับ", value: "ลำดับ", align: "center" },
-    { title: "โรงเรียน", value: "name", align: "center" },
-    { title: "ชื่อ-สกุล", value: "student_count", align: "center" },
-    { title: "จำนวนกิจกรรม", value: "geography_name", align: "center" },
+    { title: "โรงเรียน", value: "academy_name", align: "center" },
+    { title: "ชื่อ-สกุล", value: "name", align: "center" },
+    { title: "จำนวนกิจกรรม", value: "activity_count", align: "center" },
     { title: "เบอร์โทร", value: "phone_number", align: "center" },
-    { title: "สถานะแกนนำ", value: "amphure_name", align: "center" },
+    { title: "สถานะแกนนำ", value: "status", align: "center" },
     { title: "ผู้ประสาน", value: "ผู้ประสาน", align: "center" },
     { title: "", value: "actions", sortable: false },
   ]);
 
   const selectedLevel = ref(null); // ใช้เก็บค่าที่ถูกเลือก
   const filterLevel = ref(null); // ใช้เก็บค่าที่ถูกเลือก
+
+  const educationOptions = [
+    "ต่ำกว่าปริญญาตรี",
+    "ปริญญาตรี",
+    "ปริญญาโท",
+    "ปริญญาเอก",
+  ];
+
+  const selectedEducation = ref(""); // หรือให้มี default
+
+  const StatusOptions = ["แกนนำ", "เก็งตัว"];
+
+  const selectedStatus = ref(""); // หรือให้มี default
 
   const level = ref([
     { text: "ระดับ 0 ยังไม่ได้เข้าไปติดต่อ", value: 1 },
@@ -477,12 +512,11 @@
   const NumLead = ref(0);
   const isMobile = ref(false);
 
-   // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
-   const addDropzone = () => {
+  // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
+  const addDropzone = () => {
     // เพิ่มออบเจ็กต์ใหม่ใน dropzones
     dropzones.value.push({ files: [], imageName: "" });
   };
-
 
   // Only run this logic in the client environment
   if (process.client) {
@@ -514,6 +548,61 @@
     selectedProvinceId.value = null;
     selectedZoneId.value = null;
     filterLevel.value = null;
+  };
+
+  async function openMainstayModal() {
+    addMainstay.value = true;
+    const response = await $apiClient.get("/api/getAcademyNames");
+    academyName.value = response.data;
+  }
+
+  async function SubmitAdd() {
+    const formData = new FormData();
+    formData.append("education", selectedEducation.value);
+    formData.append("name", name_leader.value);
+    formData.append("status", selectedStatus.value);
+    formData.append("academy", selectedAcademy.value);
+    // formData.append("stakeholder", coordinate_name.value);
+    formData.append("phone_number", phone_leader.value);
+    // const files = getSelectedFiles();
+    // files.forEach((file) => {
+    //   formData.append("personPhotos", file);
+    // });
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    try {
+      const response = await $apiClient.post("/api/createLeader", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Response status:", response.status);
+
+      if (response.status == 201) {
+        addMainstay.value = false;
+        await fetchSchool();
+      } else {
+        alert(`ไม่สามารถนำเข้าขอมูลได้ กรุณาลองใหม่อีกครั้ง`);
+      }
+    } catch (error) {
+      alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
+      //   alert(`Error: ${error.response.data.message}`);
+    }
+  }
+
+  const isNumber = (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return /^[0-9]+$/.test(value) || "กรุณาใส่ตัวเลขเท่านั้น";
+  };
+
+  const minLength = (min) => (value) => {
+    if (!value) {
+      return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
+    }
+    return value.length >= min || `ต้องมีอย่างน้อย ${min} หลัก`;
   };
 
   const calindexFunction = (value) => {
@@ -733,8 +822,10 @@
         params: params,
       });
 
+      console.log(response.data);
+
       school_value.value = response.data.data;
-      pagination.value = response.data.pagination;
+      pagination.value = response.data.totalPages;
 
       successMessage.value = "Data fetched successfully!";
     } catch (error) {
@@ -748,11 +839,11 @@
 
   watch(page, fetchSchool);
 
-  // // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
-  // onMounted(async () => {
-  //   await fetchSchool();
-  //   await fetchGeographies();
-  // });
+  // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
+  onMounted(async () => {
+    await fetchSchool();
+    await fetchGeographies();
+  });
 
   const onClick = async () => {
     const formData = new FormData();

@@ -159,7 +159,7 @@
           error.value.data.message || "An error occurred while logging in."
         );
       }
-      // console.log("value login", data.value.twofac);
+      console.log("value login", data.value);
       const token = data.value.token;
       const refresh_token = data.value.refresh_token;
       const role = data.value.role;
