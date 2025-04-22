@@ -6,7 +6,7 @@
   </template>
   
   <script setup>
-    import auth from "./components/twofactor/twofactor.vue";
+    import twofactor from "~/components/twofactor/twofactor.vue";
     definePageMeta({ layout: "false" });
     // import create from "./components/create/mission/M3.vue";
   </script>

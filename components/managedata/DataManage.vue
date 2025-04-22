@@ -50,12 +50,12 @@
 
 <script setup>
   import { ref } from "vue";
-  import Education from "./components/managedata/data/Education.vue";
-  import Coordinator from "./components/managedata/data/Coordinator.vue";
-  import School from "./components/managedata/data/School.vue";
-  import Leader from "./data/Leader.vue";
-  import Media from "./data/Media.vue";
-  import Mass from "./data/Mass.vue";
+  import Education from "~/components/managedata/data/Education.vue";
+  import Coordinator from "~/components/managedata/data/Coordinator.vue";
+  import School from "~/components/managedata/data/School.vue";
+  import Leader from "~/components/managedata/data/Leader.vue";
+  import Media from "~/components/managedata/data/Media.vue";
+  import Mass from "~/components/managedata/data/Mass.vue";
 
   const tab = ref(1); // Default tab value
 </script>

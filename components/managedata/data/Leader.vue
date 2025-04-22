@@ -68,7 +68,7 @@
   <div class="pb-8">
     <v-text-field
       v-model="search"
-      placeholder="ค้นหาชื่อสถานศึกษา"
+      placeholder="ค้นหาชื่อแกนนำ"
       prepend-inner-icon="mdi-magnify"
       hide-details
       rounded="lg"
@@ -82,9 +82,9 @@
     </v-text-field>
   </div>
 
-  <v-row>
-    <v-col cols="12" md="3" class="py-0">
-      <!-- Dropdown สำหรับเลือกภาค -->
+  <!-- <v-row> -->
+    <!-- <v-col cols="12" md="3" class="py-0">
+ 
       <v-autocomplete
         v-model="selectedZoneId"
         :items="zoneItems"
@@ -128,23 +128,22 @@
         dense
         hide-no-data
       />
-    </v-col>
-    <v-col cols="12" md="2" class="py-0">
+    </v-col> -->
+    <!-- <v-col cols="12" md="2" class="py-0">
       <v-autocomplete
         v-model="filterLevel"
-        :items="level"
-        item-title="text"
-        item-value="value"
+        :items="StatusOptions"
         density="compact"
         variant="solo"
-        placeholder="ระดับปฏิบัติการ"
+        placeholder="สถานะแกนนำ"
       ></v-autocomplete>
     </v-col>
+    
 
     <v-col cols="12" md="1" class="py-0">
       <v-btn block @click="clearFilter()" variant="text"> ล้างทิ้ง </v-btn>
     </v-col>
-  </v-row>
+  </v-row> -->
 
   <div class="pt-5">
     <v-data-table
@@ -477,8 +476,9 @@
   const page = ref(1);
   const headers = ref([
     { title: "ลำดับ", value: "ลำดับ", align: "center" },
-    { title: "โรงเรียน", value: "academy_name", align: "center" },
     { title: "ชื่อ-สกุล", value: "name", align: "center" },
+    { title: "โรงเรียน", value: "academy_name", align: "center" },
+  
     { title: "จำนวนกิจกรรม", value: "activity_count", align: "center" },
     { title: "เบอร์โทร", value: "phone_number", align: "center" },
     { title: "สถานะแกนนำ", value: "status", align: "center" },
@@ -814,10 +814,9 @@
         params.geography_id = selectedZoneId.value;
       }
       if (filterLevel.value) {
-        params.level = filterLevel.value - 1;
+        params.status = filterLevel.value;
       }
       params.page = page.value;
-
       const response = await $apiClient.get("/api/getLeader", {
         params: params,
       });
