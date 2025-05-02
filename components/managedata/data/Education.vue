@@ -172,16 +172,64 @@
             isMobile ? 'margin-left: 0; margin-right: 0;' : 'margin-left: 0px;'
           "
         >
-          <v-avatar size="40">
-            <!-- เช็คว่ามี photo หรือไม่ -->
-            <template v-if="item.photo">
-              <v-img :src="item.photo"></v-img>
+          <template
+            v-if="
+              item.stakeholder &&
+              Array.isArray(item.stakeholder) &&
+              item.stakeholder.length > 0
+            "
+          >
+            <!-- หากมีมากกว่าหนึ่ง stakeholder ให้แสดงวงกลมที่สอง -->
+            <template v-if="item.stakeholder.length > 1">
+              <div class="d-flex justify-end">
+                <div style="position: relative; width: 60px; height: 40px">
+                  <!-- วงกลมแรก -->
+                  <v-avatar
+                    size="40"
+                    style="position: absolute; top: 0; left: 0; z-index: 2"
+                  >
+                    <v-img
+                      :src="item.stakeholder[0].image"
+                      alt="Stakeholder Image"
+                    />
+                  </v-avatar>
+
+                  <!-- วงกลมที่สอง (ตัวเลข) -->
+                  <v-avatar
+                    size="30"
+                    color="grey"
+                    style="position: absolute; top: 5px; left: 35px; z-index: 1"
+                  >
+                    <span
+                      style="
+                        font-size: 0.8em;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                      "
+                    >
+                      +{{ item.stakeholder.length - 1 }}
+                    </span>
+                  </v-avatar>
+                </div>
+              </div>
             </template>
             <template v-else>
-              <!-- ถ้าไม่มี photo แสดงไอคอน -->
-              <v-icon style="font-size: 45px">mdi-account-circle</v-icon>
+              <!-- แสดงภาพของ stakeholder ตัวแรก -->
+              <v-avatar size="40">
+                <v-img
+                  :src="item.stakeholder[0].image"
+                  alt="Stakeholder Image"
+                ></v-img>
+              </v-avatar>
             </template>
-          </v-avatar>
+          </template>
+          <template v-else>
+            <v-avatar size="40">
+              <v-icon style="font-size: 45px">mdi-account-circle</v-icon>
+            </v-avatar>
+          </template>
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -438,6 +486,7 @@
                 :options="dropzoneOptions"
                 class="custom-dropzone"
                 @vdropzone-success="handleSuccess(index)"
+                @vdropzone-file-added="handleFileAdded(index, $event)"
                 v-model:files="dropzone.files"
             /></v-col>
             <v-col cols="12" md="10">
@@ -512,8 +561,8 @@
   import vueDropzone from "dropzone-vue3";
   import Editacademy from "./academy/Editacademy.vue";
   const dropzoneOptions = ref({
-    url: "https://httpbin.org/post",
-    autoProcessQueue: false,
+    url: "#",
+    addRemoveLinks: true, // เพิ่มปุ่มลบ (ถ้าต้องการ)
     thumbnailWidth: 110,
     thumbnailHeight: 150,
     maxFilesize: 5,
@@ -627,6 +676,18 @@
     selectedProvinceId.value = null;
     selectedZoneId.value = null;
     filterLevel.value = null;
+  };
+
+  const handleSuccess = (index) => {
+    console.log(`อัปโหลดสำเร็จสำหรับ dropzone ที่ ${index}`);
+    console.log(dropzones.value[index].files);
+  };
+
+  const handleFileAdded = (index, file) => {
+    // เมื่อมีการเพิ่มไฟล์ใหม่ลงใน dropzone
+    console.log(`ไฟล์ถูกเพิ่มใน dropzone ที่ ${index}:`, file);
+    // คุณสามารถทำสิ่งต่าง ๆ เช่น เก็บไฟล์ลงใน dropzone
+    dropzones.value[index].files.push(file);
   };
 
   const calindexFunction = (value) => {
@@ -888,9 +949,18 @@
     formData.append("student_count", NumStudent.value);
     formData.append("stakeholder", CopersonValue.value);
     formData.append("status", "university");
-    const files = getSelectedFiles();
-    files.forEach((file) => {
-      formData.append("personPhotos", file);
+    dropzones.value.forEach((dropzone, index) => {
+      const file = dropzone.files?.[0]; // ใช้แค่ไฟล์แรก
+      const name = dropzone.imageName || "";
+
+      console.log(`Dropzone ${index} ชื่อ:`, name);
+      console.log(`Dropzone ${index} ไฟล์:`, file);
+
+      formData.append(`stakeholder[${index}][person]`, name);
+
+      if (file) {
+        formData.append(`stakeholder[${index}][image]`, file);
+      }
     });
 
     try {
@@ -899,7 +969,7 @@
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Response status:", response.status);
+      // console.log("Response status:", response.status);
 
       if (response.status == 201) {
         addSchool.value = false;

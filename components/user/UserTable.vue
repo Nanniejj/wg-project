@@ -28,7 +28,13 @@
           <span v-else-if="item.role === 'ADMIN'"
             >ผู้ปฏิบัติงานระดับสั่งการ</span
           >
-          <span v-else-if="item.role === 'USER'">ผู้ปฏิบัติงาน</span>
+          <span v-else-if="item.role === 'USER' && item.lead === true"
+            >หัวหน้าผู้ปฏิบัติงาน</span
+          >
+
+          <span v-else-if="item.role === 'USER' && item.lead === false"
+            >ผู้ปฏิบัติงาน</span
+          >
           <span v-else>ไม่ระบุ</span>
         </div>
       </template>
@@ -155,7 +161,7 @@
 
               <span class="text-h6 px-4">ระดับการเข้าถึงเมนู</span>
               <div
-                v-if="dialogData.role != 'USER' && dialogData.role != null"
+                v-if="dialogData.role != 'USER' && dialogData.lead != true"
                 class="px-4"
               >
                 <v-autocomplete
@@ -247,6 +253,7 @@
                     </v-col>
                   </v-row>
                 </div> -->
+
                 <v-autocomplete
                   v-model="selectedMenus"
                   :items="menu_user"
@@ -307,6 +314,7 @@
       DataManagement: false,
     },
     is_active: true,
+    lead: false,
   });
   const selected = ref([]);
   let lobbyItems = ref([]);
@@ -317,6 +325,7 @@
   const roles = [
     { value: "SUPERADMIN", text: "ผู้บังคับบัญชา" },
     { value: "ADMIN", text: "ผู้ปฏิบัติงานระดับสั่งการ" },
+    { value: "SUPERUSER", text: "หัวหน้าผู้ปฏิบัติงาน" },
     { value: "USER", text: "ผู้ปฏิบัติงาน" },
     // เพิ่มตัวเลือกอื่นๆ ได้ตามต้องการ
   ];
@@ -366,11 +375,17 @@
     dialogData.value.username = item.username;
     dialogData.value.affiliation = item.affiliation;
     dialogData.value.email = item.email;
-    dialogData.value.role = item.role;
+    dialogData.value.lead = item.lead;
+    if (item.lead === true) {
+      dialogData.value.role = "หัวหน้าผู้ปฏิบัติงาน";
+    } else {
+      dialogData.value.role = item.role;
+    }
     dialogData.value.mission = item.mission;
 
     // สำคัญ: ใช้ spread operator เพื่อคัดลอก object
     dialogData.value.access = { ...item.access_menu };
+    console.log(dialogData.value);
   };
 
   function closeDialog(item) {
@@ -411,15 +426,31 @@
     let response;
     // console.log("this zone",selectedAffiliation.value,Message.value)
     // console.log(form.value);
+    const payload = {
+      access_menu: selectedMenus.value,
+      is_active: dialogData.value.is_active,
+      mission: dialogData.value.mission,
+    };
+
+    if (dialogData.value.role !== "ADMIN") {
+      payload.mission = [];
+    }
+
+    // เพิ่มเงื่อนไขตรวจสอบ role และเพิ่ม/แก้ไข lead
+    if (dialogData.value.role === "SUPERUSER") {
+      payload.lead = 1;
+      payload.role = "USER";
+    } else {
+      payload.lead = 0;
+      payload.role = dialogData.value.role;
+    }
     try {
-      response = await $apiClient.put(`/api/editUser/${dialogData.value._id}`, {
-        access_menu: selectedMenus.value,
-        is_active: dialogData.value.is_active,
-        role: dialogData.value.role,
-        mission: dialogData.value.mission,
-      });
-      console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
-      console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
+      response = await $apiClient.put(
+        `/api/editUser/${dialogData.value._id}`,
+        payload
+      );
+      // console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
+      // console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
 
       if (response.status == 200) {
         alert(`แก้ไขสำเร็จ`);
@@ -480,8 +511,11 @@
         },
         // { title: "วันที่สมัคร", value: "create_date" },
         // { title: "สถานะ", value: "is_active" },
-        { title: "Actions", key: "actions", sortable: false },
+        ...(storageRole !== "USER"
+          ? [{ title: "Actions", key: "actions", sortable: false }]
+          : []),
       ];
+
       isLoading.value = false;
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
@@ -561,7 +595,21 @@
           Tasks: false,
           Create: false,
           MyTasks: true,
-          TaskManagement: true,
+          TaskManagement: false,
+          DataManagement: true,
+        };
+      case "SUPERUSER":
+        access = {
+          Dashboard: false,
+          Report: true,
+          HVT: false,
+          Management: true,
+          Mission: false,
+          Archive: false,
+          Tasks: false,
+          Create: false,
+          MyTasks: true,
+          TaskManagement: false,
           DataManagement: true,
         };
         break;

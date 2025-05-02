@@ -10,7 +10,12 @@
         variant="solo"
       >
         <template v-slot:append>
-          <v-btn @click="searchData" rounded="lg" size="large" color="#000000">
+          <v-btn
+            @click="fetchCoordinator()"
+            rounded="lg"
+            size="large"
+            color="#000000"
+          >
             <span>ค้นหา</span>
           </v-btn>
         </template>
@@ -21,7 +26,7 @@
     </div>
     <div class="text-end pb-5">
       <div v-if="!isMobile">
-        <v-btn color="#95D51E" rounded="lg" @click="addNetwork = true"
+        <v-btn color="#95D51E" rounded="lg" @click="AddPoc()"
           ><v-icon color="white">mdi-plus</v-icon>
           <span style="color: white">เพิ่มผู้ประสาน</span>
         </v-btn>
@@ -44,20 +49,74 @@
       :items="POC"
       :mobile="isMobile"
       :hide-default-header="isMobile"
+      hide-default-footer
       :loading="isLoading"
       loading-text="กำลังโหลดข้อมูล..."
     >
+      <template v-slot:item.ลำดับ="{ index }">
+        {{ calindexFunction(index + 1) }}
+      </template>
+      <template #item.photo="{ item }">
+        <v-avatar size="40" color="grey" class="text-white font-weight-bold">
+          <template v-if="item.photo">
+            <v-img :src="item.photo" alt="photo" />
+          </template>
+          <template v-else>
+            {{ item.name ? item.name.charAt(0).toUpperCase() : "?" }}
+          </template>
+        </v-avatar>
+      </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon
-          icon="mdi-dots-vertical"
-          v-tooltip="'Edit'"
-          @click="!EditOverlay"
-        ></v-icon>
+        <div v-if="!isMobile" class="align-items-center d-flex">
+          <v-icon
+            v-tooltip="'Edit'"
+            icon="mdi-pencil"
+            @click="
+              itemToAction = item;
+              EditOverlay = true;
+            "
+          ></v-icon>
+          <v-icon
+            v-tooltip="'Delete'"
+            icon="mdi-trash-can"
+            @click="
+              itemToAction = item;
+              deleteOverlay = true;
+            "
+          ></v-icon>
+        </div>
+        <div v-else class="align-items-center">
+          <span
+            style="color: #29a0af"
+            @click="
+              itemToAction = item;
+              EditOverlay = true;
+            "
+            >แก้ไข</span
+          >
+          <span
+            style="color: red; margin-left: 35px"
+            @click="
+              itemToAction = item;
+              deleteOverlay = true;
+            "
+            >ลบ</span
+          >
+        </div>
       </template>
     </v-data-table>
 
+    <div class="text-center pt-16">
+      <v-pagination
+        v-model="page"
+        :length="pagination.totalPages"
+        rounded="circle"
+        class="my-4"
+      ></v-pagination>
+    </div>
+
     <v-dialog v-model="addNetwork" max-width="1200">
-      <v-card class="pa-2" rounded="lg">
+      <v-card class="pa-2" rounded="xl">
         <v-card-title class="text-h6 d-flex justify-space-between align-center">
           <span class="text-h6"> เพิ่มผู้ประสาน</span>
           <v-btn
@@ -72,83 +131,69 @@
         </div>
 
         <v-card-text class="pt-4">
-          <div class="pa-4 d-flex align-center justify-center">
-            <vue-dropzone
-              ref="myVueDropzone"
-              id="dropzone"
-              :options="dropzoneOptions"
-              class="custom-dropzone"
-              @vdropzone-success="handleSuccess"
-              v-model:files="selectedFiles"
-            />
-          </div>
-          <div class="pt-0 pb-0">
-            <span class="text-h6">ชื่อ-สกุล</span>
-            <v-text-field
-              placeholder="กรอกชื่อ-สกุล"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-            ></v-text-field>
-          </div>
-
           <v-row>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">เบอร์โทรผู้ประสาน</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                   :rules="[isNumber, minLength(10)]"
-              ></v-text-field>
+            <v-col cols="12" sm="4" class="pt-4 pb-0">
+              <div class="pa-4 d-flex align-center justify-start">
+                <vue-dropzone
+                  ref="myVueDropzone"
+                  id="dropzone"
+                  :options="dropzoneOptions"
+                  class="custom-dropzone"
+                  v-model:files="selectedFiles"
+                />
+              </div>
             </v-col>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">ทัพภาค</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              ></v-text-field>
+            <v-col cols="12" sm="8" class="pb-0">
+              <div class="pt-4 pb-0">
+                <span class="text-h6">ชื่อ-สกุล</span>
+                <v-text-field
+                  v-model="nameCoordinator"
+                  placeholder="กรอกชื่อ-สกุล"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                ></v-text-field>
+              </div>
+
+              <v-row>
+                <v-col cols="12" sm="8" class="pt-4 pb-0">
+                  <span class="text-h6">เบอร์โทร</span>
+                  <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    v-model="phone_number"
+                    placeholder="กรอกเบอร์"
+                    :rules="[isNumber, minLength(10)]"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" class="pt-4 pb-0">
+                  <span class="text-h6">ทีม</span>
+                  <v-select
+                    placeholder="Select Team"
+                    variant="outlined"
+                    rounded="lg"
+                    density="compact"
+                    v-model="selectedAffiliation"
+                    :items="affiliations_data"
+                    item-title="name"
+                    item-value="id"
+                  />
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
-
-          <v-row>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">การศึกษา</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">กิจกรรมที่มีความเชื่อมโยง/ตำรวจ</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">ตำแหน่งปัจจุบัน</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" class="pt-4 pb-0">
-              <span class="text-h6">ผู้ที่เกี่ยวข้อง</span>
-              <v-text-field
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-alert
+            v-if="showAlert"
+            :type="alertType"
+            class="mt-4"
+            border="start"
+            variant="tonal"
+            closable
+            @click:close="showAlert = false"
+          >
+            {{ alertMessage }}
+          </v-alert>
         </v-card-text>
 
         <div class="d-flex justify-end pb-6 px-6">
@@ -156,7 +201,7 @@
             color="#2A3547"
             rounded="lg"
             size="large"
-            @click="addNetwork = false"
+            @click="onClick()"
             class="text-white"
             min-width="200"
           >
@@ -165,14 +210,53 @@
         </div>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="EditOverlay" max-width="1200">
+      <v-card class="pa-2" rounded="xl">
+        <v-card-title class="text-h6 d-flex justify-space-between align-center">
+          <span class="text-h6">แก้ไข</span>
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            size="large"
+            @click="EditOverlay = false"
+          ></v-btn>
+        </v-card-title>
+        <EditCoordinator
+          :academyData="itemToAction"
+          v-model:dialog="EditOverlay"
+          @saved="fetchCoordinator()"
+        />
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="deleteOverlay" max-width="400">
+      <v-card rounded="xl" elevation="7">
+        <v-card-title class="text-center">
+          <span class="headline">คำเตือน</span>
+        </v-card-title>
+        <v-card-subtitle class="text-center">
+          <v-icon color="error" size="50">mdi-trash-can-outline</v-icon>
+          <div class="text-h7 pt-5 font-weight-bold">
+            ท่านต้องการลบข้อมูลนี้ใช่หรือไม่?
+          </div>
+        </v-card-subtitle>
+        <v-card-actions class="justify-center pt-5">
+          <v-btn color="green" @click="navigateToDelete(itemToAction)" large
+            >ยืนยัน</v-btn
+          >
+          <v-btn color="red" @click="deleteOverlay = false" large>ยกเลิก</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup>
   import { ref } from "vue";
+  import EditCoordinator from "./academy/EditCoordinator.vue";
   import vueDropzone from "dropzone-vue3";
   const dropzoneOptions = ref({
-    url: "https://httpbin.org/post",
+    url: "#",
     thumbnailWidth: 110,
     thumbnailHeight: 150,
     maxFilesize: 5,
@@ -200,24 +284,44 @@
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
   const { $apiClient } = useNuxtApp();
   const isLoading = ref(true);
+  const affiliations_data = ref([]);
+  const selectedAffiliation = ref(null);
   const addNetwork = ref(false);
   const isMobile = ref(false);
   const successMessage = ref("");
   const errorMessage = ref("");
   const myVueDropzone = ref(null);
+  const phone_number = ref("");
+  const nameCoordinator = ref("");
   const POC = ref([]);
+  const page = ref(1);
+  const pagination = ref({});
+
+  const search = ref("");
+  const itemToAction = ref(null);
+  const deleteOverlay = ref(false);
+  const EditOverlay = ref(false);
+  const alertMessage = ref("");
+  const alertType = ref("warning"); // หรือ "success"
+  const showAlert = ref(false);
+
   const headers = ref([
-    { title: "ลำดับ", value: "id" },
-    { title: "ชื่อ-สกุล", value: "name" },
-    { title: "เบอร์โทร", value: "phone_number" },
-    { title: "ทัพภาค", value: "army_region" },
+    { title: "ลำดับ", value: "ลำดับ", align: "center" },
+    { title: "รูปภาพ", value: "photo", sortable: false, align: "center" },
+    { title: "ชื่อ-สกุล", value: "name", align: "center" },
+    { title: "เบอร์โทร", value: "phone_number", align: "center" },
+    { title: "สังกัด", value: "team_name", align: "center" },
+    // { title: "ทัพภาค", value: "army_region" },
     // { title: "ผู้เกี่ยวข้อง", value: "stakeholder" },
-    { title: "", value: "actions", sortable: false },
+    { title: "", value: "actions", sortable: false, align: "center" },
   ]);
+
+  const calindexFunction = (value) => {
+    return value + (page.value - 1) * 10;
+  };
 
   const item = ref([]);
 
-  
   const isNumber = (value) => {
     if (!value) {
       return true; // อนุญาตให้ว่างได้ (ถ้าต้องการ)
@@ -250,13 +354,39 @@
     });
   }
 
-  async function fetchPoc() {
+  async function AddPoc() {
+    addNetwork.value = true;
     try {
-      // params.page = page.value;
+      const response = await $apiClient.get("/api/getTeam");
+      const data_team = response.data;
 
-      const response = await $apiClient.get("/api/getPOC");
+      affiliations_data.value = data_team
+        .sort((a, b) => a.name.localeCompare(b.name)) // เรียงตามชื่อ
+        .map((item) => ({
+          id: item._id,
+          name: item.name,
+        }));
+      // console.log(affiliations_data.value);
+    } finally {
+      // loading.value = false;
+    }
+  }
 
-      POC.value = response.data;
+  async function fetchCoordinator() {
+    try {
+      const params = {
+        page: page.value, // กำหนดค่า default ของ status เป็น "school"
+      };
+      // ตรวจสอบค่าของ search
+      if (search.value && search.value.trim() !== "") {
+        params.name = search.value; // ถ้ามีค่าของ search ส่งไป
+      }
+      const response = await $apiClient.get("/api/getCoordinator", {
+        params: params,
+      });
+
+      POC.value = response.data.data;
+      pagination.value = response.data.pagination;
       // console.log(POC.value);
 
       successMessage.value = "Data fetched successfully!";
@@ -269,18 +399,84 @@
     }
   }
 
+  async function navigateToDelete(value) {
+    try {
+      const response_delete = await $apiClient.delete(
+        `/api/deleteCoordinator/${value._id}`
+      );
+
+      // console.log(response_delete.data);
+    } catch (error) {
+      console.error("There was an error!", error);
+      errorMessage.value =
+        error.response?.data?.message || "An unexpected error occurred.";
+    } finally {
+      await fetchCoordinator();
+      deleteOverlay.value = false;
+    }
+  }
+
+  const getSelectedFiles = () => {
+    return myVueDropzone.value.getAcceptedFiles();
+  };
+
   // รอให้ fetchData ทำงานเสร็จ ก่อนดำเนินการอื่นๆ
   onMounted(async () => {
-    await fetchPoc();
+    await fetchCoordinator();
   });
 
-  const onClick = () => {
+  watch(page, fetchCoordinator);
+
+  const onClick = async () => {
     isLoading.value = true;
 
-    setTimeout(() => {
+    const formData = new FormData();
+    formData.append("phone_number", phone_number.value);
+    formData.append("name", nameCoordinator.value);
+    formData.append("team", selectedAffiliation.value);
+
+    const files = getSelectedFiles();
+    files.forEach((file) => {
+      formData.append("photo", file);
+    });
+
+    try {
+      const response = await $apiClient.post(
+        "/api/createCoordinator",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        alertType.value = "success";
+        alertMessage.value = "บันทึกข้อมูลสำเร็จ";
+        showAlert.value = true;
+        await fetchCoordinator();
+        addNetwork.value = false;
+      } else {
+        alertType.value = "warning";
+        alertMessage.value = "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง";
+        showAlert.value = true;
+      }
+    } catch (error) {
+      alertType.value = "warning";
+      if (error.response) {
+        alertMessage.value =
+          error.response.data?.error || "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+      } else if (error.request) {
+        alertMessage.value = "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้";
+      } else {
+        alertMessage.value = "เกิดข้อผิดพลาดไม่ทราบสาเหตุ กรุณาลองใหม่";
+      }
+      showAlert.value = true;
+      console.error("Upload error:", error);
+    } finally {
       isLoading.value = false;
-      loaded.value = true;
-    }, 2000);
+    }
   };
 </script>
 <style scoped>

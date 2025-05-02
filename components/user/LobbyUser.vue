@@ -33,9 +33,11 @@
           v-if="!isMobile"
           class="mx-4"
           size="small"
-          @click="editItem(item)"
+          @click="dialogDelete = true"
+          color="green"
+          v-tooltip="'อนุมัติสิทธิ์เข้าใช้งาน'"
         >
-          mdi-pencil
+          mdi-check
         </v-icon>
         <span
           style="color: #29a0af"
@@ -44,223 +46,41 @@
           size="small"
           @click="editItem(item)"
         >
-          แก้ไข
+          ยืนยัน
         </span>
 
-        <v-dialog v-model="dialogDelete" max-width="800px">
-          <v-card>
-            <div class="justify-end d-flex mt-4 mx-2">
-              <v-btn variant="text" @click="closeDialog"
-                ><v-icon style="font-size: 30px">mdi-close</v-icon></v-btn
-              >
-            </div>
-
-            <div class="justify-center d-flex mt-4 mx-2 mb-4">
-              <span class="text-h4">ข้อมูลผู้ยืนยันสิทธิ์</span>
-            </div>
-            <v-container class="pa-4">
-              <v-card class="dashed-border ma-4" rounded="xl">
-                <v-row class="px-4">
-                  <v-col cols="12" sm="6">
-                    <span style="font-size: 16px">Username</span>
-                    <v-text-field
-                      density="compact"
-                      variant="underlined"
-                      rounded="lg"
-                      disabled
-                      v-model="dialogData.username"
-                      style="margin-top: 5px"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <span style="font-size: 16px">Team</span>
-                    <v-text-field
-                      density="compact"
-                      variant="underlined"
-                      rounded="lg"
-                      disabled
-                      v-model="dialogData.affiliation"
-                      style="margin-top: 5px"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <div class="mx-4">
-                  <span style="font-size: 16px">E-mail</span>
-                  <v-text-field
-                    density="compact"
-                    variant="underlined"
-                    rounded="lg"
-                    v-model="dialogData.email"
-                    disabled
-                    :item="item.username"
-                    style="margin-top: 5px"
-                  ></v-text-field>
-                </div>
-              </v-card>
-
-              <div class="px-4">
-                <span class="text-h6">ระดับการเข้าถึง</span>
-                <v-autocomplete
-                  density="compact"
-                  v-model="dialogData.role"
-                  :items="roles"
-                  item-title="text"
-                  item-value="value"
-                  placeholder="บทบาท"
-                  variant="outlined"
-                ></v-autocomplete>
-
-                <!-- <div class="justify-center d-flex px-16">
-                  <v-radio-group v-model="dialogData.role">
-                    <v-radio
-                      v-if="storageRole == 'SUPERADMIN'"
-                      label="ผู้บังคับบัญชา"
-                      value="SUPERADMIN"
-                    ></v-radio>
-                    <v-radio
-                      v-if="storageRole == 'SUPERADMIN'"
-                      label="ผู้ปฏิบัติงานระดับสั่งการ"
-                      value="ADMIN"
-                    ></v-radio>
-                    <v-radio label="ผู้ปฏิบัติงาน" value="USER"></v-radio>
-                  </v-radio-group>
-                </div> -->
-              </div>
-
-              <div
-                v-if="dialogData.role == 'ADMIN' && dialogData.role != null"
-                class="px-4"
-              >
-                <span class="text-h6">ภารกิจสั่งการ</span>
-                <v-autocomplete
-                  density="compact"
-                  v-model="dialogData.mission"
-                  :items="mission"
-                  label="เลือกภารกิจ"
-                  variant="outlined"
-                  multiple
-                  chips
-                ></v-autocomplete>
-              </div>
-
-              <span class="text-h6 px-4">ระดับการเข้าถึงเมนู</span>
-              <div
-                v-if="
-                  dialogData.role != 'USER' && dialogData.role != 'SUPERUSER'
-                "
-                class="px-4"
-              >
-                <v-autocomplete
-                  density="compact"
-                  v-model="selectedMenus"
-                  :items="menu_admin"
-                  label="เมนู"
-                  variant="outlined"
-                  multiple
-                  chips
-                ></v-autocomplete>
-                <!-- <div class="justify-center d-flex">
-                  <v-row class="px-16">
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.dashboard"
-                        label="Dashboard"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.report"
-                        label="Report"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.HVT"
-                        label="HVT"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.management"
-                        label="Manage"
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
-                </div>
-                <div class="justify-center d-flex" style="margin-top: -20px">
-                  <v-row class="px-16">
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.mission"
-                        label="Mission"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.archive"
-                        label="Archive"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.tasks"
-                        label="Tasks"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <v-checkbox
-                        v-model="dialogData.access.create"
-                        label="Create"
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
-                </div> -->
-              </div>
-
-              <div v-else class="px-4">
-                <!-- <div class="justify-center d-flex">
-                  <v-row class="px-16">
-                    <v-col cols="12" sm="4">
-                      <v-checkbox
-                        v-model="dialogData.access.userTasks"
-                        label="My Tasks"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4">
-                      <v-checkbox
-                        v-model="dialogData.access.userManage"
-                        label="Task Manage"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="12" sm="4">
-                      <v-checkbox
-                        v-model="dialogData.access.report"
-                        label="Report"
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
-                </div> -->
-                <v-autocomplete
-                  v-model="selectedMenus"
-                  density="compact"
-                  :items="menu_user"
-                  label="เมนู"
-                  variant="outlined"
-                  multiple
-                  chips
-                ></v-autocomplete>
-              </div>
-
-              <div class="justify-end d-flex pt-8 px-4 pb-2">
-                <v-btn
-                  color="#2A3547"
-                  size="large"
-                  style="width: 220px; min-width: 50px"
-                  @click="saveItem"
-                  ><span class="text-h5">บันทึก</span></v-btn
+        <v-dialog v-model="dialogDelete" max-width="400">
+          <v-card rounded="xl" elevation="7">
+            <v-card-title class="text-center">
+              <span class="headline">คำเตือน</span>
+            </v-card-title>
+            <v-card-subtitle class="text-center">
+              <transition name="fade" mode="out-in">
+                <v-icon
+                  :key="isSaved"
+                  :color="isSaved ? 'green' : 'gray'"
+                  size="80"
                 >
-              </div>
-            </v-container>
+                  {{ isSaved ? "mdi-check-circle" : "mdi-account-key-outline" }}
+                </v-icon>
+              </transition>
+
+              <transition name="fade" mode="out-in">
+                <div class="text-h7 pt-5 font-weight-bold" :key="isSaved">
+                  {{
+                    isSaved
+                      ? "สิทธิ์ถูกอนุมัติเรียบร้อยแล้ว"
+                      : "ท่านต้องการเพิ่มสิทธิ์บุคคลนี้ใช่หรือไม่?"
+                  }}
+                </div>
+              </transition>
+            </v-card-subtitle>
+            <v-card-actions class="justify-center pt-5">
+              <v-btn color="green" @click="saveItem(item)" large>ยืนยัน</v-btn>
+              <v-btn color="red" @click="dialogDelete = false" large
+                >ยกเลิก</v-btn
+              >
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </template>
@@ -296,9 +116,9 @@
       Archive: false,
       Tasks: false,
       Create: false,
-      MyTasks: false,
+      MyTasks: true,
       TaskManagement: false,
-      DataManagement: false,
+      DataManagement: true,
     },
     is_active: true,
     mission: null,
@@ -306,6 +126,7 @@
   const selected = ref([]);
   let lobbyItems = ref([]);
   const dialogDelete = ref(false);
+  const isSaved = ref(false); // false = ยังไม่กด, true = กดแล้วและสำเร็จ
   // กำหนด headers สำหรับตาราง
   const headers = ref([]);
 
@@ -399,42 +220,35 @@
   }
 
   // Function to handle saving the item (or deleting)
-  const saveItem = async () => {
-    // You can handle the save logic here
-    // console.log("Item saved:", dialogData.value);
-
+  const saveItem = async (item) => {
+    let response;
+    console.log(item._id);
     const accessArray = Object.keys(dialogData.value.access).filter(
       (key) => dialogData.value.access[key] === true
     );
-    // console.log(accessArray); // Output: ["management", "mission"]
 
-    let response;
-    // console.log("this zone",selectedAffiliation.value,Message.value)
-    // console.log(form.value);
     const payload = {
       access_menu: accessArray,
       is_active: dialogData.value.is_active,
-      mission: dialogData.value.mission,
+      role: "USER",
+      lead: false,
     };
+    console.log(payload);
 
-    // เพิ่มเงื่อนไขตรวจสอบ role และเพิ่ม/แก้ไข lead
-    if (dialogData.value.role === "SUPERUSER") {
-      payload.lead = 1;
-      payload.role = "USER";
-    } else {
-      payload.role = dialogData.value.role;
-    }
     try {
-      response = await $apiClient.put(
-        `/api/editUser/${dialogData.value._id}`,
-        payload
-      );
+      response = await $apiClient.put(`/api/editUser/${item._id}`, payload);
       // console.log("Response data:", response.data); // ค่าผลลัพธ์จากการเรียก API
       // console.log("Response data:", response.status); // ค่าผลลัพธ์จากการเรียก API
 
       if (response.status == 200) {
-        alert(`แก้ไขสำเร็จ`);
-        fetchData();
+        // alert(`แก้ไขสำเร็จ`);
+        isSaved.value = true;
+
+        setTimeout(() => {
+          fetchData();
+          dialogDelete.value = false;
+          isSaved.value = false;
+        }, 1000);
       } else {
         alert(`ไม่สามารถแก้ไขได้`);
       }
@@ -442,7 +256,6 @@
       alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
       //   alert(`Error: ${error.response.data.message}`);
     }
-    dialogDelete.value = false;
   };
 
   function formatDate(dateString) {
@@ -543,7 +356,7 @@
           Tasks: false,
           Create: false,
           MyTasks: true,
-          TaskManagement: false,
+          TaskManagement: true,
           DataManagement: true,
         };
       case "SUPERUSER":
@@ -564,16 +377,16 @@
       default:
         access = {
           Dashboard: false,
-          Report: false,
+          Report: true,
           HVT: false,
           Management: false,
           Mission: false,
           Archive: false,
           Tasks: false,
           Create: false,
-          MyTasks: false,
+          MyTasks: true,
           TaskManagement: false,
-          DataManagement: false,
+          DataManagement: true,
         };
     }
     dialogData.value.access = access;
@@ -603,7 +416,14 @@
 </script>
 <style>
   .dashed-border {
-  border: 2px dashed #5F5F5F; /* กำหนดเส้นขอบลายปะสีดำขนาด 2 พิกเซล */
-  padding: 10px; /* กำหนดระยะห่างภายในกล่อง */
+    border: 2px dashed #5F5F5F; /* กำหนดเส้นขอบลายปะสีดำขนาด 2 พิกเซล */
+    padding: 10px; /* กำหนดระยะห่างภายในกล่อง */
+  }
+
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>

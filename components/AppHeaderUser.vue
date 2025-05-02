@@ -253,10 +253,11 @@
         menuVisible: false,
         isMobile: false,
         tabs: [
-          { label: "My Tasks", path: "/mytasks" },
+          { label: "My Tasks", path: "/mytasks" },   
           // { label: "Task Management", path: "/tasks" },
           { label: "Data Management", path: "/data" },
           { label: "Report", path: "/report" },
+          { label: "User Management", path: "/management" },
         ],
       };
     },
@@ -276,6 +277,10 @@
         } else if (path.startsWith("/report")) {
           this.tab = 2;
         }
+        else if (path.startsWith("/user")) {
+          this.tab = 3;
+        }
+        
       });
     },
     beforeDestroy() {

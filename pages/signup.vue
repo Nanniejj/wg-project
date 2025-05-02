@@ -82,8 +82,10 @@
                 rounded="lg"
                 v-model="selectedAffiliation"
                 :items="affiliations_data"
+                item-title="name"
+                item-value="id"
                 style="margin-top: 5px"
-              ></v-select>
+              />
 
               <!-- อีเมล์ -->
               <span style="font-size: 18px">E-mail</span>
@@ -248,7 +250,10 @@
       const response = await $apiClient.get("/auth/getAllTeam");
       // console.log(response);
       // affiliations_data.value = response.data;
-      affiliations_data.value = response.data.map((team) => team.name);
+      affiliations_data.value = response.data.map((team) => ({
+        id: team._id,
+        name: team.name,
+      }));
       // console.log(affiliations_data.value);
     } finally {
       // loading.value = false;
@@ -260,4 +265,8 @@
   });
 </script>
 
-<style scoped></style>
+<style scoped>
+  .bg-signup{
+  background-color: black !important;
+ }
+</style>

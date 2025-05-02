@@ -18,12 +18,12 @@
           >User Management</span
         ></v-tab
       >
-      <v-tab :value="3"
+      <v-tab :value="3" v-if="role != 'USER'"
         ><span class="text-capitalize font-subtitle font-weight-medium"
           >Team</span
         ></v-tab
       >
-      <v-tab :value="4"
+      <v-tab :value="4" v-if="role != 'USER'"
         ><span class="text-capitalize font-subtitle font-weight-medium"
           >History</span
         ></v-tab
@@ -32,7 +32,10 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item :value="1">
-        <v-container fluid>
+        <v-container v-if="role === 'USER'" fluid>
+          <LobbyUser />
+        </v-container>
+        <v-container v-else fluid>
           <LobbyTable />
         </v-container>
       </v-tabs-window-item>
@@ -50,9 +53,13 @@
   </div>
 </template>
 <script setup>
+  // import LobbyTable from "./LobbyTable.vue";
+  import LobbyUser from "./LobbyUser.vue";
   import LobbyTable from "./LobbyTable.vue";
   import TeamTable from "./TeamTable.vue";
   import { ref } from "vue";
   const tab = ref(null);
+  const role = localStorage.getItem("role");
+  console.log(role);
 </script>
 <style></style>

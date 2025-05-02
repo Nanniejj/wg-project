@@ -83,7 +83,7 @@
   </div>
 
   <!-- <v-row> -->
-    <!-- <v-col cols="12" md="3" class="py-0">
+  <!-- <v-col cols="12" md="3" class="py-0">
  
       <v-autocomplete
         v-model="selectedZoneId"
@@ -129,7 +129,7 @@
         hide-no-data
       />
     </v-col> -->
-    <!-- <v-col cols="12" md="2" class="py-0">
+  <!-- <v-col cols="12" md="2" class="py-0">
       <v-autocomplete
         v-model="filterLevel"
         :items="StatusOptions"
@@ -273,7 +273,7 @@
                 v-model="selectedAcademy"
                 :items="academyName"
                 item-title="name"
-                item-value="_id"
+                item-value="id"
                 placeholder="เลือกสถานศึกษา"
                 variant="outlined"
                 density="compact"
@@ -304,7 +304,7 @@
             </v-col>
           </v-row>
         </div>
-        <div class="justify-end d-flex pt-10">
+        <div class="justify-end d-flex pt-5">
           <v-btn
             @click="addDropzone"
             color="#AEE0E8"
@@ -319,47 +319,21 @@
         <div
           v-for="(dropzone, index) in dropzones"
           :key="index"
-          class="dropzone-container pt-10"
+          class="dropzone-container pt-5"
         >
-          <v-row>
-            <v-col cols="12" md="2" class="justify-center d-flex">
-              <!-- Dropzone Component -->
-              <vue-dropzone
-                :id="'dropzone-' + index"
-                :options="dropzoneOptions"
-                class="custom-dropzone"
-                @vdropzone-success="handleSuccess(index)"
-                v-model:files="dropzone.files"
-            /></v-col>
-            <v-col cols="12" md="10">
-              <v-row>
-                <v-col cols="12" sm="7" class="pt-0 pb-0">
-                  <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
-                  <!-- Input สำหรับกรอกชื่อภาพ -->
-                  <v-text-field
-                    type="text"
-                    class="w-100"
-                    :id="'imageName-' + index"
-                    v-model="dropzone.imageName"
-                    placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
-                    variant="outlined"
-                    density="compact"
-                    rounded="lg"
-                  />
-                </v-col>
-                <v-col cols="12" sm="5" class="pt-0 pb-0">
-                  <span class="text-h6">เบอร์โทรผู้ประสาน</span>
-                  <v-text-field
-                    v-model="phone_leader"
-                    variant="outlined"
-                    density="compact"
-                    rounded="lg"
-                    :rules="[isNumber, minLength(10)]"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+          <div class="pt-0 pb-0">
+            <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
+            <!-- Input สำหรับกรอกชื่อภาพ -->
+            <v-autocomplete
+              class="w-100"
+              :id="'imageName-' + index"
+              v-model="dropzone.imageName"
+              placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+            />
+          </div>
         </div>
       </v-card-text>
 
@@ -368,7 +342,7 @@
           color="#2A3547"
           rounded="lg"
           size="large"
-          @click="SubmitAdd()"
+          @click="onClick()"
           class="text-white"
           min-width="200"
         >
@@ -416,8 +390,8 @@
   import { ref } from "vue";
   import vueDropzone from "dropzone-vue3";
   const dropzoneOptions = ref({
-    url: "https://httpbin.org/post",
-    autoProcessQueue: false,
+    url: "#",
+    addRemoveLinks: true, // เพิ่มปุ่มลบ (ถ้าต้องการ)
     thumbnailWidth: 110,
     thumbnailHeight: 150,
     maxFilesize: 5,
@@ -445,7 +419,7 @@
   const selectedFiles = ref([]);
   const search = ref("");
   const { getTeamColor, getMissionColor, getMissionName } = useColors();
-  const dropzones = ref([{ files: [], imageName: "" }]);
+  const dropzones = ref([{ files: [], imageName: "", phoneNumber: "" }]);
   const isLoading = ref(true);
   const EditOverlay = ref(false);
   const addMainstay = ref(false);
@@ -478,7 +452,7 @@
     { title: "ลำดับ", value: "ลำดับ", align: "center" },
     { title: "ชื่อ-สกุล", value: "name", align: "center" },
     { title: "โรงเรียน", value: "academy_name", align: "center" },
-  
+
     { title: "จำนวนกิจกรรม", value: "activity_count", align: "center" },
     { title: "เบอร์โทร", value: "phone_number", align: "center" },
     { title: "สถานะแกนนำ", value: "status", align: "center" },
@@ -515,7 +489,19 @@
   // ฟังก์ชันที่ใช้ในการเพิ่ม Dropzone ใหม่
   const addDropzone = () => {
     // เพิ่มออบเจ็กต์ใหม่ใน dropzones
-    dropzones.value.push({ files: [], imageName: "" });
+    dropzones.value.push({ files: [], imageName: "", phoneNumber: "" });
+  };
+
+  const handleSuccess = (index) => {
+    console.log(`อัปโหลดสำเร็จสำหรับ dropzone ที่ ${index}`);
+    console.log(dropzones.value[index].files);
+  };
+
+  const handleFileAdded = (index, file) => {
+    // เมื่อมีการเพิ่มไฟล์ใหม่ลงใน dropzone
+    console.log(`ไฟล์ถูกเพิ่มใน dropzone ที่ ${index}:`, file);
+    // คุณสามารถทำสิ่งต่าง ๆ เช่น เก็บไฟล์ลงใน dropzone
+    dropzones.value[index].files.push(file);
   };
 
   // Only run this logic in the client environment
@@ -556,40 +542,40 @@
     academyName.value = response.data;
   }
 
-  async function SubmitAdd() {
-    const formData = new FormData();
-    formData.append("education", selectedEducation.value);
-    formData.append("name", name_leader.value);
-    formData.append("status", selectedStatus.value);
-    formData.append("academy", selectedAcademy.value);
-    // formData.append("stakeholder", coordinate_name.value);
-    formData.append("phone_number", phone_leader.value);
-    // const files = getSelectedFiles();
-    // files.forEach((file) => {
-    //   formData.append("personPhotos", file);
-    // });
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-    try {
-      const response = await $apiClient.post("/api/createLeader", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("Response status:", response.status);
+  // async function SubmitAdd() {
+  //   const formData = new FormData();
+  //   formData.append("education", selectedEducation.value);
+  //   formData.append("name", name_leader.value);
+  //   formData.append("status", selectedStatus.value);
+  //   formData.append("academy", selectedAcademy.value);
+  //   // formData.append("stakeholder", coordinate_name.value);
+  //   formData.append("phone_number", phone_leader.value);
+  //   // const files = getSelectedFiles();
+  //   // files.forEach((file) => {
+  //   //   formData.append("personPhotos", file);
+  //   // });
+  //   for (let [key, value] of formData.entries()) {
+  //     console.log(`${key}:`, value);
+  //   }
+  //   try {
+  //     const response = await $apiClient.post("/api/createLeader", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     console.log("Response status:", response.status);
 
-      if (response.status == 201) {
-        addMainstay.value = false;
-        await fetchSchool();
-      } else {
-        alert(`ไม่สามารถนำเข้าขอมูลได้ กรุณาลองใหม่อีกครั้ง`);
-      }
-    } catch (error) {
-      alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
-      //   alert(`Error: ${error.response.data.message}`);
-    }
-  }
+  //     if (response.status == 201) {
+  //       addMainstay.value = false;
+  //       await fetchSchool();
+  //     } else {
+  //       alert(`ไม่สามารถนำเข้าขอมูลได้ กรุณาลองใหม่อีกครั้ง`);
+  //     }
+  //   } catch (error) {
+  //     alert(`เกิดข้อผิดพลาดกรุณาลองใหม่`);
+  //     //   alert(`Error: ${error.response.data.message}`);
+  //   }
+  // }
 
   const isNumber = (value) => {
     if (!value) {
@@ -846,25 +832,37 @@
 
   const onClick = async () => {
     const formData = new FormData();
-    formData.append("level", selectedLevel.value);
-    formData.append("name", SchoolValue.value);
-    formData.append("geocode", selectedSubDistrictId.value);
-    formData.append("leader_count", NumLead.value);
-    formData.append("student_count", NumStudent.value);
-    formData.append("stakeholder", CopersonValue.value);
-    formData.append("status", "university");
-    const files = getSelectedFiles();
-    files.forEach((file) => {
-      formData.append("personPhotos", file);
+    formData.append("education", selectedEducation.value);
+    formData.append("name", name_leader.value);
+    formData.append("status", selectedStatus.value);
+    formData.append("academy", selectedAcademy.value);
+    formData.append("phone_number", phone_leader.value);
+
+    dropzones.value.forEach((dropzone, index) => {
+      const file = dropzone.files?.[0]; // ใช้แค่ไฟล์แรก
+      const name = dropzone.imageName || "";
+      const phoneNumber = dropzone.phoneNumber || "";
+
+      console.log(`Dropzone ${index} ชื่อ:`, name);
+      console.log(`Dropzone ${index} ไฟล์:`, file);
+
+      formData.append(`stakeholder[${index}][person]`, name);
+      formData.append(`stakeholder[${index}][phone]`, phoneNumber);
+
+      if (file) {
+        formData.append(`stakeholder[${index}][image]`, file);
+      } else {
+        formData.append(`stakeholder[${index}][image]`, "");
+      }
     });
 
     try {
-      const response = await $apiClient.post("/api/createAcademy", formData, {
+      const response = await $apiClient.post("/api/createLeader", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Response status:", response.status);
+      console.log("Response status:", response);
 
       if (response.status == 201) {
         addMainstay.value = false;
