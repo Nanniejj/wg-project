@@ -158,22 +158,73 @@
       <template v-slot:item.ลำดับ="{ index }">
         {{ calindexFunction(index + 1) }}
       </template>
-      <template v-slot:item.geography_name="{ item }">
-        {{
-          item.geography_name === "กรุงเทพและปริมณฑล"
-            ? "ภาคกลาง"
-            : item.geography_name
-        }}
-      </template>
-      <template v-slot:item.ผู้ที่เกี่ยวข้อง="{ item }">
+
+      <template v-slot:item.coordinators="{ item }">
         <div
           :style="
             isMobile ? 'margin-left: 0; margin-right: 0;' : 'margin-left: 0px;'
           "
         >
-          <v-avatar size="40">
-            <v-img :src="item.photo"></v-img>
-          </v-avatar>
+          <template
+            v-if="
+              item.coordinators_info &&
+              Array.isArray(item.coordinators_info) &&
+              item.coordinators_info.length > 0
+            "
+          >
+            <!-- หากมีมากกว่าหนึ่ง stakeholder ให้แสดงวงกลมที่สอง -->
+            <template v-if="item.coordinators_info.length > 1">
+              <div class="d-flex justify-center">
+                <div style="position: relative; width: 60px; height: 40px">
+                  <!-- วงกลมแรก -->
+                  <v-avatar
+                    size="40"
+                    style="position: absolute; top: 0; left: 0; z-index: 2"
+                  >
+                    <v-img
+                      :src="item.coordinators_info[0].photo"
+                      alt="Stakeholder Image"
+                    />
+                  </v-avatar>
+
+                  <!-- วงกลมที่สอง (ตัวเลข) -->
+                  <v-avatar
+                    size="30"
+                    color="grey"
+                    style="position: absolute; top: 5px; left: 35px; z-index: 1"
+                  >
+                    <span
+                      style="
+                        font-size: 0.8em;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                      "
+                    >
+                      +{{ item.coordinators_info.length - 1 }}
+                    </span>
+                  </v-avatar>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <!-- แสดงภาพของ coordinators_info ตัวแรก -->
+              <div class="d-flex justify-center">
+                <v-avatar size="40">
+                  <v-img
+                    :src="item.coordinators_info[0].photo"
+                    alt="coordinators_info Image"
+                  ></v-img>
+                </v-avatar>
+              </div>
+            </template>
+          </template>
+          <template v-else>
+            <v-avatar size="40">
+              <v-icon style="font-size: 45px">mdi-account-circle</v-icon>
+            </v-avatar>
+          </template>
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -304,7 +355,24 @@
             </v-col>
           </v-row>
         </div>
-        <div class="justify-end d-flex pt-5">
+        <div class="pt-4 pb-0">
+          <span class="text-h6">ผู้ประสาน</span>
+          <v-autocomplete
+            class="w-100"
+            v-model="selectedCoordinators"
+            :items="CoordinatorName"
+            item-title="name"
+            item-value="id"
+            multiple
+            chips
+            closable-chips
+            placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
+            variant="outlined"
+            density="compact"
+            rounded="lg"
+          />
+        </div>
+        <!-- <div class="justify-end d-flex pt-5">
           <v-btn
             @click="addDropzone"
             color="#AEE0E8"
@@ -316,25 +384,24 @@
             <v-icon left>mdi-account-plus</v-icon> เพิ่มผู้ประสาน
           </v-btn>
         </div>
-        <div
-          v-for="(dropzone, index) in dropzones"
-          :key="index"
-          class="dropzone-container pt-5"
-        >
+        <div v-for="(dropzone, index) in dropzones" :key="index" class="pt-5">
           <div class="pt-0 pb-0">
             <span class="text-h6">ผู้ประสาน ({{ index + 1 }})</span>
-            <!-- Input สำหรับกรอกชื่อภาพ -->
+   
             <v-autocomplete
               class="w-100"
               :id="'imageName-' + index"
-              v-model="dropzone.imageName"
+              v-model="selectedCoordinators[index]"
+              :items="CoordinatorName"
+              item-title="name"
+              item-value="id"
               placeholder="เพิ่มชื่อผู้ที่เกี่ยวข้อง"
               variant="outlined"
               density="compact"
               rounded="lg"
             />
           </div>
-        </div>
+        </div> -->
       </v-card-text>
 
       <div class="d-flex justify-end pb-6 px-6">
@@ -442,7 +509,8 @@
   const initialZipCode = ref("");
   const SchoolValue = ref("");
   const academyName = ref("");
-  const coordinate_name = ref("");
+  const CoordinatorName = ref([]);
+  const selectedCoordinators = ref([]);
   const phone_leader = ref("");
   const name_leader = ref("");
   const CopersonValue = ref("");
@@ -452,11 +520,11 @@
     { title: "ลำดับ", value: "ลำดับ", align: "center" },
     { title: "ชื่อ-สกุล", value: "name", align: "center" },
     { title: "โรงเรียน", value: "academy_name", align: "center" },
-
     { title: "จำนวนกิจกรรม", value: "activity_count", align: "center" },
     { title: "เบอร์โทร", value: "phone_number", align: "center" },
     { title: "สถานะแกนนำ", value: "status", align: "center" },
-    { title: "ผู้ประสาน", value: "ผู้ประสาน", align: "center" },
+    { title: "ผู้ประสาน", value: "coordinators", align: "center" },
+
     { title: "", value: "actions", sortable: false },
   ]);
 
@@ -540,6 +608,13 @@
     addMainstay.value = true;
     const response = await $apiClient.get("/api/getAcademyNames");
     academyName.value = response.data;
+    console.log(response.data);
+    const response_coor = await $apiClient.get("/api/getCoordinator");
+    console.log(response_coor.data.data);
+    CoordinatorName.value = response_coor.data.data.map((item) => ({
+      id: item._id,
+      name: item.name,
+    }));
   }
 
   // async function SubmitAdd() {
@@ -837,24 +912,7 @@
     formData.append("status", selectedStatus.value);
     formData.append("academy", selectedAcademy.value);
     formData.append("phone_number", phone_leader.value);
-
-    dropzones.value.forEach((dropzone, index) => {
-      const file = dropzone.files?.[0]; // ใช้แค่ไฟล์แรก
-      const name = dropzone.imageName || "";
-      const phoneNumber = dropzone.phoneNumber || "";
-
-      console.log(`Dropzone ${index} ชื่อ:`, name);
-      console.log(`Dropzone ${index} ไฟล์:`, file);
-
-      formData.append(`stakeholder[${index}][person]`, name);
-      formData.append(`stakeholder[${index}][phone]`, phoneNumber);
-
-      if (file) {
-        formData.append(`stakeholder[${index}][image]`, file);
-      } else {
-        formData.append(`stakeholder[${index}][image]`, "");
-      }
-    });
+    formData.append("stakeholder", selectedCoordinators.value);
 
     try {
       const response = await $apiClient.post("/api/createLeader", formData, {

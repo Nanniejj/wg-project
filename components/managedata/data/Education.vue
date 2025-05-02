@@ -181,7 +181,7 @@
           >
             <!-- หากมีมากกว่าหนึ่ง stakeholder ให้แสดงวงกลมที่สอง -->
             <template v-if="item.stakeholder.length > 1">
-              <div class="d-flex justify-end">
+              <div class="d-flex justify-center">
                 <div style="position: relative; width: 60px; height: 40px">
                   <!-- วงกลมแรก -->
                   <v-avatar
@@ -217,12 +217,14 @@
             </template>
             <template v-else>
               <!-- แสดงภาพของ stakeholder ตัวแรก -->
+              <div class="d-flex justify-center">
               <v-avatar size="40">
                 <v-img
                   :src="item.stakeholder[0].image"
                   alt="Stakeholder Image"
                 ></v-img>
               </v-avatar>
+            </div>
             </template>
           </template>
           <template v-else>
