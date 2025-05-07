@@ -31,6 +31,11 @@
           variant="solo-filled"
           @click:append="toggleMarker"
         >
+          <template v-slot:append-inner>
+            <v-btn color="#000000" rounded="lg" class="ml-2" @click="updateSearch">
+              <span class="text-white">ค้นหา</span>
+            </v-btn>
+          </template>
           <!-- <template v-slot:append>
             <div>
               <v-icon
@@ -248,7 +253,8 @@
     <ArchiveCreate />
   </v-container>
   <v-container v-else>
-    <ArchiveImage />
+    <ArchiveImage :type="selectedType" :search="searchUpdate" />
+    <!-- <ArchiveImage  /> -->
   </v-container>
 </template>
 
@@ -270,6 +276,16 @@
   `,
   });
 
+  const searchUpdate = ref("");
+
+  const Type = ref([
+    "Image",
+    "Infographic",
+    "Video",
+
+    // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
+  ]);
+
   const isOverlayVisible = ref(false);
   const createNew = ref(false);
   provide("createNew", createNew);
@@ -286,45 +302,56 @@
   const isCardInfoClicked = ref(false); // สถานะการคลิก
   const isCardVdoClicked = ref(false); // สถานะการคลิก
 
+  // ตัวแปรที่เก็บค่า type ที่เลือก
+  const selectedType = ref("");
+
   // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
   const toggleCardImage = () => {
-    isCardInfoClicked.value = false; // สลับสถานะการคลิก
-    isCardVdoClicked.value = false; // สลับสถานะการคลิก
-    isCardImgClicked.value = !isCardImgClicked.value; // สลับสถานะการคลิก
+    isCardInfoClicked.value = false;
+    isCardVdoClicked.value = false;
+    isCardImgClicked.value = !isCardImgClicked.value;
+
+    selectedType.value = isCardImgClicked.value ? "Image" : "";
   };
 
-  // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
   const toggleCardInfo = () => {
-    isCardVdoClicked.value = false; // สลับสถานะการคลิก
-    isCardImgClicked.value = false; // สลับสถานะการคลิก
-    isCardInfoClicked.value = !isCardInfoClicked.value; // สลับสถานะการคลิก
+    isCardVdoClicked.value = false;
+    isCardImgClicked.value = false;
+    isCardInfoClicked.value = !isCardInfoClicked.value;
+
+    selectedType.value = isCardInfoClicked.value ? "Infographic" : "";
   };
 
-  // ฟังก์ชัน toggle เพื่อสลับสถานะการคลิก
   const toggleVideo = () => {
-    isCardInfoClicked.value = false; // สลับสถานะการคลิก
-    isCardImgClicked.value = false; // สลับสถานะการคลิก
-    isCardVdoClicked.value = !isCardVdoClicked.value; // สลับสถานะการคลิก
+    isCardInfoClicked.value = false;
+    isCardImgClicked.value = false;
+    isCardVdoClicked.value = !isCardVdoClicked.value;
+
+    selectedType.value = isCardVdoClicked.value ? "Video" : "";
   };
 
   const { $apiClient } = useNuxtApp();
   let MediaData = ref([]);
   const image = ref([]);
 
-  const fetchData = async () => {
-    try {
-      const response = await $apiClient.get("/api/getArchive");
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await $apiClient.get("/api/getArchive");
+  //     MediaData.value = response.data.data;
+  //   } catch (error) {
+  //     console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
+  //   }
+  // };
 
-      MediaData.value = response.data;
-      console.log(MediaData.value);
-    } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", error);
-    }
-  };
+  // onMounted(() => {
+  //   fetchData();
+  // });
+  const updateSearch = () => {
+  // console.log("ค้นหาด้วยคำ:", search.value);
+  searchUpdate.value =  search.value;
+};
 
-  onMounted(() => {
-    fetchData();
-  });
+
 </script>
 
 <style scoped>

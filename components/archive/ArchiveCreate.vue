@@ -143,8 +143,7 @@
     image: null,
   });
   const dropzoneOptions = ref({
-    url: "https://httpbin.org/post",
-    autoProcessQueue: false, 
+    url: "#",
     thumbnailWidth: 150,
     maxFilesize: 5,
     maxFiles: 1,

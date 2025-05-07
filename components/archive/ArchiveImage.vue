@@ -28,7 +28,6 @@
         style="width: 350px; height: 400px"
         cover
         @contextmenu.prevent
-
         @copy.prevent
       ></v-img>
       <v-row class="pt-2">
@@ -45,6 +44,15 @@
       </v-row>
     </v-col>
   </v-row>
+
+  <div class="text-center pt-16">
+    <v-pagination
+      v-model="page"
+      :length="pagination.value"
+      rounded="circle"
+      class="my-4"
+    ></v-pagination>
+  </div>
 
   <v-dialog
     max-width="1200"
@@ -168,6 +176,7 @@
   import { title } from "process";
   import { onMounted, ref } from "vue";
   import { defineEmits } from "vue";
+  import { defineProps } from "vue";
 
   // สร้าง emit event
   const emit = defineEmits();
@@ -180,6 +189,12 @@
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
 
+  const props = defineProps({
+    type: String,
+    search: String,
+  });
+  // console.log(props);
+
   const isDisabled = ref(true); // สถานะเริ่มต้นเป็น disabled
 
   const selectedType = ref("Image");
@@ -189,15 +204,18 @@
   let ArchiveData = ref(null);
   const loading = ref(true); // สถานะการโหลด
 
+  const page = ref(1);
+  const pagination = ref({});
+
   // ฟังก์ชัน downloadThisImage
   async function downloadThisImage(image, id) {
     emit("increment-downloads"); // ส่ง event ไปยัง parent
     downloadImage(image, "download.jpg"); // เรียกฟังก์ชัน downloadImage ที่จะดาวน์โหลดไฟล์
-    console.log(id);
+    // console.log(id);
     try {
       const response = await $apiClient.put(`/api/ImageDownload/${id}`);
 
-      console.log(response.data);
+      // console.log(response.data);
 
       loading.value = false; // เปลี่ยนสถานะเป็นไม่โหลดเมื่อเสร็จแล้ว
     } catch (error) {
@@ -227,7 +245,7 @@
   // ฟังก์ชันสำหรับเปิด/ปิดการแก้ไข
   async function editdialog(data) {
     if (isDisabled.value != true) {
-      console.log(data);
+      // console.log(data);
       const payload = {
         title: data.title,
         description: data.description,
@@ -242,7 +260,7 @@
           payload
         );
 
-        console.log(response.data);
+        // console.log(response.data);
 
         loading.value = false; // เปลี่ยนสถานะเป็นไม่โหลดเมื่อเสร็จแล้ว
       } catch (error) {
@@ -257,9 +275,23 @@
     return new Intl.NumberFormat().format(number); // เพิ่มคอมม่าให้กับตัวเลข
   };
 
-  const fetchData = async () => {
+  const fetchData = async (type, search) => {
+    loading.value = true;
+ 
+    const params = {
+      page: page.value, // กำหนดค่า default ของ status เป็น "school"
+    };
+    if (type !== "") {
+      params.type = type;
+    }
+    if (search !== "") {
+      params.search = search;
+    }
+    // console.log(params);
     try {
-      const response = await $apiClient.get("/api/getArchive");
+      const response = await $apiClient.get("/api/getArchive", {
+        params: params,
+      });
 
       // MediaData.value = response.data[0].file;
       // console.log(response.data);
@@ -284,7 +316,9 @@
       //   });
       // }
 
-      ArchiveData = response.data;
+      ArchiveData = response.data.data;
+
+      pagination.value = response.data.pagination;
 
       // จัดเรียงข้อมูลตาม create_date จากใหม่ไปเก่า (จากหลังมาหน้า)
       ArchiveData.sort(
@@ -303,6 +337,15 @@
   onMounted(async () => {
     await fetchData();
   });
+
+  // ใช้ watch เพื่อเฝ้าดูการเปลี่ยนแปลงของ props.type
+  watch(
+    () => [props.type, props.search],
+    ([newType, newSearch]) => {
+      fetchData(newType, newSearch);
+    },
+    { immediate: true }
+  );
 </script>
 <style scoped>
   .hover-image:hover {
