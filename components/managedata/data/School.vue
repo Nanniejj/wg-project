@@ -189,9 +189,31 @@
                     style="position: absolute; top: 0; left: 0; z-index: 2"
                   >
                     <v-img
+                      v-if="item.stakeholder[0].image"
                       :src="item.stakeholder[0].image"
                       alt="Stakeholder Image"
                     />
+                    <v-avatar
+                      v-else
+                      size="40"
+                      style="background-color: #616161"
+                    >
+                      <span
+                        style="
+                          font-size: 1.5em;
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                        {{
+                          item.stakeholder[0].person
+                            ? item.stakeholder[0].person.charAt(0).toUpperCase()
+                            : "?"
+                        }}
+                      </span>
+                    </v-avatar>
                   </v-avatar>
 
                   <!-- วงกลมที่สอง (ตัวเลข) -->
@@ -217,11 +239,33 @@
             </template>
             <template v-else>
               <!-- แสดงภาพของ stakeholder ตัวแรก -->
-              <v-avatar size="40">
-                <v-img
-                  :src="item.stakeholder[0].image"
-                  alt="Stakeholder Image"
-                ></v-img>
+              <div
+                v-if="item.stakeholder[0].image"
+                class="d-flex justify-center"
+              >
+                <v-avatar size="40">
+                  <v-img
+                    :src="item.stakeholder[0].image"
+                    alt="Stakeholder Image"
+                  ></v-img>
+                </v-avatar>
+              </div>
+              <v-avatar v-else size="40" style="background-color: #616161">
+                <span
+                  style="
+                    font-size: 1.5em;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  {{
+                    item.stakeholder[0].person
+                      ? item.stakeholder[0].person.charAt(0).toUpperCase()
+                      : "?"
+                  }}
+                </span>
               </v-avatar>
             </template>
           </template>
@@ -234,6 +278,9 @@
             </div>
           </template>
         </div>
+      </template>
+      <template #item.level="{ item }">
+        {{ item.level?.name || "-" }}
       </template>
 
       <template v-slot:item.actions="{ item }">
@@ -535,7 +582,11 @@
           @click="EditOverlay = false"
         ></v-btn>
       </v-card-title>
-      <Editacademy :academyData="itemToAction" />
+      <Editacademy
+        :academyData="itemToAction"
+        v-model:dialog="EditOverlay"
+        @saved="fetchSchool()"
+      />
     </v-card>
   </v-dialog>
   <v-dialog v-model="deleteOverlay" max-width="400">

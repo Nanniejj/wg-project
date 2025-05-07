@@ -177,14 +177,39 @@
               <div class="d-flex justify-center">
                 <div style="position: relative; width: 60px; height: 40px">
                   <!-- วงกลมแรก -->
+
                   <v-avatar
                     size="40"
                     style="position: absolute; top: 0; left: 0; z-index: 2"
                   >
                     <v-img
+                      v-if="item.coordinators_info[0].photo"
                       :src="item.coordinators_info[0].photo"
                       alt="Stakeholder Image"
                     />
+                    <v-avatar
+                      v-else
+                      size="40"
+                      style="background-color: #616161"
+                    >
+                      <span
+                        style="
+                          font-size: 1.5em;
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                        {{
+                          item.coordinators_info[0].name
+                            ? item.coordinators_info[0].name
+                                .charAt(0)
+                                .toUpperCase()
+                            : "?"
+                        }}
+                      </span>
+                    </v-avatar>
                   </v-avatar>
 
                   <!-- วงกลมที่สอง (ตัวเลข) -->
@@ -210,7 +235,10 @@
             </template>
             <template v-else>
               <!-- แสดงภาพของ coordinators_info ตัวแรก -->
-              <div class="d-flex justify-center">
+              <div
+                v-if="item.coordinators_info[0].photo"
+                class="d-flex justify-center"
+              >
                 <v-avatar size="40">
                   <v-img
                     :src="item.coordinators_info[0].photo"
@@ -218,6 +246,23 @@
                   ></v-img>
                 </v-avatar>
               </div>
+              <v-avatar v-else size="35" style="background-color: #616161">
+                <span
+                  style="
+                    font-size: 1.2em;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  {{
+                    item.coordinators_info[0].name
+                      ? item.coordinators_info[0].name.charAt(0).toUpperCase()
+                      : "?"
+                  }}
+                </span>
+              </v-avatar>
             </template>
           </template>
           <template v-else>
@@ -429,7 +474,11 @@
           @click="EditOverlay = false"
         ></v-btn>
       </v-card-title>
-      <Editacademy :academyData="itemToAction" />
+      <EditLeader
+        :academyData="itemToAction"
+        v-model:dialog="EditOverlay"
+        @saved="fetchSchool()"
+      />
     </v-card>
   </v-dialog>
   <v-dialog v-model="deleteOverlay" max-width="400">
@@ -456,6 +505,7 @@
 <script setup>
   import { ref } from "vue";
   import vueDropzone from "dropzone-vue3";
+  import EditLeader from "./academy/EditLeader.vue";
   const dropzoneOptions = ref({
     url: "#",
     addRemoveLinks: true, // เพิ่มปุ่มลบ (ถ้าต้องการ)
