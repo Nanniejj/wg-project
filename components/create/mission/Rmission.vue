@@ -53,7 +53,7 @@
               disabled
             ></v-text-field> -->
 
-            <v-row>
+            <v-row class="mt-md-5">
               <v-col cols="12" sm="6" lg="3"  class="py-0">
                 <span style="font-size: 16px">ระดับความสำคัญ</span>
                 <v-select

@@ -8,6 +8,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi';
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     components: {
+      
       ...components,
       ...labsComponents, // Add labs components
     },

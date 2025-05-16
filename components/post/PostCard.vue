@@ -4,20 +4,20 @@
       <v-card-title class="d-flex align-center justify-space-between" color="#f5f5f5">
         <div class="d-flex align-center">
           <v-avatar size="48" class="mr-3" color="#2a354799">
-            <v-img :src="post.profile_image" v-if="post?.profile_image" class="w-100" />
+            <v-img :src="post?.profile_image" v-if="post?.profile_image" class="w-100" />
             <v-icon v-else>mdi-account</v-icon>
           </v-avatar>
           <div>
             <div class="text-subtitle-2 font-weight-bold">
-              {{ post.display_name || post.account_name || "ไม่ระบุชื่อ" }}
-              <v-btn :href="post.url_post" target="_blank" color="blue" small icon="mdi-link-variant" variant="text" />
+              {{ post?.display_name || post?.account_name || "ไม่ระบุชื่อ" }}
+              <v-btn :href="post?.url_post" target="_blank" color="blue" small icon="mdi-link-variant" variant="text" />
             </div>
-            <div class="text-caption grey--text">{{ formatDate(post.date) }}</div>
+            <div class="text-caption grey--text">{{ formatDate(post?.date) ||'date' }}</div>
           </div>
         </div>
         <div>
-          <v-chip :prepend-icon="getSentimentIcon(post.sentiment)" :color="getSentimentColor(post.sentiment)">
-            <span class="font-weight-medium"> {{ getSentimentLabel(post.sentiment) }}</span>
+          <v-chip :prepend-icon="getSentimentIcon(post?.sentiment)" :color="getSentimentColor(post?.sentiment)">
+            <span class="font-weight-medium"> {{ getSentimentLabel(post?.sentiment) }}</span>
           </v-chip>
           <!-- <v-btn :color="getSentimentColor(post.sentiment)" class="text-caption">
             {{ getSentimentLabel(post.sentiment) }}
@@ -31,7 +31,7 @@
           {{ showMore ? "ย่อ" : "ดูเพิ่มเติม" }}
         </v-btn>
 
-        <v-img v-if="post.photos && post.photos.length > 0" :src="post.photos[0]" class="rounded-lg"
+        <v-img v-if="post?.photos && post?.photos.length > 0" :src="post?.photos[0]" class="rounded-lg"
           max-height="400px" />
       </v-card-text>
 
@@ -39,15 +39,15 @@
         <div>
           <v-btn icon>
             <v-icon color="#2a3547">mdi-thumb-up</v-icon>
-            <span class="ml-1">{{ post.likes_count }}</span>
+            <span class="ml-1">{{ post?.likes_count ||0 }}</span>
           </v-btn>
           <v-btn icon>
             <v-icon color="#2a3547">mdi-comment</v-icon>
-            <span class="ml-1">{{ post.comments_count }}</span>
+            <span class="ml-1">{{ post?.comments_count||0 }}</span>
           </v-btn>
           <v-btn icon>
             <v-icon color="#2a3547">mdi-share</v-icon>
-            <span class="ml-1">{{ post.shares_count }}</span>
+            <span class="ml-1">{{ post?.shares_count||0 }}</span>
           </v-btn>
         </div>
         <!-- <v-btn :href="post.url_post" target="_blank" color="blue" text small>View More</v-btn> -->

@@ -5,10 +5,10 @@
         <v-row>
           <!-- Lobby -->
           <v-col cols="12" md="6" class="card-h-maxmin">
-            <div class="font-title2 base-color">Lobby</div>
+            <div class="font-title2 base-color">บัญชีล่าสุด</div>
             <v-card class="mx-auto pa-3 mt-3 card-h-90" elevation="3" rounded="lg">
-              <div class="text-medium-emphasis text-topic">Lobby</div>
-              <hr class="my-2">
+              <div class="text-medium-emphasis text-topic">บัญชีที่ขอสิทธิ์เข้าใช้ระบบ</div>
+              <!-- <hr class="my-2"> -->
               <div v-for="(user, i) in dataList.users" :key="i" class="py-3"
                 v-if="dataList && dataList.users && dataList.users.length">
                 <!-- {{ user }} -->
@@ -28,11 +28,12 @@
                   <v-col cols="auto" class="py-3" v-if="user.affiliation">
                     <v-chip class="mr-1 mt-1" variant="flat"
                       :color="getTeamColor(user.affiliation.replace('Team ', ''))">
-                      <span class="text-white font-weight-bold">{{ user.affiliation }}</span>
+                      <span class="text-white font-weight-bold"> Team {{ user.affiliation }}</span>
                     </v-chip>
                   </v-col>
                   <v-col cols="auto" class="h-100">
-                    <v-icon class="pe-3">mdi-chevron-right-circle-outline</v-icon>
+                    <v-btn to="/management" icon="mdi-chevron-right-circle-outline" variant="text"></v-btn>
+
                   </v-col>
                 </v-row>
               </div>
@@ -41,9 +42,9 @@
 
           <!-- TEAM -->
           <v-col cols="12" :md="6" class="card-h-maxmin">
-            <div class="font-title2 base-color">Team</div>
+            <div class="font-title2 base-color">ทีม</div>
             <v-card class="mx-auto pa-3 mt-3 card-h-90" elevation="3" rounded="lg">
-              <div class="text-medium-emphasis text-topic">Team (ที่ดูแล)</div>
+              <div class="text-medium-emphasis text-topic">ทีม (ที่ดูแล)</div>
               <hr class="my-3" />
               <div v-for="(item, i) in dataList.teams" :key="i">
                 <v-row>
@@ -66,7 +67,8 @@
             <v-card class="mx-auto pa-2" elevation="3" rounded="lg">
               <div class="font-title2 base-color">ภารกิจล่าสุด</div>
               <div class="text-medium-emphasis">
-                ภารกิจที่สั่งการล่าสุด <span class="float-right"> view all</span>
+                ภารกิจที่สั่งการล่าสุด <v-btn class="float-right" variant="text" color="#2A3547"
+                  to="/tasks">ดูทั้งหมด</v-btn>
               </div>
               <!-- {{ isMobile }}ffffffffffffffff -->
               <v-data-table :items="dataList.admin_tasks" :mobile="isMobile" :headers="adminHeaders" hide-default-footer
@@ -105,8 +107,9 @@
             <br />
             <!-- NOTE -->
             <div>
-              <div class="font-title2 base-color">Note</div>
-              <v-card class="mx-auto pa-3 card-h-maxmin" elevation="3" rounded="lg">
+              <div class="font-title2 base-color">สมุดโน้ต</div>
+              <v-card class="mx-auto pa-3 " elevation="3" rounded="lg">
+                <v-icon class="position-absolute" size="30" color="#2a3547">mdi-note-edit</v-icon>
                 <div class="text-right">
                   <span class="text-medium-emphasis text-small"
                     v-if="dataList && dataList.notes && dataList.notes.length">limit
@@ -115,50 +118,62 @@
                     <v-icon icon="mdi-square-edit-outline" size="25"></v-icon>
                   </v-btn>
                 </div>
-                <div class="text-left py-10 " v-if="dataList && dataList.notes && dataList.notes.length">
-                  <!-- <div v-for="(note, k) in dataList.notes" :key="k">
+                <div class="card-h-maxmin">
+                  <div class="card-h-90">
+
+                    <div class="text-left py-4 " v-if="dataList && dataList.notes && dataList.notes.length">
+                      <!-- <div v-for="(note, k) in dataList.notes" :key="k">
                     {{ note.title }} {{ note.text }}
                   </div> -->
 
-                  <v-list-item v-for="(note, k) in dataList.notes" :key="note._id" :subtitle="note.text"
-                    :title="note.title">
-                    <template #title>
-                      <span class="text-title text-black">{{ note.title }}</span>
-                    </template>
-                    <template #subtitle>
-                      <div style="opacity: 1 !important;">
-                        <span class="text-subtitle text-grey-darken">
-                          {{ expandedNoteId === note._id ? note.text : note.text.slice(0, 85) + (note.text.length > 100
-                            ? '...' : '') }}
-                        </span>
-                        <v-btn v-if="note.text.length > 80" size="small" variant="text" color="rgb(43 79 114)"
-                          @click="toggleExpandNote(note._id)">
-                          <span style="font-size: small;"> {{ expandedNoteId === note._id ? 'ย่อข้อความ' : 'ดูเพิ่มเติม'
-                          }}</span>
-                        </v-btn>
-                      </div>
-                    </template>
+                      <v-list-item v-for="(note, k) in dataList.notes" :key="note._id" :subtitle="note.text"
+                        :title="note.title" style="color: black !important;">
+                        <template #title>
+                          <span class="text-title text-black">{{ note.title }} </span>
+                          <span class="text-small float-right" style="color: #626060;font-size: x-small;">{{
+                            formatDate(note.datetime) }}</span>
 
-                    <template v-slot:append>
-                      <v-btn color="grey" icon="mdi-pencil" variant="text" @click="editNote(note)"></v-btn>
-                      <v-btn color="#E57373" icon="mdi-delete-outline" variant="text"
-                        @click="confirmDeleteNote(note._id)"></v-btn>
+                        </template>
+                        <template #subtitle>
+                          <div style="opacity: 1 !important;">
+                            <span class="text-subtitle">
+                              {{ expandedNoteId === note._id ? note.text : note.text.slice(0, 85) + (note.text.length >
+                                100
+                                ? '...' : '') }}
+                            </span>
+                            <v-btn v-if="note.text.length > 80" size="small" variant="text" color="rgb(43 79 114)"
+                              @click="toggleExpandNote(note._id)">
+                              <span style="font-size: small;"> {{ expandedNoteId === note._id ? 'ย่อข้อความ' :
+                                'ดูเพิ่มเติม'
+                              }}</span>
+                            </v-btn>
+                          </div>
 
-                    </template>
-                  </v-list-item>
+                        </template>
 
-                </div>
-                <div class="text-center py-10 text-medium-emphasis"
-                  v-if="dataList && dataList.notes && dataList.notes.length == 0">
+                        <template v-slot:append>
+                          <v-btn color="grey" icon="mdi-pencil" variant="text" @click="editNote(note)"></v-btn>
+                          <v-btn color="#E57373" icon="mdi-delete-outline" variant="text"
+                            @click="confirmDeleteNote(note._id)"></v-btn>
 
-                  {{ 'ไม่มีรายการ' }}
+                        </template>
+                      </v-list-item>
+
+                    </div>
+                    <div class="text-center py-10 text-medium-emphasis"
+                      v-if="dataList && dataList.notes && dataList.notes.length == 0">
+
+                      {{ 'ไม่มีรายการ' }}
+                    </div>
+                  </div>
                 </div>
               </v-card>
-
+              <br>
+              <br>
               <!-- NOTE DIALOG -->
               <v-dialog v-model="noteDialog" max-width="600">
                 <v-card>
-                  <v-card-title class="text-h6">Note</v-card-title>
+                  <v-card-title class="text-h6 ">Note</v-card-title>
                   <v-card-text>
                     <v-text-field label="หัวเรื่อง" variant="outlined" v-model="noteTitle"></v-text-field>
                     <v-textarea v-model="noteText" label="ข้อความ" auto-grow rows="4" variant="outlined" />
@@ -178,15 +193,17 @@
 
       <!-- NOTIFICATION -->
       <v-col cols="12" md="4">
-        <div class="mb-3">
-          <div class="font-title2 base-color">Notification</div>
-          <v-card class="mx-auto pa-3 card-h-maxmin mt-3" elevation="3" rounded="lg">
-            <div class="text-center py-15 text-medium-emphasis"> ไม่มีการแจ้งเตือน </div>
+        <div class="mb-3 ">
+          <div class="font-title2 base-color">แจ้งเตือน</div>
+          <v-card class="mx-auto pa-3 mt-3 card-h-maxmin" elevation="3" rounded="lg">
+      <div class="card-h-90">
+        <div class="text-center py-15 text-medium-emphasis"> ไม่มีการแจ้งเตือน </div>
+      </div>
           </v-card>
         </div>
         <div class="my-2">
           <v-card class="mx-auto pa-3 mt-3" elevation="3" rounded="lg">
-            <div class="font-title2 my-2 base-color">Calendar</div>
+            <div class="font-title2 my-2 base-color">ปฏิทิน</div>
             <hr />
             <v-date-picker v-model="date" class="mx-auto mt-2 elevation-0" color="#96CCD5"></v-date-picker>
             <v-row>
@@ -359,7 +376,15 @@ const confirmDeleteNote = (id) => {
     if (result.isConfirmed) {
       try {
         await deleteNote(id);
-        $swal.fire('ลบสำเร็จ!', 'Note ถูกลบเรียบร้อยแล้ว', 'success');
+
+        $swal.fire({
+          title: 'ลบสำเร็จ!',
+          text: 'Note ถูกลบเรียบร้อยแล้ว',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+        // $swal.fire('ลบสำเร็จ!', 'Note ถูกลบเรียบร้อยแล้ว', 'success');
         dataList.value = await fetchDashboard();
       } catch (err) {
         $swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถลบ Note ได้', 'error');
@@ -414,7 +439,7 @@ onMounted(async () => {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f1f1f1;
+  background: #f1f1f100;
 }
 
 /* Handle on hover */
@@ -438,13 +463,14 @@ onMounted(async () => {
 
 .card-h-maxmin {
   max-height: 500px;
-  min-height: 500px;
+  min-height: auto;
   overflow-y: auto;
 }
 
 .card-h-90 {
   height: 90%;
   overflow-y: auto;
+
 }
 
 .v-picker-title {

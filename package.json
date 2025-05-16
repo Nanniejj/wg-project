@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "cross-env PORT=3003 node .output/server/index.mjs"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
@@ -17,6 +18,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "dropzone-vue3": "^1.0.2",
+    "emitter-js": "^2.0.2",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
     "leaflet.markercluster": "^1.5.3",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.18.1",
+    "cross-env": "^7.0.3",
     "prettier-plugin-vue": "^1.1.6",
     "typescript": "^5.7.3"
   }

@@ -266,7 +266,7 @@
     <div class="text-center pt-16">
       <v-pagination
         v-model="page"
-        :length="pagination.value"
+        :length="pagination"
         rounded="circle"
         class="my-4"
       ></v-pagination>
@@ -454,10 +454,11 @@
       const response = await $apiClient.get("/api/getusertable", {
         params,
       });
-
+console.log(response.data);
       lobbyItems.value = response.data.data;
-      // console.log(lobbyItems.value);
+      console.log(lobbyItems.value);
       pagination.value = response.data.totalPages;
+      console.log(response.data.totalPages)
       // affiliations_data.value = response.data;
       //   affiliations_data.value = response.data.map((team) => team.name);
       //   console.log(affiliations_data.value);

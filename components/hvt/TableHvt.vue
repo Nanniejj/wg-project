@@ -24,7 +24,7 @@
             <template v-slot:item.name="{ item }">
                 <div>
                     <v-avatar icon="mdi-account" size="45" color="secondary" class="mr-2 my-2"
-                        :image="URL_HOST + item.photo" v-if="item.photo"></v-avatar>
+                        :image="mediaBase + item.photo"></v-avatar>
                     {{ item.name }}
                 </div>
             </template>
@@ -38,7 +38,7 @@
                     @click="openDialog(item)"></v-btn>
                 <v-btn icon="mdi-delete" size="small" variant="text" color="#404040"
                     @click="confirmDelete(item)"></v-btn>
-                <v-btn variant="outlined" size="small">View</v-btn>
+                <!-- <v-btn variant="outlined" size="small">View</v-btn> -->
             </template>
         </v-data-table>
 
@@ -57,7 +57,7 @@
                                 </div>
                                 <div v-else-if="newUser.photo && typeof newUser.photo === 'string'"
                                     class="mt-3 mx-auto d-flex justify-center">
-                                    <v-img :src="URL_HOST + newUser.photo" width="300" height="300" contain
+                                    <v-img :src="mediaBase + newUser.photo" width="300" height="300" contain
                                         aspect-ratio="1"></v-img>
                                 </div>
                             </div>
@@ -116,6 +116,8 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
+const mediaBase = config.public.MEDIA_BASE_URL;
 import { ref, onMounted } from "vue";
 // import { fetchUserHvt, createUserHvt, updateUserHvt } from "@/api";
 const { getTeamColorSoft } = useColors();

@@ -14,6 +14,7 @@ const props = defineProps({
         default: () => [], // กำหนดค่าเริ่มต้นเป็น array ว่าง
     },
 });
+
 </script>
 <style>
     

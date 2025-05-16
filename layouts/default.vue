@@ -1,23 +1,28 @@
 <template>
-  <div v-if="role == 'USER'">
+  <div v-if="role === 'USER'">
     <AppHeaderUser />
     <slot />
-    <!-- <AppFooter /> -->
   </div>
-  <div v-else>
+  <div v-else-if="role">
     <AppHeader />
     <slot />
-    <!-- <AppFooter /> -->
   </div>
 </template>
+
 <script setup>
 definePageMeta({
   middleware: 'auth',
-});
-  import AppHeaderUser from "../components/AppHeaderUser.vue";
+})
 
-  // import AppHeader  from "@/components/AppHeader";
-  //   import AppFooter  from "@/components/AppFooter";
-  const role = localStorage.getItem("role");
+import AppHeaderUser from "../components/AppHeaderUser.vue"
+import AppHeader from "../components/AppHeader.vue"
 
+import { ref, onMounted } from "vue"
+
+const role = ref(null)
+
+onMounted(() => {
+  role.value = localStorage.getItem("role")
+})
 </script>
+

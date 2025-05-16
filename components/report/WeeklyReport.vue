@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-flex align-items-center justify-end mb-3">
-            <!-- <date-picker v-model:value="DateRange" range
+            <!-- <date-picker v-model:value="DateRange" range 
                 class="custom-combobox date-picker date-picker-setting mb-5 mr-3" style="max-width: 270px"
                 :disabled-date="disabledBeforeTodayAndAfterMonth" /> -->
             <v-menu>
@@ -19,11 +19,15 @@
                 </v-list>
             </v-menu>
         </div>
-
+        {{ DateRange }}
 
         <v-card class="py-8 px-5 mb-5 card-stat-shadow">
             <v-row class="d-flex align-end ">
-                <v-col cols="12" sm="6" lg="3">
+                <v-col cols="12" sm="6" md="4">
+                    <date-picker v-model:value="DateRange" range class="w-100"
+                        :disabled-date="(date) => date >= new Date()" value-type="format" format="YYYY-MM-DD" />
+                </v-col>
+                <!-- <v-col cols="12" sm="6" lg="3">
                     <div style="font-size: 16px">วันที่เริ่ม</div>
                     <date-picker v-model:value="lastWeek" 
                     class="w-100 custom-height"
@@ -34,31 +38,19 @@
                     <date-picker v-model:value="today"
                     class="w-100 custom-height" 
                     :disabled-date="disabledBeforeTodayAndAfterMonth" />
-                </v-col>
-                <v-col cols="12" sm="6" lg="3">
+                </v-col> -->
+                <v-col cols="12" sm="6" md="4">
                     <!-- Mission Selector -->
-                    <v-autocomplete v-model="selectedMission" 
-                        label="Select Mission" item-title="label"
-                        item-value="value"
-                        :items="formattedItems" variant="outlined"
-                        hide-details
-                        density="comfortable"
-                    >
+                    <v-autocomplete v-model="selectedMission" label="Select Mission" item-title="label"
+                        item-value="value" :items="formattedItems" variant="outlined" hide-details
+                        density="comfortable">
                     </v-autocomplete>
                 </v-col>
-    
-                <v-col cols="12" sm="6" lg="3">
+
+                <v-col cols="12" sm="6" md="4">
                     <!-- Subject Selector -->
-                    <v-select 
-                        v-model="selectedSubjects" 
-                        :items="filteredSubjects" 
-                        label="Select Subject" multiple
-                        item-title="label" 
-                        item-value="value" 
-                        variant="outlined"
-                        hide-details
-                        density="comfortable"
-                    >
+                    <v-select v-model="selectedSubjects" :items="filteredSubjects" label="Select Subject" multiple
+                        item-title="label" item-value="value" variant="outlined" hide-details density="comfortable">
                         <template v-slot:prepend-item>
                             <v-list-item title="Select All" @click="toggleSelectAll">
                                 <template v-slot:prepend>
@@ -101,23 +93,33 @@
     </div>
 </template>
 
-<script setup>
+<script setup >
 import { ref, computed } from 'vue';
+//const { $emitter } = useNuxtApp()
 import DatePicker from "vue-datepicker-next";
 import "vue-datepicker-next/index.css";
 import dayjs from "dayjs";
+import moment from "moment";
 import ButtonExport from "./ButtonExport.vue";
 import subject from "/public/mission/dataMockup.json"
-const today = new Date(); // วันที่ปัจจุบัน
-const lastWeek = new Date();
+const today = new Date() // วันที่ปัจจุบัน
+const lastWeek = new Date()
 lastWeek.setDate(today.getDate() - 6);
-const DateRange = ref([lastWeek, today]);
+const DateRange = ref([
+    moment().subtract(6, "days").format("YYYY-MM-DD"), // 7 วันย้อนหลัง (รวมวันนี้)
+    moment().format("YYYY-MM-DD"),                     // วันนี้
+]);
 const selectedMission = ref(null);
 const selectedSubjects = ref([]);
 
+watch(DateRange, (newVal) => {
+    console.log(newVal)
+    this.$emitter.emit("callApiListSubdomain", newVal);
+    //$emitter.emit("date-updated", newVal);
+});
 const items = [
     "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8",
-    "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", 
+    "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8",
     "R9", "R10", "R11", "R12"
 ];
 

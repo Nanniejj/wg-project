@@ -50,40 +50,21 @@
   </v-container>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import VueApexCharts from "vue3-apexcharts";
+<script setup >
+//const { $emitter } = useNuxtApp()
+import { ref, onMounted } from "vue";
+import ApexChart from "vue3-apexcharts";
+import axios from "axios";
 
-// Dropdown for province selection
+// Dropdown
 const selectedProvince = ref(null);
-const provinceList = [
-  "กรุงเทพมหานครฯ",
-  "นนทบุรี",
-  "ปทุมธานี",
-  "สมุทรปราการ",
-  "น่าน",
-  "เชียงใหม่",
-  "เชียงราย",
-  "ชัยนาท",
-  "ภูเก็ต",
-  "สงขลา",
-];
+const provinceList = ref([]);
 
-// Chart Data
+// Chart setup
 const chartOptions = ref({
   chart: { type: "line", height: 350 },
   stroke: { curve: "smooth", width: 3 },
-  xaxis: {
-    categories: [
-      "20 ก.ค. 67",
-      "21 ก.ค. 67",
-      "22 ก.ค. 67",
-      "23 ก.ค. 67",
-      "24 ก.ค. 67",
-      "25 ก.ค. 67",
-      "26 ก.ค. 67",
-    ],
-  },
+  xaxis: { categories: [] },
   legend: { position: "right" },
   responsive: [
     {
@@ -93,34 +74,42 @@ const chartOptions = ref({
   ],
 });
 
-// Data for "จำนวนโพสต์" (ทำให้เส้นทับกันมากขึ้น)
-const chartSeries = ref([
-  { name: "กรุงเทพมหานครฯ", data: [100, 220, 180, 200, 170, 230, 190] },
-  { name: "นนทบุรี", data: [120, 200, 160, 190, 150, 210, 180] },
-  { name: "ปทุมธานี", data: [110, 210, 170, 220, 140, 200, 160] },
-  { name: "สมุทรปราการ", data: [90, 190, 140, 180, 120, 190, 150] },
-  { name: "น่าน", data: [80, 180, 130, 170, 110, 180, 140] },
-  { name: "เชียงใหม่", data: [85, 185, 135, 175, 115, 185, 145] },
-  { name: "เชียงราย", data: [95, 195, 145, 185, 125, 195, 155] },
-  { name: "ชัยนาท", data: [105, 205, 155, 195, 135, 205, 165] },
-  { name: "ภูเก็ต", data: [115, 215, 165, 205, 145, 215, 175] },
-  { name: "สงขลา", data: [125, 225, 175, 215, 155, 225, 185] },
-]);
+const chartSeries = ref([]);
+const reachSeries = ref([]); // คุณอาจใช้ข้อมูลอื่นมาต่อได้ในภายหลัง
+const date = ref([]);
+const data = ref([]);
 
-// Data for "จำนวนการเข้าถึง" (ทำให้เส้นทับกัน)
-const reachSeries = ref([
-{ name: "กรุงเทพมหานครฯ", data: [100, 220, 180, 200, 170, 230, 190] },
-  { name: "นนทบุรี", data: [120, 200, 160, 190, 150, 210, 180] },
-  { name: "ปทุมธานี", data: [110, 210, 170, 220, 140, 200, 160] },
-  { name: "สมุทรปราการ", data: [90, 190, 140, 180, 120, 190, 150] },
-  { name: "น่าน", data: [80, 180, 130, 170, 110, 180, 140] },
-  { name: "เชียงใหม่", data: [85, 185, 135, 175, 115, 185, 145] },
-  { name: "เชียงราย", data: [95, 195, 145, 185, 125, 195, 155] },
-  { name: "ชัยนาท", data: [105, 205, 155, 195, 135, 205, 165] },
-  { name: "ภูเก็ต", data: [115, 215, 165, 205, 145, 215, 175] },
-  { name: "สงขลา", data: [125, 225, 175, 215, 155, 225, 185] },
-]);
+onMounted(async () => {
+     await this.$emitter.on("callApiListSubdomain", async (val) => {
+     console.log('val',val);
+     
+      // this.filterSubdomains()
+    });
+  //  $emitter.on("date-updated", (dateRange) => {
+  //   console.log("Date Range Received:", dateRange);
+  //   date.value=dateRange
+  
+  // });
+ try {
+    data.value = await getProvinceLineChart();
+
+    const sorted = [...data.value].sort((a, b) => b.total_post - a.total_post);
+    const top10 = sorted.slice(0, 10);
+
+    chartOptions.value.xaxis.categories = top10[0]?.x || [];
+
+    chartSeries.value = top10.map((item) => ({
+      name: item.province_name_th,
+      data: item.y,
+    }));
+
+    provinceList.value = sorted.map((item) => item.province_name_th);
+  } catch (error) {
+    console.error("Error fetching chart data:", error);
+  }
+});
 </script>
+
 
 <style scoped>
 .v-btn {

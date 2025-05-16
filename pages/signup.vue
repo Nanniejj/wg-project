@@ -1,7 +1,7 @@
 <template>
   <div
     class="d-flex justify-center align-center"
-    style="background-color: #454545"
+    style="background-color: #454545;width: 100%;"
   >
     <v-card rounded="xl" class="ma-4" style="min-width: 100px; width: 1500px">
       <v-row>
@@ -260,4 +260,8 @@
   });
 </script>
 
-<style scoped></style>
+<style >
+/* #__nuxt{
+  background-color: aqua;
+} */
+</style>

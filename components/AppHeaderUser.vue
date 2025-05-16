@@ -49,6 +49,8 @@
             class="d-flex align-center icon-right py-0"
            
           >
+          <v-icon color="#2A3547" size="20" icon="mdi-account" style="border-radius: 10px"></v-icon>
+          <span class="mr-2"> {{ username }} </span>
             <v-icon
               v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
               @click="dialogLogout = true"
@@ -163,7 +165,7 @@
                 <v-icon
                   v-bind="props"
                   icon="mdi-bell"
-                  size="large"
+                  size="25"
                   v-tooltip="{ text: 'แจ้งเตือน', location: 'bottom' }"
                 ></v-icon>
               </v-badge>
@@ -185,13 +187,8 @@
           class="d-flex align-items-center icon-right"
           style="z-index: 999; margin-right: 10px; border-radius: 10px"
         >
-          <!-- <v-avatar
-            color="#2A3547"
-            size="45"
-            class="my-1 elevation-4"
-            rounded
-            style="border-radius: 10px"
-          > -->
+        <v-icon color="#2A3547" size="25" icon="mdi-account" style="border-radius: 10px"></v-icon>
+        <span class="mr-2"> {{ username }} </span>
 
           <v-icon
             v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
@@ -232,6 +229,7 @@
     // components: { SearchContents },
     data() {
       return {
+        username: null,
         dialogLogout: false,
         overlay: false,
         tab: null,
@@ -249,6 +247,8 @@
     mounted() {
       this.updateIsMobile();
       window.addEventListener("resize", this.updateIsMobile);
+      this.username = localStorage.getItem("username") || "ไม่ทราบชื่อ";
+
       nextTick(() => {
         const path = this.$route.path;
         if (path.startsWith("/mytasks")) {

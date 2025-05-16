@@ -18,6 +18,8 @@ export function formatDate(isoString : string) {
 
   return `${day}/${month}/${year}`;
 }
+
+
 export function shouldShowComponent(subjectIndex: any, index: number): boolean {
   // ถ้า subjectIndex ว่างหรือ undefined ให้แสดงทุก component
   if (!subjectIndex || subjectIndex.length === 0) {

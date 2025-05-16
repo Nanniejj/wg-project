@@ -1,115 +1,84 @@
-
-// plugins/axios.ts
 import axios from "axios";
-import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios"; // Import types
+import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { defineNuxtPlugin } from "#app";
-import { useRouter } from "#app"; // Use router to programmatically redirect
+import { useRouter } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const config = useRuntimeConfig();
-    const router = useRouter(); // Get the router instance
+  const config = useRuntimeConfig();
+  const router = useRouter();
 
-    // Create an axios instance with the config
-    const apiClient: AxiosInstance = axios.create({
-        baseURL: config.public.API_BASE_URL, // Base URL from environment variables
-        headers: {
-            'Content-Type': 'application/json',
-        }
+  // 💡 ตั้ง baseURL แต่ละเครื่องที่นี่
+  const apiHVTBase = "http://192.168.1.124:3001/api";
+  const apiYellyBase = "http://192.168.1.114:3002/api";
+
+  // 🎯 API หลัก (ใช้งานทั่วไป)
+  const apiClient: AxiosInstance = axios.create({
+    baseURL: config.public.API_BASE_URL, // เช่น "http://localhost:3000/api"
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  // 🧠 API สำหรับเครื่อง HVT
+  const apiHVT: AxiosInstance = axios.create({
+    baseURL: apiHVTBase,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  // 🍬 API สำหรับเครื่อง Yelly
+  const apiYelly: AxiosInstance = axios.create({
+    baseURL: apiYellyBase,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  // แนบ token ให้ทั้ง 3 instance
+  const attachAuthInterceptor = (client: AxiosInstance) => {
+    client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+      const authToken = localStorage.getItem("authToken");
+      if (authToken) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${authToken}`;
+      }
+      return config;
     });
 
-    // Interceptor for attaching the token in every request
-    apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-        const authToken = localStorage.getItem("authToken");
-        if (authToken) {
-            config.headers = config.headers || {}; // Ensure headers exist
-            config.headers.Authorization = `Bearer ${authToken}`; // Attach Authorization header
-        }
-        return config;
-    });
-
-    // Interceptor for handling token expiration and refreshing tokens
-    apiClient.interceptors.response.use(
-        (response: AxiosResponse) => response, // Pass the response through if successful
-        async (error: any) => {
-            if (error.response?.status === 401) { // Unauthorized error
-                console.log(error.response?.status,error.response)
-                const refreshToken = localStorage.getItem("refreshToken");
-                if (refreshToken) {
-                    try {
-                        // Try to refresh the token
-                        const response = await axios.post(`${config.public.API_BASE_URL}/api/auth/refresh`, {
-                            refreshToken
-                        });
-                        const newAuthToken = response.data.authToken;
-                        localStorage.setItem("authToken", newAuthToken); // Update authToken
-
-                        // Retry the original request with the new token
-                        error.config.headers.Authorization = `Bearer ${newAuthToken}`;
-                        return axios.request(error.config);
-                    } catch (refreshError) {
-                        // If refreshing the token fails, handle the error
-                        console.error("Refresh token failed", refreshError);
-
-                        // If refresh also fails (e.g., 401 or 403), redirect to login
-                        localStorage.removeItem("authToken");
-                        localStorage.removeItem("refreshToken");
-                        router.push("/login"); // Redirect to login page
-                    }
-                } else {
-                    // If no refresh token, redirect to login directly
-                    router.push("/login");
-                }
+    client.interceptors.response.use(
+      (response: AxiosResponse) => response,
+      async (error: any) => {
+        if (error.response?.status === 401) {
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) {
+            try {
+              const res = await axios.post(`${config.public.API_BASE_URL}/api/auth/refresh`, {
+                refreshToken,
+              });
+              const newAuthToken = res.data.authToken;
+              localStorage.setItem("authToken", newAuthToken);
+              error.config.headers.Authorization = `Bearer ${newAuthToken}`;
+              return axios.request(error.config);
+            } catch {
+              localStorage.removeItem("authToken");
+              localStorage.removeItem("refreshToken");
+              router.push("/login");
             }
-            return Promise.reject(error); // Reject the promise for other errors
+          } else {
+            router.push("/login");
+          }
         }
+        return Promise.reject(error);
+      }
     );
+  };
 
-    // Provide apiClient for use in the app
-    nuxtApp.provide("apiClient", apiClient);
+  // แนบ Interceptor
+  [apiClient, apiHVT, apiYelly].forEach(attachAuthInterceptor);
+
+  // ✅ Provide ทั้งหมด
+  nuxtApp.provide("apiClient", apiClient);
+  nuxtApp.provide("apiHVT", apiHVT);
+  nuxtApp.provide("apiYelly", apiYelly);
 });
-
-
-// // plugins/axios.ts
-// import axios from "axios";
-// import type { AxiosInstance, AxiosResponse } from "axios";
-// import { defineNuxtPlugin } from "#app";
-// import { useRouter } from "#app";
-
-// export default defineNuxtPlugin((nuxtApp) => {
-//     const config = useRuntimeConfig();
-//     const router = useRouter();
-
-//     // สร้าง instance ของ axios พร้อมกับการตั้งค่า baseURL
-//     const apiClient: AxiosInstance = axios.create({
-//         baseURL: config.public.API_BASE_URL,
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     });
-
-//     // ลบ request interceptor ที่เคยใช้ในการแนบ authToken
-//     // apiClient.interceptors.request.use((config) => {
-//     //     const authToken = localStorage.getItem("authToken");
-//     //     if (authToken) {
-//     //         config.headers = config.headers || {};
-//     //         config.headers.Authorization = `Bearer ${authToken}`;
-//     //     }
-//     //     return config;
-//     // });
-
-//     // Interceptor สำหรับจัดการการตอบสนอง
-//     apiClient.interceptors.response.use(
-//         (response: AxiosResponse) => response,
-//         async (error: any) => {
-//             if (error.response?.status === 403) {
-//                 console.log(error.response?.status, error.response);
-//                 // จัดการกรณีที่ได้รับสถานะ 403
-//                 // คุณสามารถเพิ่มการจัดการเพิ่มเติมที่นี่
-//             }
-//             return Promise.reject(error);
-//         }
-//     );
-
-//     // ให้บริการ apiClient สำหรับการใช้งานในแอปพลิเคชัน
-//     nuxtApp.provide("apiClient", apiClient);
-// });

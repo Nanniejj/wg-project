@@ -28,7 +28,7 @@
 
                 <v-col cols="12" sm="12" md="7" lg="8">
                     <v-form ref="formRef" v-model="valid">
-                        <v-row>
+                        <v-row class="mt-md-5">
                             <v-col cols="12" sm="6" lg="3" class="py-0">
                                 <span style="font-size: 16px">ระดับความสำคัญ</span>
                                 <v-select density="compact" variant="outlined" rounded="lg" :items="priority"

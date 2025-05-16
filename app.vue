@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <v-container v-if="$route.name!=='login'">
-        <NuxtPage style="min-height: 80vh" class="pa-3" />
+  <NuxtLayout>
+    <div :style="$route.name === 'signup' ? 'background-color: #454545;' : ''">
+      <v-container v-if="$route.name !== 'login'" class="pa-3" style="min-height: 80vh">
+        <NuxtPage />
       </v-container>
-      <NuxtPage v-else style="min-height: 80vh" class="pa-3" />
-    </NuxtLayout>
-  </div>
+      <template v-else>
+        <NuxtPage class="pa-3" style="min-height: 80vh" />
+      </template>
+    </div>
+  </NuxtLayout>
 </template>
+
+
 <style>
 * {
   font-family: "IBM Plex Sans Thai", sans-serif !important;

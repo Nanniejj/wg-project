@@ -377,7 +377,7 @@ const hvtTargets = ref([])
 const editTask = ref(false);
 const selectedTask = ref();
 const openEditTask = (task) =>{
-    console.log("task === ",task.taskDetail);
+    console.log("task === ",task);
     selectedTask.value = task
     editTask.value = true
 };
@@ -413,7 +413,7 @@ onMounted(async () => {
                 // task.assigned_teams = task.assign_team
             }
         });
-        tasks.value = sortedData(tasks.value)
+        // tasks.value = sortedData(tasks.value)
         hvtTargets.value = await fetchUserHvt();
     } catch (error) {
         tasks.value = items.value;
