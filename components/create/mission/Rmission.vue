@@ -13,7 +13,7 @@
           >
           </v-col> -->
 
-        <v-col cols="12" sm="12" md="3">
+        <v-col cols="12" sm="12" md="5" lg="4">
           <v-container
             :style="{
               width: '100%',
@@ -30,14 +30,19 @@
               textAlign: 'center',
             }"
           >
-            <span style="font-size: 100px; color: white">{{ selectedMission }}</span>
+            <!-- <span v-if="!getMissionImage(selectedMission)" style="font-size: 100px; color: white">{{ selectedMission }}</span> -->
+            <img
+              :src="getMissionImage(selectedMission)"
+              alt="Mission"
+              style="max-width: 270px; max-height: 300px; object-fit: contain;"
+            />
           </v-container>
           <v-col cols="12" class="d-flex justify-center">
             <span style="font-size: 16px">Logo cover mission</span>
           </v-col>
         </v-col>
 
-        <v-col cols="12" sm="12" md="8">
+        <v-col cols="12" sm="12" md="7" lg="8">
           <v-form ref="formRef" v-model="valid">
             <!-- <span style="font-size: 16px">Mission name</span>
             <v-text-field
@@ -128,7 +133,7 @@
                          :color="getTeamColor(data.item.title.replace('Team ', ''))"
                          @click:close="removeSelection(data.item.title)"
                        >
-                         <span style="color: black"> {{ data.item.title }} </span>
+                         <span style="color: black"> Team {{ data.item.title }} </span>
                        </v-chip>
                      </template>
                    </v-combobox>
@@ -151,8 +156,6 @@
                    </v-row>
                </v-col>
             </v-row>
-
-
           </v-form>
         </v-col>
 
@@ -188,7 +191,7 @@
   import { ref } from "vue";
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
-  const { getTeamColor, getMissionColor, getPriorityColor } = useColors();
+  const { getTeamColor, getMissionColor, getPriorityColor, getMissionImage } = useColors();
   const props = defineProps({
     teams: Object,
     selectedMission: String
@@ -226,7 +229,7 @@
   ]);
   const taskType = ref([
     {title:"รายงานผลทั่วไป", value:"general"},
-    {title:"รายงานประจำสัปดาห์", value:"weekly"},
+    {title:"รายงานประจำสัปดาห์", value:"week"},
     // {title:"ด่วนมาก", value:"very_urgent"},
     // เพิ่มตัวเลือกอื่น ๆ ที่ต้องการ
   ]);
@@ -270,9 +273,12 @@
       "description": DescriptionMessage.value,
       "priority":  selectedPriority.value,
       "assign_team": selectedTeam.value,
+      "report": selectedTaskType.value,
       "start_date": DateRange.value[0].toISOString().split("T")[0],
       "end_date": DateRange.value[1].toISOString().split("T")[0]
     };
+    console.log("create task ==== ",taskData);
+    
     emit("taskData", taskData);
   };
 </script>

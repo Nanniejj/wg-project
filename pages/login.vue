@@ -133,6 +133,7 @@
   });
   const config = useRuntimeConfig();
   const apiUrl = config.public.API_BASE_URL;
+  // const apiUrl = "http://192.168.1.104:3002";
   const rememberMe = ref(false);
   const loading = ref(false);
   const errorMessage = ref(""); // ย้าย errorMessage มาที่นี่
@@ -141,9 +142,9 @@
   const loginUser = async () => {
     loading.value = true;
     errorMessage.value = ""; // รีเซ็ตข้อความ error ก่อนที่จะเริ่มเข้าสู่ระบบ
-    console.log(apiUrl);
+    console.log("apiUrl",apiUrl);
     try {
-      const { data, error } = await useFetch(`${apiUrl}/auth/login`, {
+      const { data, error } = await useFetch('http://192.168.1.128:3001/auth/login', {
         method: "POST",
         body: JSON.stringify({
           username: credentials.value.usernameOrEmail,
@@ -159,35 +160,39 @@
           error.value.data.message || "An error occurred while logging in."
         );
       }
-      // console.log("value login", data.value.twofac);
+     console.log("value login", data.value);
       const token = data.value.token;
       const refresh_token = data.value.refresh_token;
       const role = data.value.role;
       const access_menu = data.value.access_menu;
-      const twofac = data.value.twofac;
+      const mission = data.value.mission;
+      const username = data.value.username;
       // console.log("role", role,);
       // console.log("access_menu", access_menu,);
 
       // console.log("login auth", localStorage, "refreshToken", refresh_token);
 
-      if (role == null || role == "") {
-        alert("กรุณาแจ้ง admin อนุญาตสิทธิ์การเข้าถึง account ของคุณ");
-        localStorage.removeItem("authToken");
+      // if (role == null || role == "") {
+      //   alert("กรุณาแจ้ง admin อนุญาตสิทธิ์การเข้าถึง account ของคุณ");
+      //   localStorage.removeItem("authToken");
         // ใช้ router.push เพื่อทำการ redirect ไปที่หน้า login
         router.push("/login"); // ปรับ URL ตามที่ต้องการ
-      } else {
+      // } else {
         // นำไปยังหน้าindexหลังจากเข้าสู่ระบบสำเร็จ
         localStorage.setItem("refreshToken", refresh_token);
-        localStorage.setItem("twofac", twofac);
+        // localStorage.setItem("twofac", twofac);
         localStorage.setItem("authToken", token);
         localStorage.setItem("role", role);
         localStorage.setItem("access_menu", access_menu);
-        if (twofac == true) {
-          router.push("/authen");
-        } else {
-          router.push("/generate");
-        }
+        localStorage.setItem("mission", mission);
+        localStorage.setItem("username", username);
+        if (role != "USER") {
+        router.push("/");
+      } else {
+
+        router.push("/mytasks");
       }
+      // }
     } catch (error) {
       console.error(error.message);
       errorMessage.value = error.message; // แสดงข้อความ error
@@ -210,14 +215,14 @@
   onMounted(() => {
     nextTick(() => {
       const localData = localStorage.getItem("role");
-      const twofactor = localStorage.getItem("2fa");
-      if (twofactor != null) {
-        if (localData != null && localData === "USER") {
-          router.push("/mytasks");
-        } else {
-          router.push("/");
-        }
-      }
+      // const twofactor = localStorage.getItem("2fa");
+      // if (twofactor != null) {
+      //   if (localData != null && localData === "USER") {
+      //     router.push("/mytasks");
+      //   } else {
+      //     router.push("/");
+      //   }
+      // }
     });
   });
 </script>

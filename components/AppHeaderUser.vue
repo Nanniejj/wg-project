@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="d-flex justify-space-between">
+    <!-- style="position: fixed;left: 0; width: 100%; z-index: 1000; background-color: white;" -->
+    <div 
+      class="d-flex justify-space-between" 
+    >
       <div>
         <!-- Toggle Button for Menu -->
         <v-btn
@@ -14,12 +17,11 @@
           <v-icon icon="mdi-menu" size="30"></v-icon>
         </v-btn>
       </div>
-      <div v-if="isMobile">
-        <v-row class="pa-4">
+      <div v-if="isMobile" class="d-flex align-center">
+        <!-- <v-row> -->
           <!-- Right Element -->
-          <span
-            class="d-flex align-items-center icon-right"
-            style="z-index: 999; margin-right: 15px; margin-top: 15px"
+          <v-col cols="auto"
+            class="d-flex align-items-center icon-right py-0"
           >
             <v-menu>
               <template v-slot:activator="{ props }">
@@ -32,7 +34,6 @@
                 </v-badge>
               </template>
 
-              <!-- เมนูที่แสดงเมื่อคลิก -->
               <v-card>
                 <v-card-title> แจ้งเตือน </v-card-title>
                 <v-card-text> ไม่มีการแจ้งเตือนใหม่! </v-card-text>
@@ -43,34 +44,19 @@
                 </v-card-actions>
               </v-card>
             </v-menu>
-          </span>
-          <span
-            class="d-flex align-items-center icon-right"
-            style="
-              z-index: 999;
-              margin-right: 20px;
-              border-radius: 10px;
-              margin-top: 15px;
-            "
+          </v-col>
+          <v-col cols="auto"
+            class="d-flex align-center icon-right py-0"
+           
           >
-            <!-- <v-avatar
-            color="#2A3547"
-            size="45"
-            class="my-1 elevation-4"
-            rounded
-            style="border-radius: 10px"
-          > -->
-
             <v-icon
               v-tooltip="{ text: 'ออกจากระบบ', location: 'bottom' }"
               @click="dialogLogout = true"
               class="hover-pointer"
               icon="mdi-logout"
             ></v-icon>
-
-            <!-- </v-avatar> -->
-          </span>
-        </v-row>
+          </v-col>
+        <!-- </v-row> -->
       </div>
     </div>
     <!-- Conditional List for Mobile -->

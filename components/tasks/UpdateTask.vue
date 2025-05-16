@@ -11,13 +11,13 @@
         <!-- content cards เชื่อม api -->
         <v-row v-if="selectedTask.assign_team" class="ga-5">
             <v-col cols="12" v-for="team in selectedTask.assign_team" :key="team">
-                <v-card class="card-stat-shadow pa-4" :color="getTeamColorSoft(team.replace('Team ', ''))" rounded="lg">
+                <v-card class="card-stat-shadow pa-4" :color="getTeamColorSoft(team)" rounded="lg">
                     <!-- Header: Team Name + Add Button -->
                     <v-row align="center" justify="space-between">
                         <v-col>
                             <div class="d-flex ga-3 text-h6 font-weight-bold" style="color: #2A3547">
                                 <span>
-                                    {{ team }}
+                                    Team {{ team }}
                                 </span>
                                 <v-chip v-if="team.send" color="green" variant="flat">
                                     ส่งแล้ว
@@ -38,7 +38,6 @@
                     </v-row>
 
                     <v-divider class="my-4 dashed-hr"></v-divider>
-
 
                     <!-- Contents Section -->
                     <!-- {{ getTeamContents(team) }} -->
@@ -109,8 +108,29 @@
                                         </v-col>
                                     </div>
                                 </div>
-                                <v-select v-model="content.hvt" :items="targets" label="เป้าหมาย (HVT)"
+                                <!-- targets -->
+                                 <!-- {{ content.hvt_id }} -->
+                                <!-- <v-select v-model="content.hvt" :items="targets" label="เป้าหมาย (HVT)"
                                     variant="outlined" density="compact">
+                                </v-select> -->
+                                <v-select
+                                    density="compact"
+                                    label="Select mission"
+                                    variant="outlined"
+                                    rounded="lg"
+                                    style="margin-top: 5px"
+                                    :items="props.hvtTargets"
+                                    item-value="_id"
+                                    :item-title="getFullName"
+                                    v-model="content.hvt_id"
+                                >
+                                    <template v-slot:item="{ props, item, index }">
+                                    <v-list-item :key="index">
+                                        <v-list-item-title v-bind="props" class="cursor-pointer">
+                                        {{ item.raw.first_name }} {{ item.raw.last_name }}
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                    </template>
                                 </v-select>
                                 <!-- Link URL -->
                                 <div v-for="(link, index) in content.url" :key="'url-' + index" class="link-row">
@@ -255,6 +275,7 @@ const selectedContent = ref(null);
 const contents = ref([]);
 const props = defineProps({
     selectedTask: Object,
+    hvtTargets: Object
 });
 const rules = {
     required: (value) => !!value || "จำเป็นต้องกรอกข้อมูล",
@@ -420,19 +441,34 @@ const updateContent = (team, content) => {
         ]
     }
     updateTaskUser(taskUser._id, updateContents);
+    let updateHvt_info = props.hvtTargets.find(item => item._id === content.hvt_id)
+    content.hvt_info = updateHvt_info
     closeEditContent(content);
-    console.log("task detail === ", taskUser._id);
-    console.log("update contents === ", updateContents);
+    // console.log("task detail === ", taskUser._id);
+    // console.log("update contents === ", updateContents);
+    // console.log("hvt === ",updateHvt_info);
+    
 };
+const getFullName = (item) => {
+    return item.first_name + " " + item.last_name +`(${item.name})`;
+};
+
+onMounted(async () => { 
+    if (props.hvtTargets) {
+        console.log("targets ==== ",props.hvtTargets);
+        
+        // targets.value = props.hvtTargets
+    }
+})
 </script>
 <script>
 export default {
-    props: {
-        selectedTask: {
-            type: Object,
-            default: {}
-        }
-    },
+    // props: {
+    //     selectedTask: {
+    //         type: Object,
+    //         default: {}
+    //     }
+    // },
     methods: {
         closeEditTask() {
             this.$emit("closeEdit")

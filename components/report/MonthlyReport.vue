@@ -26,7 +26,7 @@
                 <v-col cols="12" sm="6" lg="3">
                     <!-- <div style="font-size: 16px">เลือกเดือน</div> -->
                     <date-picker
-                        label="Select Month"
+                        placeholder="Select Month"
                         v-model:value="selectedMonth"
                         class="w-100 custom-height"
                         type="month"

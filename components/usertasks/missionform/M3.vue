@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <!-- {{ props.taskData }} -->
     <v-row class="justify-end">
       <div class="pa-1">
         <v-btn color="#529B41" size="large" rounded="lg" @click="addCard">
@@ -73,8 +74,9 @@
                     <td>{{ item.date }}</td>
                     <td>
                       <div class="align-items-center">
-                        <v-btn variant="outlined">
-                          <span style="font-size: 12px">view</span>
+                        <v-btn @click="openEditUserModal()" variant="text">
+                          <v-icon size="20"> mdi-pencil</v-icon>
+                          <!-- <span style="font-size: 12px">view</span> -->
                         </v-btn>
                       </div>
                     </td>
@@ -112,107 +114,121 @@
         </v-btn>
       </div>
     </v-row>
+    <EditUserM3ModalVue
+        :dialog="isOpenModal" 
+        :userData="taskData"
+        @close="closeEditUserModal()"
+    />
   </v-container>
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  import { useRoute } from "vue-router";
+import EditUserM3ModalVue from "../../modal/editUserM3Modal.vue";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+const props = defineProps({
+  taskData: Object,
+});
+const route = useRoute();
+const isOpenModal = ref(false);
+// รับ title จาก query
+const title = route.query.title;
+const status = route.query.status;
 
-  const route = useRoute();
+const desserts = ref([
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Frozen Yogurt",
+    calories: 159,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Ice cream sandwich",
+    calories: 237,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Eclair",
+    calories: 262,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Cupcake",
+    calories: 305,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Gingerbread",
+    calories: 356,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Jelly bean",
+    calories: 375,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Lollipop",
+    calories: 392,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Honeycomb",
+    calories: 408,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "Donut",
+    calories: 452,
+    date: "10 Jan 2568",
+  },
+  {
+    image:
+      "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
+    name: "KitKat",
+    calories: 518,
+    date: "10 Jan 2568",
+  },
+]);
 
-  // รับ title จาก query
-  const title = route.query.title;
-  const status = route.query.status;
-
-  const desserts = ref([
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Frozen Yogurt",
-      calories: 159,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Ice cream sandwich",
-      calories: 237,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Eclair",
-      calories: 262,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Cupcake",
-      calories: 305,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Gingerbread",
-      calories: 356,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Jelly bean",
-      calories: 375,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Lollipop",
-      calories: 392,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Honeycomb",
-      calories: 408,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "Donut",
-      calories: 452,
-      date: "10 Jan 2568",
-    },
-    {
-      image:
-        "https://prod-mfp-imgsrv.tillitsdone.com/uploads/medium_IMG_0575_Pita_Limjaroenrat_a204bc0752.jpg",
-      name: "KitKat",
-      calories: 518,
-      date: "10 Jan 2568",
-    },
-  ]);
-
-  const tab = ref(null);
+const tab = ref(null);
+function openEditUserModal() {
+    isOpenModal.value = true;
+}
+function closeEditUserModal() {
+    isOpenModal.value = false;
+}
 </script>
 <style scoped>
-  .v-divider {
-          height: 1000px; /* กำหนดความสูงที่ต้องการ */
-        }
-        
-        .custom-divider {
-          margin-left: 30px; /* กำหนดมาร์จินซ้าย */
-          margin-right: 30px; /* กำหนดมาร์จินซ้าย */
-          max-width: 100%;
-        
-        }
+.v-divider {
+    height: 1000px; /* กำหนดความสูงที่ต้องการ */
+}
 
-        .custom-btn:hover{
+.custom-divider {
+    margin-left: 30px; /* กำหนดมาร์จินซ้าย */
+    margin-right: 30px; /* กำหนดมาร์จินซ้าย */
+    max-width: 100%;
+
+}
+
+.custom-btn:hover{
     background-color: #202B3E !important; /* สีพื้นหลังเมื่อเมาส์อยู่เหนือปุ่ม */
     color: white !important;
 }

@@ -55,10 +55,13 @@
             <v-number-input
               density="compact"
               v-model="NumPeople"
+              :disabled="status === 'completed'"
               :min="0"
               control-variant="split"
               inset
               variant="solo"
+              :inert="status === 'completed'"
+              :tabindex="status === 'completed' ? -1 : 0"
             ></v-number-input>
           </div>
           <div class="pt-2 pb-1">
@@ -66,10 +69,13 @@
             <v-number-input
               density="compact"
               v-model="NumImport"
+              :disabled="status == 'completed'"
               :min="0"
               control-variant="split"
               inset
               variant="solo"
+              :inert="status === 'completed'"
+              :tabindex="status === 'completed' ? -1 : 0"
             ></v-number-input>
           </div>
           <div class="pt-2 pb-1">
@@ -77,14 +83,19 @@
             <v-number-input
               density="compact"
               v-model="NumTarget"
+              :disabled="status == 'completed'"
               :min="0"
               control-variant="split"
               inset
               variant="solo"
+              :inert="status === 'completed'"
+              :tabindex="status === 'completed' ? -1 : 0"
             ></v-number-input>
           </div>
         </v-card>
       </v-col>
+
+      <!-- จำนวน social_bot -->
       <v-col cols="12" md="9">
         <div class="pt-8 pb-3">
           <span class="text-h6">จำนวน Social Bot</span>
@@ -107,6 +118,7 @@
                     <v-number-input
                       density="compact"
                       v-model="item.value"
+                      :disabled="status == 'completed'"
                       control-variant="split"
                       :min="0"
                       inset
@@ -122,14 +134,14 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
+    <v-row v-if="status != 'completed'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
           variant="outlined"
           style="background-color: #faf1cd"
           size="large"
           rounded="lg"
-          @click="addCard"
+          @click="updateContent('in_progress')"
           class="custom-btn"
         >
           <span class="text-h6">บันทึกร่าง</span>
@@ -140,7 +152,7 @@
           variant="outlined"
           size="large"
           rounded="lg"
-          @click="addCard"
+          @click="updateContent('completed')"
           class="custom-btn"
         >
           <span class="text-h6">บันทึก</span>
@@ -153,7 +165,10 @@
 <script setup>
   import { ref } from "vue";
   import { useRoute } from "vue-router";
-
+  const emit = defineEmits(["handleBack"]);
+  const props = defineProps({
+    taskData: Object,
+  });
   const route = useRoute();
 
   // รับ title จาก query
@@ -232,7 +247,44 @@
   const submitForm = () => {
     console.log("Form submitted with mission:", selectedMission.value);
     selectedMission.value = null; // รีเซ็ต selectedMission เป็น null
-  };
+};
+function checkSocialBot() {
+  if (props.taskData.social_bot) {
+    console.log("task m1 === ", props.taskData);
+    platforms.value = platforms.value.map(platform => ({
+        ...platform,
+        value: props.taskData.social_bot[platform.name.toLowerCase()] ?? 0 // ใช้ชื่อที่เป็น lowercase เพื่อแมตช์ key
+    }));
+  }
+};
+function checkTargets() {
+  if (props.taskData.target_count) {
+    NumImport.value = props.taskData.target_count.report;
+    NumPeople.value = props.taskData.target_count.person;
+    NumTarget.value = props.taskData.target_count.target;
+  }
+};
+async function updateContent(status) {
+  let taskID = props.taskData._id
+  const updateContentUser = {
+    status: status,
+    "target_count": {
+        "person": NumPeople.value,
+        "report": NumImport.value,
+        "target": NumTarget.value
+    },
+    "social_bot": Object.fromEntries(
+        platforms.value.map(platform => [platform.name.toLowerCase(), platform.value])
+    )
+  }
+  console.log("update m1 === ",updateContent);
+  await updateTaskUser(taskID, updateContentUser);
+  emit("handleBack");
+}
+onMounted(async () => { 
+  checkSocialBot()
+  checkTargets()
+})
 </script>
 <style scoped>
   .v-divider {
