@@ -1,15 +1,16 @@
 <template>
   <div>
     <NuxtLayout>
-      <v-container v-if="$route.name!=='login'">
+      <v-container v-if="$route.name !== 'login'">
         <!-- ลบ style="min-height: 80vh" เพราะกระทบ layout task user -->
         <NuxtPage class="pa-3" />
       </v-container>
       <template v-else>
         <NuxtPage class="pa-3" style="min-height: 80vh" />
       </template>
-    </div>
-  </NuxtLayout>
+    </NuxtLayout>
+  </div>
+
 </template>
 
 
@@ -48,6 +49,7 @@
   font-size: 18px;
   font-weight: 400;
 }
+
 .text-small {
   font-size: 13px;
   font-weight: 400;
@@ -134,6 +136,7 @@
 .dashed-divider {
   border-style: dashed;
 }
+
 .mx3 {
   margin-left: 3% !important;
   margin-right: 3% !important;
@@ -142,18 +145,24 @@
 .text-h4 {
   font-size: 28px !important;
 }
-.swal2-container.swal2-center.swal2-backdrop-show{
-z-index: 999999;
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+  z-index: 999999;
 }
-div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
-    color: #fff !important;
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm),
+div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+  color: #fff !important;
 }
+
 .apexcharts-text tspan {
-    font-size: 12px !important;
+  font-size: 12px !important;
 }
+
 g.apexcharts-bar-series.apexcharts-plot-series {
   font-size: 13px !important;
 }
+
 @media (min-width: 1580px) {
   .v-container {
     /* max-width: 1400px; */
@@ -174,47 +183,54 @@ g.apexcharts-bar-series.apexcharts-plot-series {
 }
 
 /* xl display */
-@media only screen and (min-width: 1920px){
-  
-}
+@media only screen and (min-width: 1920px) {}
 
 
 /* lg display */
 @media only screen and (min-width: 1280px) and (max-width: 1919px) {
-  .v-card-title{
+  .v-card-title {
     font-size: 16px !important;
   }
-  .v-card-subtitle{
+
+  .v-card-subtitle {
     font-size: 14px !important;
   }
+
   .v-radio .v-label {
     font-size: 14px !important;
   }
-  .font-title2{
+
+  .font-title2 {
     font-size: 18px !important;
   }
+
   .text-h6 {
     font-size: 16px !important;
   }
 }
 
 /* md display */
-@media only screen and (min-width:  960px) and (max-width: 1279px) {
-  .v-card-title{
+@media only screen and (min-width: 960px) and (max-width: 1279px) {
+  .v-card-title {
     font-size: 14px !important;
   }
-  .v-card-subtitle{
+
+  .v-card-subtitle {
     font-size: 12px !important;
   }
+
   .v-radio .v-label {
     font-size: 12px !important;
   }
-  .v-card-text{
+
+  .v-card-text {
     font-size: 12px !important;
   }
-  .font-title2{
+
+  .font-title2 {
     font-size: 18px !important;
   }
+
   .text-h6 {
     font-size: 14px !important;
   }
@@ -225,6 +241,7 @@ g.apexcharts-bar-series.apexcharts-plot-series {
   .text-h6 {
     font-size: 16px !important;
   }
+
   .text-h4 {
     font-size: 19px !important;
   }
@@ -258,7 +275,8 @@ g.apexcharts-bar-series.apexcharts-plot-series {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }
-  .v-card-title{
+
+  .v-card-title {
     font-size: 16px !important;
   }
 }
@@ -268,6 +286,7 @@ g.apexcharts-bar-series.apexcharts-plot-series {
   .text-h6 {
     font-size: 16px !important;
   }
+
   .text-h4 {
     font-size: 19px !important;
   }
@@ -301,7 +320,8 @@ g.apexcharts-bar-series.apexcharts-plot-series {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }
-  .v-card-title{
+
+  .v-card-title {
     font-size: 16px !important;
   }
 }
@@ -311,6 +331,4 @@ g.apexcharts-bar-series.apexcharts-plot-series {
     max-width: 1700px;
   }
 }
-
-
 </style>

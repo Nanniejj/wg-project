@@ -9,7 +9,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // 💡 ตั้ง baseURL แต่ละเครื่องที่นี่
   const apiHVTBase = "http://192.168.1.124:3001/api";
-  const apiYellyBase = "http://192.168.1.114:3002/api";
+  const apiYellyBase = "http://192.168.1.124:3001/api";
 
   // 🎯 API หลัก (ใช้งานทั่วไป)
   const apiClient: AxiosInstance = axios.create({
