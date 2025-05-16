@@ -1,3 +1,4 @@
+import * as XLSX from "xlsx";
 export function formatNumber(value: number | string): string {
   // ตรวจสอบและแปลง string เป็น number หากจำเป็น
   const numericValue = typeof value === "string" ? parseFloat(value) : value;
@@ -35,6 +36,66 @@ export function downloadImage(imagePath: string, fileName: string){
     link.click();
     document.body.removeChild(link);
 }
+
+export function downloadXLSX(data: any[][]): void {
+  // const data = [
+  //   ["Name", "Age", "Email"],
+  //   ["Alice", 30, "alice@example.com"],
+  //   ["Bob", 25, "bob@example.com"]
+  // ];
+  const worksheet = XLSX.utils.aoa_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, "ตัวอย่างไฟล์.xlsx");
+}
+export function downloadCSV(
+  data: any[][] | Record<string, any>[],
+  filename: string = 'data.csv'
+): void {
+  if (!data || data.length === 0) return;
+
+  let csvRows: string[] = [];
+
+  // ถ้าเป็น array of objects
+  if (!Array.isArray(data[0])) {
+    const objArray = data as Record<string, any>[];
+    const headers = Object.keys(objArray[0]);
+    csvRows.push(headers.join(','));
+
+    objArray.forEach(row => {
+      const values = headers.map(key => {
+        const cell = String(row[key] ?? '');
+        const safeCell = /^[=+\-@]/.test(cell) ? `'${cell}` : cell;
+        return `"${safeCell.replace(/"/g, '""')}"`;
+      });
+      csvRows.push(values.join(','));
+    });
+
+  } else {
+    // ถ้าเป็น array of arrays
+    const arrayData = data as any[][];
+    csvRows = arrayData.map(row =>
+      row.map(cell => {
+        const cellStr = String(cell ?? '');
+        const safeCell = /^[=+\-@]/.test(cellStr) ? `'${cellStr}` : cellStr;
+        return `"${safeCell.replace(/"/g, '""')}"`;
+      }).join(',')
+    );
+  }
+
+  const csvContent = csvRows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
 
 // composables/useColors.ts
 // type Team = "C" | "D" | "E" | "F" | "G";
@@ -181,12 +242,17 @@ export const useColors = () => {
   };
 
   const getColorPriority = (name: string): string => {
-    switch (name) {
+    console.log(name);
+    
+    switch (name.toLowerCase()) {
       case "ต่ำ":
-        return "green";
+      case "low":
+        return "primary";
       case "ปานกลาง":
+      case "medium":
         return "orange";
       case "สูง":
+      case "high":
         return "red";
       default:
         return "";
@@ -194,10 +260,20 @@ export const useColors = () => {
     }
   };
 
-  const getMissionImage = (mission: string): string => {
-    // console.log(mission);
-    return `/logo/Icon-${mission}.png`;
+  // const getMissionImage = (mission: string): string => {
+
+  //   // console.log(mission);
+  //   return `/logo/Icon-${mission}.png`;
     
+  // };
+  const getMissionImage = (mission: string): string | false => {
+    if (mission.startsWith('M')) {
+      return `/logo/Icon-${mission}.png`;
+    } else if (mission.startsWith('R')) {
+      return false;
+    }
+
+    return `/logo/Icon-${mission}.png`; // default กรณีอื่น
   };
   return {
     getTeamColor,

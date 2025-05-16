@@ -43,7 +43,7 @@
                                                     placeholder="Link URL" rounded="lg"
                                                     v-model="content.url[index]" 
                                                     variant="outlined" clearable
-                                                    @change="fetchPreview(content,index)"
+                                                    @blur="fetchPreview(content,index)"
                                                     :rules="[rules.required]"
                                                 >
                                                 </v-text-field>
@@ -95,7 +95,7 @@
                                                     placeholder="Link URL" rounded="lg"
                                                     v-model="content.url[index]" 
                                                     variant="outlined" clearable
-                                                    @change="fetchPreview(content,index)"
+                                                    @blur="fetchPreview(content,index)"
                                                     :rules="[rules.required]"
                                                 >
                                                 </v-text-field>

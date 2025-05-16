@@ -2,32 +2,17 @@
   <v-container>
     <!-- {{ props.taskData }} -->
     <v-row class="justify-end">
-      <div class="pa-1">
-        <v-btn color="#529B41" size="large" rounded="lg" @click="addCard">
+      <v-col cols="auto">
+        <v-btn color="#529B41" 
+        size="large" rounded="lg" 
+        @click="addCard">
           <v-icon size="large" icon="mdi-plus"> </v-icon>
           <span class="text-h6">เพิ่มแกนนำ</span>
         </v-btn>
-      </div>
-      <div class="pa-1">
-        <v-btn
-          color="#AEE0E8"
-          outlined
-          rounded="lg"
-          size="large"
-          @click="triggerFileInput"
-        >
-          <v-icon class="px-5" size="large">mdi-tray-arrow-down</v-icon
-          ><span class="text-h6">Import CSV</span>
-        </v-btn>
-
-        <input
-          ref="fileInput"
-          type="file"
-          accept=".csv"
-          @change="handleFileUpload"
-          style="display: none"
-        />
-      </div>
+      </v-col>
+      <v-col cols="auto">
+        <ImportFileButton/>
+      </v-col>
     </v-row>
     <div class="pt-10">
       <span class="text-h5">ผลปฏิบัติการ</span>
@@ -50,45 +35,44 @@
         <v-tabs-window v-model="tab">
           <v-tabs-window-item v-for="n in 3" :key="n" :value="n">
             <v-container fluid>
-              <v-table>
-                <thead>
-                  <tr>
-                    <th class="text-start">Name</th>
-                    <th class="text-left">รายละเอียด</th>
-                    <th class="text-left">วันที่</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in desserts" :key="item.name">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <!-- v-avatar for profile picture -->
-                        <v-avatar size="40">
-                          <v-img :src="item.image"></v-img>
-                        </v-avatar>
-                        <!-- Name next to avatar -->
-                        <div class="px-4">{{ item.name }}</div>
-                      </div>
-                    </td>
-                    <td>{{ item.calories }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>
-                      <div class="align-items-center">
-                        <v-btn @click="openEditUserModal()" variant="text">
-                          <v-icon size="20"> mdi-pencil</v-icon>
-                          <!-- <span style="font-size: 12px">view</span> -->
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
+              <TableHvt/>
+                <!-- <v-table>
+                    <thead>
+                    <tr>
+                        <th class="text-start">Name</th>
+                        <th class="text-left">รายละเอียด</th>
+                        <th class="text-left">วันที่</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in desserts" :key="item.name">
+                        <td>
+                        <div class="d-flex align-items-center">
+                            <v-avatar size="40">
+                            <v-img :src="item.image"></v-img>
+                            </v-avatar>
+                            <div class="px-4">{{ item.name }}</div>
+                        </div>
+                        </td>
+                        <td>{{ item.calories }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>
+                        <div class="align-items-center">
+                            <v-btn @click="openEditUserModal()" variant="text">
+                            <v-icon size="20"> mdi-pencil</v-icon>
+                            </v-btn>
+                        </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </v-table> -->
             </v-container>
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card>
     </div>
 
+    <!-- save button -->
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
@@ -114,11 +98,11 @@
         </v-btn>
       </div>
     </v-row>
-    <EditUserM3ModalVue
+    <!-- <EditUserM3ModalVue
         :dialog="isOpenModal" 
         :userData="taskData"
         @close="closeEditUserModal()"
-    />
+    /> -->
   </v-container>
 </template>
 
@@ -126,6 +110,8 @@
 import EditUserM3ModalVue from "../../modal/editUserM3Modal.vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import ImportFileButton from "../../widgets/ImportFileButton.vue";
+import TableHvt from "../../widgets/TableHvt.vue"
 const props = defineProps({
   taskData: Object,
 });
@@ -209,12 +195,12 @@ const desserts = ref([
 ]);
 
 const tab = ref(null);
-function openEditUserModal() {
-    isOpenModal.value = true;
-}
-function closeEditUserModal() {
-    isOpenModal.value = false;
-}
+// function openEditUserModal() {
+//     isOpenModal.value = true;
+// }
+// function closeEditUserModal() {
+//     isOpenModal.value = false;
+// }
 </script>
 <style scoped>
 .v-divider {

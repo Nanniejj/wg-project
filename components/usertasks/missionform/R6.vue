@@ -40,8 +40,8 @@
     <div class="pb-5">
       <v-divider class="border-opacity-75 dashed-divider"></v-divider>
     </div>
-
-    <v-card class="pa-8">
+    <Leader academyTypes="university"/>
+    <!-- <v-card class="pa-8">
       <v-row>
         <v-col cols="12" md="4">
           <span class="text-h6">จังหวัด</span>
@@ -66,7 +66,7 @@
         <span class="text-h6">ระดับปฏิบัติการ</span>
         <v-autocomplete density="compact" variant="outlined"></v-autocomplete>
       </div>
-    </v-card>
+    </v-card> -->
 
     <v-row class="pt-10">
       <v-col cols="12" md="6" class="justify-start d-flex">
@@ -92,7 +92,12 @@
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity
+          :showTags="true"
+          :showCoordinator="true"
+          :showPOC="true"
+        />
+        <!-- <v-card class="pa-6">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -205,7 +210,7 @@
               ></v-text-field>
             </div>
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
@@ -240,8 +245,9 @@
   import vueDropzone from "dropzone-vue3";
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
-  import { useRoute } from "vue-router";
-
+import { useRoute } from "vue-router";
+  import Leader from "../../widgets/Leader.vue";
+  import Activity from "../../widgets/Activity.vue";
   const route = useRoute();
 
   // รับ title จาก query

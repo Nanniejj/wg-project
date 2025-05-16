@@ -4,6 +4,7 @@
     <div class="pt-5 pb-5">
       <v-divider class="border-opacity-75 dashed-divider"></v-divider>
     </div>
+    <Leader @leaderData="(data) => setLeaderData(data)"/>
     <!-- <v-row class="justify-end">
       <div class="pa-1">
         <v-btn color="#529B41" size="large" rounded="lg" @click="addCard">
@@ -45,7 +46,7 @@
       <v-divider class="border-opacity-75 dashed-divider"></v-divider>
     </div> -->
 
-    <v-card class="pa-8">
+    <!-- <v-card class="pa-8">
       <v-row>
         <v-col cols="12" md="4">
           <span class="text-h6">จังหวัด</span>
@@ -61,17 +62,16 @@
         </v-col>
       </v-row>
 
-      <!-- ตัดออก -->
-      <!-- <div>
+      <div>
         <span class="text-h6">รายชื่อแกนนำ</span>
         <v-autocomplete density="compact" variant="outlined"></v-autocomplete>
-      </div> -->
+      </div>
 
       <div>
         <span class="text-h6">ระดับปฏิบัติการ</span>
         <v-autocomplete density="compact" variant="outlined"></v-autocomplete>
       </div>
-    </v-card>
+    </v-card> -->
 
     <v-row class="pt-10">
       <v-col cols="12" md="6" class="justify-start d-flex">
@@ -97,7 +97,13 @@
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity
+          :showTags="true"
+          :showCoordinator="true"
+          :showAcademyPOC="true"
+          :academtId ="leaderData.academy"
+        />
+        <!-- <v-card class="pa-6">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -210,9 +216,11 @@
               ></v-text-field>
             </div>
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
+
+    <!-- save button -->
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
@@ -242,53 +250,64 @@
 </template>
 
 <script setup>
-  import vueDropzone from "dropzone-vue3";
-  import DatePicker from "vue-datepicker-next";
-  import "vue-datepicker-next/index.css";
-  import { useRoute } from "vue-router";
+// import vueDropzone from "dropzone-vue3";
+// import DatePicker from "vue-datepicker-next";
+import "vue-datepicker-next/index.css";
+import { useRoute } from "vue-router";
+import Leader from "../../widgets/Leader.vue";
+import Activity from "../../widgets/Activity.vue";
+const route = useRoute();
 
-  const route = useRoute();
+// รับ title จาก query
+// const title = route.query.title;
+const status = route.query.status;
+const today = new Date(); // วันที่ปัจจุบัน
+const lastWeek = new Date();
+lastWeek.setDate(today.getDate() - 6);
+// const DateRange = ref([lastWeek, today]);
+const leaderData = ref({
+  province: null,
+  academy: null,
+  leader: null,
+  level : null
+});
+// const dropzoneOptions = ref({
+//   url: "https://httpbin.org/post",
+//   thumbnailWidth: 100,
+//   thumbnailHeight: 100,
+//   maxFilesize: 1,
+//   acceptedFiles: "image/jpeg,image/png",
+//   maxFiles: 2,
+//   headers: { "My-Awesome-Header": "header value" },
+//   dictDefaultMessage: `
+//     <div style="text-align: center;margin-top:-40px">
+//       <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
+//       <p style="font-size: 14px;">Drag files here or click to upload</p>
+//     </div>
+//   `,
+// });
+// const NumImport = ref(0);
 
-  // รับ title จาก query
-  const title = route.query.title;
-  const status = route.query.status;
-  const today = new Date(); // วันที่ปัจจุบัน
-  const lastWeek = new Date();
-  lastWeek.setDate(today.getDate() - 6);
-  const DateRange = ref([lastWeek, today]);
+// สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
+const cards = ref([1]);
 
-  const dropzoneOptions = ref({
-    url: "https://httpbin.org/post",
-    thumbnailWidth: 100,
-    thumbnailHeight: 100,
-    maxFilesize: 1,
-    acceptedFiles: "image/jpeg,image/png",
-    maxFiles: 2,
-    headers: { "My-Awesome-Header": "header value" },
-    dictDefaultMessage: `
-      <div style="text-align: center;margin-top:-40px">
-        <i class="mdi mdi-upload-circle" style="font-size: 40px; color: #29A0AF;"></i>
-        <p style="font-size: 14px;">Drag files here or click to upload</p>
-      </div>
-    `,
-  });
-  const NumImport = ref(0);
+// ฟังก์ชันเพิ่ม card
+const addCard = () => {
+  cards.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
+};
 
-  // สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
-  const cards = ref([1]);
+// สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
+const cardsAct = ref([1]);
 
-  // ฟังก์ชันเพิ่ม card
-  const addCard = () => {
-    cards.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
-  };
+// ฟังก์ชันเพิ่ม card
+const addCardAct = () => {
+  cardsAct.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
+};
 
-  // สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
-  const cardsAct = ref([1]);
-
-  // ฟังก์ชันเพิ่ม card
-  const addCardAct = () => {
-    cardsAct.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
-  };
+function setLeaderData(data) {
+  console.log("setLeaderData === ", data);
+  leaderData.value = data
+}
 </script>
 
 <style scoped>

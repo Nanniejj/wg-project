@@ -2,14 +2,14 @@
     <div class="pa-4 text-center">
         <v-dialog 
             scrollable 
-            persistent 
+           
             v-model="localDialog"
         >
             <!-- max-width="800px" -->
-            <v-card>
+            <v-card >
                 <!-- dialog header  -->
-                <v-card-title class="d-flex align-center justify-space-between pa-2">
-                    <v-card-title class="text-h6">Update User</v-card-title>
+                <v-card-title class="d-flex align-center justify-end pa-2">
+                    <!-- <v-card-title class="text-h6">Update User</v-card-title> -->
                     <v-btn @click="closeModal" variant="text" color="#F44336" class="">
                         <v-icon color="primary">mdi-close</v-icon>
                     </v-btn>
@@ -17,7 +17,7 @@
                 <!-- dialog body  -->
                 <v-card-text class="pa-2 px-sm-10 py-sm-5">
                     <v-col cols="12">
-                        <v-card class="pa-4" rounded="lg" elevation="3">
+                        <v-card class="pa-4 card-stat-shadow" rounded="lg" border="sm">
                             <v-card-title class="text-h6 px-0">User Fristname Lastname</v-card-title>
                             <v-divider class="border-opacity-75 dashed-divider"></v-divider>
                             <v-card-text class="pt-4 px-0">
@@ -43,7 +43,7 @@
                                                     placeholder="Link URL" rounded="lg"
                                                     v-model="content.url[index]" 
                                                     variant="outlined" clearable
-                                                    @change="fetchPreview(content,index)"
+                                                    @blur="fetchPreview(content,index)"
                                                     :rules="[rules.required]"
                                                 >
                                                 </v-text-field>
@@ -67,13 +67,13 @@
                         </v-card>
                     </v-col>
                     <v-col cols="12">
-                        <v-card class="pa-5" rounded="lg" elevation="3">
-                            <!-- <v-card-title class="text-h6 px-0">User Fristname Lastname</v-card-title>
-                            <v-divider class="border-opacity-75 dashed-divider"></v-divider> -->
+                        <v-card class="pa-5 card-stat-shadow" rounded="lg" border="sm">
+                            <!-- <v-card-title class="text-h6 px-0">User Fristname Lastname</v-card-title>-->
                             <v-card-text class="pa-0">
                                 <div class="d-flex justify-space-between align-center">
                                     <div class="headline">ข้อมูล Dark side</div>
                                 </div>
+                                <v-divider class="border-opacity-75 dashed-divider my-2"></v-divider> 
                                 <v-col cols="12" class="px-0">
                                     <span style="font-size: 16px">รายละเอียด</span>
                                     <v-text-field placeholder="รายละเอียด" v-model="DescriptionMessage" variant="outlined"
@@ -95,7 +95,7 @@
                                                     placeholder="Link URL" rounded="lg"
                                                     v-model="content.url[index]" 
                                                     variant="outlined" clearable
-                                                    @change="fetchPreview(content,index)"
+                                                    @blur="fetchPreview(content,index)"
                                                     :rules="[rules.required]"
                                                 >
                                                 </v-text-field>

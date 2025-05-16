@@ -537,14 +537,15 @@
         openGeneralPlan.value = true;
     };
 onMounted(async () => {
-        await resetShowCard()
-  try {
+    await resetShowCard()
+    try {
           
-            userTasks.value = await getAllTasksUser();
-            setFilter()
-        } catch (error) {
-            userTasks.value = tasks.value;
-        }
+      userTasks.value = await getAllTasksUser();
+      // userTasks.value = tasks.value;
+        setFilter()
+    } catch (error) {
+        userTasks.value = tasks.value;
+    }
     });
 </script>
 

@@ -133,7 +133,7 @@
   });
   const config = useRuntimeConfig();
   // const apiUrl = config.public.API_BASE_URL;
-  const apiUrl = "http://192.168.1.104:3002";
+  const apiUrl = "http://192.168.1.114:3002";
   const rememberMe = ref(false);
   const loading = ref(false);
   const errorMessage = ref(""); // ย้าย errorMessage มาที่นี่

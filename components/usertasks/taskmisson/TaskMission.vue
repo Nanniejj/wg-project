@@ -1,5 +1,5 @@
 <template>
-  <v-row class="pt-5">
+  <v-row class="pt-2">
     <v-col cols="12" md="8">
       <v-icon
         @click="handleBack"
@@ -350,7 +350,7 @@ const goToMission = (title, status, task) => {
       // setFilter()
       // console.log("user tasks === ", userTasks.value);
     } catch (error) {
-        tasks.value = items.value;
+        tasks.value = items3.value;
     }
   });
   
