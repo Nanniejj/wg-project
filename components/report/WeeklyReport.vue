@@ -19,8 +19,7 @@
                 </v-list>
             </v-menu>
         </div>
-        {{ DateRange }}
-
+        <!-- {{ DateRange }} -->
         <v-card class="py-8 px-5 mb-5 card-stat-shadow">
             <v-row class="d-flex align-end ">
                 <v-col cols="12" sm="6" md="4">
