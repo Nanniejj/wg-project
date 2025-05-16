@@ -1,30 +1,35 @@
 <template>
   <v-container>
-    <v-row class="pt-10">
-      <v-col cols="12" md="6" class="justify-start d-flex">
-        <span class="text-h5">ชื่อกิจกรรม</span>
+    <!-- <v-row class="justify-space-between align-center">
+      <v-col cols="auto">
+        <span class="text-h6">กิจกรรม</span>
       </v-col>
-      <v-col cols="12" md="6" class="justify-end d-flex">
-        <v-btn
-          color="#F49525"
-          @click="addCardAct"
-          class="d-flex"
-          style="aspect-ratio: 1; width: 30px"
-          height="80%"
-          size="small"
-        >
-          <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
+      <v-col cols="auto">
+        <div class="d-flex ga-3">
+            <v-btn
+              color="#F49525"
+              @click="addCardAct"
+              size="large" rounded="lg"
+            >
+              <v-icon style="color: white;">mdi-plus</v-icon>
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row> -->
+    <ImportFileButton mission="R10" title="นำเข้าข้อมูลเครือข่าย"/>
 
-    <div class="pt-5 pb-5">
+    <!-- <div class="pt-5 pb-5">
       <v-divider class="border-opacity-75 dashed-divider"></v-divider>
-    </div>
+    </div> -->
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity
+          :showSupport="options"
+          :showCoordinator="true"
+          :showPOC="true"
+        />
+        <!-- <v-card class="pa-6">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -140,7 +145,7 @@
               class="custom-dropzone"
             />
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
 
@@ -246,9 +251,16 @@
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
   import { useRoute } from "vue-router";
-
+  import ImportFileButton from "../../widgets/ImportFileButton.vue";
+  import Activity from "../../widgets/Activity.vue";
   const route = useRoute();
-
+  const options = ref({
+        status: true,
+        type: true,
+        connection: false,
+        academy: false,
+        group: false
+    },)
   // รับ title จาก query
   const title = route.query.title;
   const status = route.query.status;

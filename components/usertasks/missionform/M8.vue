@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-card class="pa-2">
-      <!-- ปุ่มสำหรับลิงก์ไฟล์ -->
+    <ObjectivePlan/>
+    <!-- <v-card class="pa-2">
       <v-btn
         color="#5FC0D6"
         :href="fileLink"
@@ -16,7 +16,8 @@
           >
         </div>
       </v-btn>
-    </v-card>
+
+    </v-card> -->
 
     <v-row class="pt-10">
       <v-col cols="12" md="6" class="justify-start d-flex">
@@ -42,7 +43,12 @@
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity 
+          :showTags="true" 
+          :showConnectionName="true"
+          :showLinks="true"
+        />
+        <!-- <v-card class="pa-6">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -146,7 +152,7 @@
               ></v-text-field>
             </div>
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
   </v-container>
@@ -181,8 +187,9 @@
   import vueDropzone from "dropzone-vue3";
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
-  import { useRoute } from "vue-router";
-
+import { useRoute } from "vue-router";
+  import ObjectivePlan from "../../widgets/ObjectivePlan.vue";
+  import Activity from "../../widgets/Activity.vue";
   const route = useRoute();
 
   // รับ title จาก query

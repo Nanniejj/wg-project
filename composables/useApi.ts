@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
  export const URL_HOST = "192.168.1.128:3001";
-// composables/useApi.ts
+// composables/use$apiYelly.ts
 import { useNuxtApp } from "#app";
 
 
@@ -33,28 +33,219 @@ export async function deleteUserHvt(userData: any) {
   return response.data;
 }
 
+// ---------- Type and Categories ---------------------------
+// Get Task Categories
 export async function getTaskCategories() {
   const { $apiYelly } = useNuxtApp();
   const response = await $apiYelly.get("/getTaskCategories");
   return response.data;
 }
 
+
+export async function getUsers(role: string) { 
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get(`/getUser`, { params: { role } });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+// Get Widgets
+export async function getWidgets() {
+      const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getWidget");
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get Teams
 export async function getTeams() {
-  const { $apiYelly } = useNuxtApp();
-  const response = await $apiYelly.get("/getTeam");
-  return response.data;
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getTeam");
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
 }
 
-export async function getTopics(mission: string) {
-  const { $apiYelly } = useNuxtApp();
-  const response = await $apiYelly.get("/getTopic", { params: { mission } });
-  return response.data;
+// Get Topics
+export async function getTopics(mission: string, type: string) { 
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get(`/getTopic`, { params: { mission, type } });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
 }
 
-export async function getAllTasks() {
-  const { $apiYelly } = useNuxtApp();
-  const response = await $apiYelly.get("/getAllTasks");
-  return response.data.data;
+// Get Province
+export async function getProvinces() {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getProvince");
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get District
+export async function getDistrict(province_id: string) { 
+    const { $apiYelly } = useNuxtApp();
+  console.log("province_id == ", province_id);
+  
+  try {
+    const response = await $apiYelly.get(`/getAmphure`, { params: { province_id } });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get subDistrict
+export async function getSubDistrict(amphure_id: string) { 
+    const { $apiYelly } = useNuxtApp();
+  console.log("amphure_id in get subdistrict == ", amphure_id);
+  
+  try {
+    const response = await $apiYelly.get(`/getTambon`, { params: { amphure_id } });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get getAcademyNames
+export async function getAcademyNames(id: string, school: boolean) { 
+    const { $apiYelly } = useNuxtApp();
+  // console.log("amphure_id in get subdistrict == ", amphure_id);
+  try {
+    const response = await $apiYelly.get(`/getAcademyNames`, { params: { id, school} });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get getLeaderNames
+export async function getLeaderNames(academy_id: string) { 
+    const { $apiYelly } = useNuxtApp();
+  // console.log("amphure_id in get subdistrict == ", amphure_id);
+  try {
+    const response = await $apiYelly.get(`/getLeaderFilter/${academy_id}`);
+    // console.log('====================================');
+    console.log("res : ", response.data);
+
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get Levels
+export async function getLevels() {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getLevel");
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+//Get POC by Academy ID
+export async function getPocByAcademyID(academy_id: string) { 
+    const { $apiYelly } = useNuxtApp();
+  // console.log("amphure_id in get subdistrict == ", amphure_id);
+  try {
+    const response = await $apiYelly.get(`/getPOCfromAcademy/${academy_id}`);
+    // console.log('====================================');
+    console.log("res : ", response.data);
+
+    // console.log('====================================');
+    return response.data.stakeholder;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Get Levels
+export async function getCoordinators() {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getPOC");
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+// ---------------- task admins ----------------
+
+// Get all tasks admin
+export async function getAllTasks(limit: string, page: string) {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get(`/getAllTasks`, { params: { limit, page } });
+    // console.log('====================================');
+    console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    // console.error("Error fetching users:", error);
+    throw error;
+  }
 }
 
 export async function getTaskById(id: string) {
@@ -63,20 +254,38 @@ export async function getTaskById(id: string) {
   return response.data;
 }
 
-export async function createTask(taskData: JSON) {
-  const { $apiYelly } = useNuxtApp();
-  try {
-    const response = await $apiYelly.post("/createTask", taskData);
-    Swal.fire({ title: "บันทึกสำเร็จ", icon: "success" });
-    return response.data;
-  } catch (error) {
-    Swal.fire({ icon: "error", title: "บันทึกไม่สำเร็จ" });
-    throw error;
-  }
+// Create Mission
+export async function createNewMission(mission : FormData) {
+    const { $apiYelly } = useNuxtApp();
+    try {
+        const response = await $apiYelly.post("/createTask", 
+            mission,  // ส่งข้อมูลในรูปแบบ FormData
+            {
+                headers: {
+                "Content-Type": "multipart/form-data", // ระบุว่าเราส่งข้อมูลในรูปแบบ FormData
+                }
+            }
+        );
+        
+        Swal.fire({
+            title: "บันทึกสำเร็จ",
+            icon: "success"
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating task:", error);
+        Swal.fire({
+            icon: "error",
+            title: "บันทึกไม่สำเร็จ",
+            text: "",
+        });
+        throw error;
+    }
 }
 
-export async function createTaskMoreDetails(taskData: FormData) {
-  const { $apiYelly } = useNuxtApp();
+// Create Task
+export async function createTask(taskData : JSON) {
+    const { $apiYelly } = useNuxtApp();
   try {
     const response = await $apiYelly.post("/createTask", taskData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -89,6 +298,114 @@ export async function createTaskMoreDetails(taskData: FormData) {
   }
 }
 
+// Create Task 5-6-8
+export async function createTaskMoreDetails(taskData : FormData) {
+    const { $apiYelly } = useNuxtApp();
+    try {
+        const response = await $apiYelly.post("/createTask", 
+            taskData,  // ส่งข้อมูลในรูปแบบ FormData
+            {
+                headers: {
+                "Content-Type": "multipart/form-data", // ระบุว่าเราส่งข้อมูลในรูปแบบ FormData
+                }
+            }
+        );
+        
+        Swal.fire({
+            title: "บันทึกสำเร็จ",
+            icon: "success"
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating task:", error);
+        Swal.fire({
+            icon: "error",
+            title: "บันทึกไม่สำเร็จ",
+            text: "",
+        });
+        throw error;
+    }
+}
+
+// Get Groups
+export async function getGroups() {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.get("/getGroup");
+    // console.log('====================================');
+    // console.log("res : ", response.data);
+    // console.log('====================================');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+// Create Group
+export async function createGroup(groupData: FormData) {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.post("/createGroup", groupData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating group:", error);
+    throw error;
+  }
+}
+// Update Group
+export async function updateGroup(id : String ,groupData: FormData) {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.put(`/updateGroup/${id}`, groupData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    console.log("res : ", response.data);
+    Swal.fire({
+      title: "บันทึกสำเร็จ",
+      // text: "You clicked the button!",
+      icon: "success"
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating task:", error);
+    Swal.fire({
+      icon: "error",
+      title: "บันทึกไม่สำเร็จ",
+      text: "",
+    });
+    throw error;
+    // return  null
+  }
+}
+
+// Delete Group
+export async function deleteGroup(id: String) {
+    const { $apiYelly } = useNuxtApp();
+  try {
+    const response = await $apiYelly.delete(`/deleteGroup/${id}`);
+    console.log("res : ", response.data);
+    Swal.fire({
+      title: "ลบข้อมูลกลุ่มสำเร็จ",
+      // text: "You clicked the button!",
+      icon: "success"
+    });
+    return response.data;
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "ลบข้อมูลกลุ่มไม่สำเร็จ",
+      text: "",
+    });
+    console.error("Error creating user:", error);
+    throw error;
+  }
+}
+// ---------------- task users ----------------
+
+// Get all tasks user
 export async function getAllTasksUser() {
   const { $apiYelly } = useNuxtApp();
   const response = await $apiYelly.get("/getMyTaskUser");

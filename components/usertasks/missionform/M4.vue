@@ -1,8 +1,9 @@
 <template>
   <v-container>
+    <!-- header -->
     <v-row class="pt-10">
       <v-col cols="12" md="6" class="justify-start d-flex">
-        <span class="text-h6">ชื่อกิจกรรม</span>
+        <span class="text-h6">กิจกรรม</span>
       </v-col>
       <v-col cols="12" md="6" class="justify-end d-flex">
         <v-btn
@@ -24,7 +25,13 @@
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity 
+          :showConnectionName="true" 
+          :showActivityResult="true"
+          :showSuggestions="true"
+          :showTags="true"
+        />
+        <!-- <v-card class="pa-6">
           <v-card-item>
             <v-row>
               <v-col cols="12" md="8" class="pb-0">
@@ -57,20 +64,47 @@
               </v-col>
               <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">แขวง/ตำบล</span>
-                <v-text-field density="compact" variant="outlined">
-                </v-text-field>
+                <v-autocomplete  
+                    density="compact"
+                    item-title="label"
+                    item-value="value"
+                    :items="formattedItems" 
+                    variant="outlined"
+                    hide-details
+                >
+                </v-autocomplete>
+                
               </v-col>
               <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">เขต/อำเภอ</span>
-                <v-text-field density="compact" variant="outlined">
-                </v-text-field>
+                <v-autocomplete  
+                    v-model="data.selectedDistrict"
+                    density="compact"
+                    item-title="label"
+                    item-value="value"
+                    :items="districts" 
+                    variant="outlined"
+                    hide-details
+                    :disabled="!data.selectedProvice"
+                >
+                </v-autocomplete>
+               
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">จังหวัด</span>
-                <v-text-field density="compact" variant="outlined">
-                </v-text-field>
+                <v-autocomplete  
+                    v-model="data.selectedProvice"
+                    density="compact"
+                    item-title="name_th"
+                    item-value="id"
+                    :items="provices" 
+                    variant="outlined"
+                    hide-details
+                    @update:model-value="getDistrict()"
+                >
+                </v-autocomplete>
               </v-col>
               <v-col cols="12" md="4" class="py-0">
                 <span class="text-h6">ไปรษณีย์</span>
@@ -144,9 +178,11 @@
               ></v-text-field>
             </div>
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
+
+    <!-- save button -->
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
@@ -177,6 +213,8 @@
 
 <script setup>
   import vueDropzone from "dropzone-vue3";
+import { ref } from "vue";
+import Activity from "../../widgets/Activity.vue";
   import DatePicker from "vue-datepicker-next";
   import "vue-datepicker-next/index.css";
   import { useRoute } from "vue-router";
@@ -206,15 +244,37 @@
       </div>
     `,
   });
-  const NumImport = ref(0);
 
-  // สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
-  const cardsAct = ref([1]);
 
-  // ฟังก์ชันเพิ่ม card
-  const addCardAct = () => {
-    cardsAct.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
-  };
+const provices = ref([]);
+const districts = ref([]);
+const subDistricts = ref([]);
+const NumImport = ref(0);
+
+const data = ref({
+    selectedProvice: null,
+    selectedDistrict: null,
+    selectedSubDistrict: null,
+    
+})
+// สร้างตัวแปร cards เพื่อเก็บข้อมูลของแต่ละ card
+const cardsAct = ref([1]);
+
+// ฟังก์ชันเพิ่ม card
+const addCardAct = () => {
+cardsAct.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
+};
+
+async function getDistrictSelector(params) {
+    if (data.selectedProvice) {
+        districts.value = await getDistrict(data.selectedProvice)
+    }
+    console.log("Districts === ", districts.value);
+}
+
+onMounted(async() => {
+    provices.value = await getProvinces()
+});
 </script>
 
 <style scoped>

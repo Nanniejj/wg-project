@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <div class="pt-5 pb-5">
+    <!-- {{ taskData.content_id }} -->
+    <div class="py-5">
       <span class="text-h5"> ประเด็นตอบโต้</span>
     </div>
-    <div class="pt-5 pb-5">
+    <div class="py-5">
       <v-divider class="border-opacity-75 dashed-divider"></v-divider>
     </div>
-
-    <div class="d-flex justify-end pb-5">
+    <div class="d-flex justify-end">
       <v-btn
         color="#F49525"
         @click="addCard"
@@ -20,73 +20,9 @@
       </v-btn>
     </div>
 
-    <v-row v-for="(card, index) in cards" :key="index" class="mt-4">
-      <v-col cols="12">
-        <v-card class="pa-8" rounded="lg">
-          <div>
-            <span class="text-h6"> ประเด็น</span>
-            <v-autocomplete
-              density="compact"
-              placeholder="เลือกประเด็น"
-              variant="outlined"
-            ></v-autocomplete>
-          </div>
-
-          <div>
-            <span class="text-h6">หัวเรื่อง</span>
-            <v-autocomplete
-              density="compact"
-              placeholder="ใส่หัวเรื่อง"
-              variant="outlined"
-            ></v-autocomplete>
-          </div>
-
-          <span class="text-h6">Link URL</span>
-          <v-row>
-            <v-col cols="9" sm="11">
-              <v-text-field
-                density="compact"
-                placeholder="Link URL"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
-            </v-col>
-            <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
-              <v-btn
-                density="compact"
-                rounded="md"
-                color="#46AFC7"
-                height="63%"
-                min-width="40"
-                size="small"
-              >
-                <v-icon style="color: white; font-size: 20px">mdi-plus</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-
-          <span class="text-h6">Image</span>
-          <vue-dropzone
-            ref="myVueDropzone"
-            id="dropzone"
-            :options="dropzoneOptions"
-            class="custom-dropzone"
-          />
-
-          <div class="pt-5">
-            <span class="text-h6">Tagged topic (0)</span>
-
-            <v-text-field
-              density="compact"
-              placeholder="Search for a tag"
-              rounded="lg"
-              variant="outlined"
-            ></v-text-field>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+    <TopicDetail :localTaskData="localTaskData"/>
+    
+    <!-- save button -->
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
@@ -116,15 +52,43 @@
 </template>
 
 <script setup>
-  import vueDropzone from "dropzone-vue3";
-  import { useRoute } from "vue-router";
+import vueDropzone from "dropzone-vue3";
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import TopicDetail from "../../widgets/TopicDetail.vue"
+import PreviewLinkCard from "../../cards/PreviewLinkCard.vue";
+const props = defineProps({
+  taskData: Object,
+});
+const route = useRoute();
+// ทำสำเนาเพื่อใช้ภายใน component
+const localTaskData = ref(JSON.parse(JSON.stringify(props.taskData)));
 
-  const route = useRoute();
+// หรือถ้าต้องการแบบ reactive:
+// import { reactive } from 'vue';
+// const localTaskData = reactive({ ...toRaw(props.taskData) });
 
-  // รับ title จาก query
-  const title = route.query.title;
-  const status = route.query.status;
+// ถ้า parent อัปเดต props แล้วอยาก sync ด้วย:
+watch(() => props.taskData, (newVal) => {
+  localTaskData.value = JSON.parse(JSON.stringify(newVal));
+});
+// รับ title จาก query
+const title = route.query.title;
+const status = route.query.status;
 
+const topics = ref();
+const tags_topic = ref([]);
+const url = ref(['']);
+const previews = ref([]);
+const selectedTopic = ref(null);
+const detail = ref(null);
+// const updateTaskContent = ref({
+//     selectedTopic: null,
+//     deteil: null,
+//     url: [],
+//     photo: [],
+//     tag_topic: []
+// });
   const dropzoneOptions = ref({
     url: "https://httpbin.org/post",
     thumbnailWidth: 100,
@@ -146,7 +110,62 @@
   // ฟังก์ชันเพิ่ม card
   const addCard = () => {
     cards.value.push({}); // เพิ่ม card ใหม่ลงไปใน array
-  };
+};
+
+function triggerHiddenCard(card) {
+    // ฟังก์ชันที่ใช้ในการแสดงหรือซ่อน card
+    card.show = !card.show;
+}
+
+async function fetchPreview (content, index){
+    const url = content.url[index];
+    if (!url) return;
+
+    // ตรวจสอบว่า content.previews มีอยู่หรือไม่ ถ้าไม่มีให้สร้างใหม่
+    if (!content.previews) {
+        content.previews = []; // หรือใช้ reactive() ถ้าอยู่ใน Composition API
+    }
+
+    try {
+        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+
+        if (data.status === "success") {
+            // ใช้ Vue.set หรืออัปเดตค่าโดยตรง (Vue 3 รู้จัก reactive อัตโนมัติ)
+            content.previews[index] = {
+                title: data.data.title,
+                description: data.data.description,
+                image: data.data.image?.url || "",
+                site: data.data.publisher || "Unknown",
+                url,
+            };
+        }
+    } catch (error) {
+        console.error("Error fetching preview:", error);
+    }
+};
+const addLink = (dataLinks) => {
+    dataLinks.push("");
+};
+function removeLink(url, index){ 
+    // console.log(content);
+    url.splice(index, 1);
+}
+
+function getTopicDetail(id) { 
+    console.log("topics:", topics);
+    let list = Array.isArray(topics) ? topics : topics.value;
+    let detail = list?.find((topic) => topic._id === id);
+    return detail ? detail.name : null;
+}
+onMounted(async() => {
+    // เรียกใช้ฟังก์ชันที่ต้องการเมื่อ component ถูก mount
+    console.log("Component mounted!");
+    console.log("taskData:", props.taskData);
+    
+    topics.value = await getTopics('M6')
+    console.log(typeof (topics.value));
+  });
 </script>
 
 <style scoped>
@@ -161,12 +180,12 @@
       
       }
 
-      .custom-dropzone {
+.custom-dropzone {
     background-color: #E9E9E9;
-       height: 100px; 
-      border: 2px dashed #707070; /* กำหนดขอบ */
-      border-radius: 10px; /* กำหนดมุมโค้ง */
-  }
+    height: 100px; 
+    border: 2px dashed #707070; /* กำหนดขอบ */
+    border-radius: 10px; /* กำหนดมุมโค้ง */
+}
 
   .custom-btn:hover{
     background-color: #202B3E !important; /* สีพื้นหลังเมื่อเมาส์อยู่เหนือปุ่ม */

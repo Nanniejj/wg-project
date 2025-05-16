@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <!-- props.taskData.response_hvt =  {{props.taskData.response_hvt}}
-    length :  {{ props.taskData.response_hvt.length }} -->
+    <!-- details  -->
     <v-card class="pa-8" rounded="lg" elevation="3">
       <v-row>
         <v-col cols="12" md="6">
@@ -37,6 +36,7 @@
       ></v-text-field>
     </v-card>
 
+    <!-- content  -->
     <div class="pt-5 pb-3"><span class="text-h5">ผลปฏิบัติการ</span></div>
 
     <v-divider class="border-opacity-75 dashed-divider"></v-divider>
@@ -65,43 +65,13 @@
         @closeAddNewContent="closeAddNewContent"
       />
     </v-col>
-    <v-row v-for="(content, index) in props.taskData.response_hvt" :key="index" class="mt-4">
+    <v-row 
+      v-for="(content, index) in props.taskData.response_hvt" 
+      :key="index" class="mt-4"
+    >
       <v-col cols="12">
-        <!-- <v-card class="pa-8" rounded="lg" elevation="3">
-          <span class="text-h6">เป้าหมาย HVT</span>
-          <v-autocomplete
-            density="compact"
-            label="รายละเอียด"
-            variant="outlined"
-          ></v-autocomplete>
-          <span class="text-h6">Link URL</span>
-          <v-row>
-            <v-col cols="9" sm="11">
-              <v-text-field
-                density="compact"
-                placeholder="Link URL"
-                variant="outlined"
-                rounded="lg"
-                clearable
-              ></v-text-field>
-            </v-col>
-            <v-col cols="3" sm="1" class="ma-0 d-flex justify-center">
-              <v-btn
-                density="compact"
-                rounded="md"
-                color="#46AFC7"
-                height="63%"
-                min-width="40"
-                size="small"
-              >
-                <v-icon style="color: white; font-size: 20px">mdi-plus</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card> -->
-        <!-- content cards -->
-        <ContentCard :content="content" :status="status"/>
-        <!-- {{ content }} -->
+        <LinkHvt/>
+        <!-- <ContentCard :content="content" :status="status"/> -->
       </v-col>
     </v-row>
 
@@ -141,6 +111,7 @@ import { ref } from "vue";
 import DatePicker from "vue-datepicker-next";
 import "vue-datepicker-next/index.css";
 import { useRoute } from "vue-router";
+import LinkHvt from "../../widgets/LinkHvt.vue";
 import ContentCard from "../../cards/ContentCard.vue";
 import AddNewContent from "../../tasks/AddNewContent.vue";
 import Swal from "sweetalert2";

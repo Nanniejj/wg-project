@@ -1,24 +1,26 @@
 <template>
   <v-container>
-    <v-card class="pa-2">
-      <!-- ปุ่มสำหรับลิงก์ไฟล์ -->
-      <v-btn
-        color="#5FC0D6"
-        :href="fileLink"
-        target="_blank"
-        rounded
-        variant="text"
-      >
-        <v-icon size="large" left>mdi-file-table-outline</v-icon>
-        <div class="px-2">
-          <span style="text-decoration: underline; font-size: 16px"
-            >File: วันสำคัญปี 2568</span
-          >
-        </div>
-      </v-btn>
-    </v-card>
+    <v-col cols="12" class="px-0">
+        <!-- <v-card class="py-2">
+            <v-btn
+            color="#5FC0D6"
+            :href="fileLink"
+            target="_blank"
+            rounded
+            variant="text"
+            >
+            <v-icon size="large" left>mdi-file-table-outline</v-icon>
+            <div class="px-2">
+                <span style="text-decoration: underline; font-size: 16px"
+                >File: วันสำคัญปี 2568</span
+                >
+            </div>
+            </v-btn>
+        </v-card> -->
+        <AnnualPlan/>
+    </v-col>
 
-    <div class="pt-5">
+    <!-- <div class="pt-5">
       <v-card class="pa-6">
         <div class="pb-5">
           <span class="text-h6">มิติผู้มีอิทธิพลทางความคิด (Influencer)</span>
@@ -59,9 +61,9 @@
           </v-col>
         </v-row>
       </v-card>
-    </div>
+    </div> -->
 
-    <div class="pt-5">
+    <!-- <div class="pt-5">
       <v-card class="pa-6">
         <div class="pb-5">
           <span class="text-h6">มิติข้อมูลข่าวสาร (เพจหน่วยประชาสัมพันธ์)</span>
@@ -102,33 +104,33 @@
           </v-col>
         </v-row>
       </v-card>
-    </div>
+    </div> -->
+    <v-col cols="12" class="px-0">
+      <v-row class="justify-space-between">
+        <v-col cols="auto" class="text-h6">กิจกรรม</v-col>
+        <v-col cols="auto">
+          <v-btn
+            color="#F49525"
+            @click="addCardAct"
+            class="d-flex"
+            style="aspect-ratio: 1; width: 30px"
+            height="80%"
+            size="small"
+          >
+            <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
 
-    <v-row class="pt-10">
-      <v-col cols="12" md="6" class="justify-start d-flex">
-        <span class="text-h5">ชื่อกิจกรรม</span>
-      </v-col>
-      <v-col cols="12" md="6" class="justify-end d-flex">
-        <v-btn
-          color="#F49525"
-          @click="addCardAct"
-          class="d-flex"
-          style="aspect-ratio: 1; width: 30px"
-          height="80%"
-          size="small"
-        >
-          <v-icon style="color: white; font-size: 30px">mdi-plus</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
-
-    <div class="pt-5 pb-5">
-      <v-divider class="border-opacity-75 dashed-divider"></v-divider>
-    </div>
+    <v-divider class="border-opacity-75 dashed-divider"></v-divider>
+    <!-- <div class="pt-5 pb-5">
+    </div> -->
 
     <v-row v-for="(card, index) in cardsAct" :key="index" class="mt-4">
       <v-col cols="12">
-        <v-card class="pa-6">
+        <Activity :showTags="true" :showActivityType="true"/>
+        <!-- <v-card class="">
           <v-card-item>
             <div>
               <span class="text-h6">ชื่อกิจกรรม</span>
@@ -234,9 +236,11 @@
               ></v-text-field>
             </div>
           </v-card-item>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
+
+    <!-- save button -->
     <v-row v-if="status != 'PP'" class="justify-end pt-16 pb-16">
       <div class="px-3">
         <v-btn
@@ -267,7 +271,9 @@
 
 <script setup>
   import vueDropzone from "dropzone-vue3";
-  import DatePicker from "vue-datepicker-next";
+import DatePicker from "vue-datepicker-next";
+import AnnualPlan from "../../widgets/AnnualPlan.vue";
+  import Activity from "../../widgets/Activity.vue";
   import "vue-datepicker-next/index.css";
   import { useRoute } from "vue-router";
 

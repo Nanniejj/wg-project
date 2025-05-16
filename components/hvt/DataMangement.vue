@@ -24,22 +24,22 @@
       <v-tabs-window-item :value="1">
         <v-container fluid>
             <TableHvt />
-          <!-- <LobbyTable /> -->
         </v-container>
       </v-tabs-window-item>
+
       <v-tabs-window-item :value="2">
         <v-container fluid>
-          <!-- <UserTable /> -->
+            <TableGroups />
         </v-container>
       </v-tabs-window-item>
+      
     </v-tabs-window>
   </div>
 </template>
 <script setup>
-  // import LobbyTable from "./LobbyTable.vue";
-// import TeamTable from "./TeamTable.vue";
-  import TableHvt from "./TableHvt.vue";
-  import { ref } from "vue";
-  const tab = ref(null);
+import TableHvt from "./TableHvt.vue";
+import TableGroups from "./TableGroups.vue"; 
+import { ref } from "vue";
+const tab = ref(2);
 </script>
 <style></style>

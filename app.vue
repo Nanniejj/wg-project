@@ -1,8 +1,9 @@
 <template>
-  <NuxtLayout>
-    <div :style="$route.name === 'signup' ? 'background-color: #454545;' : ''">
-      <v-container v-if="$route.name !== 'login'" class="pa-3" style="min-height: 80vh">
-        <NuxtPage />
+  <div>
+    <NuxtLayout>
+      <v-container v-if="$route.name!=='login'">
+        <!-- ลบ style="min-height: 80vh" เพราะกระทบ layout task user -->
+        <NuxtPage class="pa-3" />
       </v-container>
       <template v-else>
         <NuxtPage class="pa-3" style="min-height: 80vh" />
@@ -130,6 +131,9 @@
   border-radius: 23px;
 }
 
+.dashed-divider {
+  border-style: dashed;
+}
 .mx3 {
   margin-left: 3% !important;
   margin-right: 3% !important;
